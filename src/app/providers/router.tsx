@@ -1,14 +1,27 @@
 import { RouterProvider as ReactRouterProvider } from 'react-router-dom';
-import { getRouter } from '../shared/lib';
-// import { useAppSelector } from '../hooks';
-// import { selectors } from '@/entities/Auth/model';
+import { getRouter } from '../../shared/lib';
+import { useEffect, useState } from 'react';
+import { useAuth } from './auth';
 
 export const RouterProvider = () => {
-  const isAuth = false;
-  //   const isInit = useAppSelector(selectors.getIsInit);
+  const { refreshAccessToken } = useAuth();
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
-  //   if (!isInit) return null;
-  const router = getRouter(isAuth);
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      setIsAuthenticated(true);
+    } else {
+      const refreshToken = localStorage.getItem('refreshToken');
+      if (refreshToken) {
+        refreshAccessToken(refreshToken)
+          .then(() => setIsAuthenticated(true))
+          .catch(() => setIsAuthenticated(false));
+      }
+    }
+  }, [refreshAccessToken]);
+
+  const router = getRouter(isAuthenticated);
 
   return <ReactRouterProvider router={router} />;
 };

@@ -1,6 +1,6 @@
+import { THEME } from '@/app/consts';
+import { ThemeContext } from '@/app/contexts';
 import { useContext } from 'react';
-import { THEME } from '../../../consts';
-import { ThemeContext } from '../../../contexts';
 
 export const ThemeToggle = () => {
   const { theme, toggleTheme } = useContext(ThemeContext);
@@ -12,7 +12,7 @@ export const ThemeToggle = () => {
         ${theme === THEME.DARK ? 'justify-end bg-blue-950' : 'justify-start bg-orange-500'}`}
     >
       <span
-        className={`w-4 h-4 pb-[2px] bg-white rounded-full shadow-md flex items-center justify-center transition-colors duration-500
+        className={`w-4 h-4 pb-[1px] bg-white rounded-full shadow-md flex items-center justify-center transition-colors duration-500
           ${theme === THEME.DARK ? 'opacity-0' : 'opacity-100'}`}
       >
         ☀️

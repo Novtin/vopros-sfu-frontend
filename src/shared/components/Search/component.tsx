@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { ISearchProps } from './component.props';
-import { SearchSvg } from '../../assets';
-import { cn } from '../../lib/cn';
+import { cn } from '@/shared/lib/cn';
+import { SearchSvg } from '@/shared/assets';
 
 export const Search = memo(({ className, ...props }: ISearchProps) => {
   return (

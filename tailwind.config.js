@@ -13,6 +13,7 @@ export default {
         'base-grey-06': 'var(--base-grey-06)',
         'base-grey-07': 'var(--base-grey-07)',
         'base-grey-08': 'var(--base-grey-08)',
+        'base-grey-09': 'var(--base-grey-09)',
         'base-blue-01': 'var(--base-blue-01)',
         'base-blue-02': 'var(--base-blue-02)',
         'base-blue-03': 'var(--base-blue-03)',

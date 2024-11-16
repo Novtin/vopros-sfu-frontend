@@ -1,4 +1,4 @@
-import { THEME, LOCAL_STORAGE_THEME, DEFAULT_THEME } from '../../consts';
+import { THEME, LOCAL_STORAGE_THEME, DEFAULT_THEME } from '../../app/consts';
 
 export const loadTheme = (): THEME => {
   const storedTheme = localStorage.getItem(LOCAL_STORAGE_THEME);

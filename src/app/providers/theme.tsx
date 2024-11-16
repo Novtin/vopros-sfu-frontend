@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ThemeContext } from '../contexts/ThemeContext';
-import { loadTheme } from '../shared/lib';
-import type { IDefaultProps } from '../shared/types/defaultProps';
+import { loadTheme } from '../../shared/lib';
+import type { IDefaultProps } from '../../shared/types/defaultProps';
 import { LOCAL_STORAGE_THEME, THEME } from '../consts';
 
 export const ThemeProvider = ({ children }: IDefaultProps) => {

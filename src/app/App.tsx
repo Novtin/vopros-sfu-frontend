@@ -1,9 +1,12 @@
 import { RouterProvider, ThemeProvider } from './providers/';
+import { AuthProvider } from './providers/auth';
 
 export const App = () => {
   return (
-    <ThemeProvider>
-      <RouterProvider />
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider>
+        <RouterProvider />
+      </ThemeProvider>
+    </AuthProvider>
   );
 };

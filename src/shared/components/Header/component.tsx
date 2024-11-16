@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
-import { LogoSvg } from '../../assets';
-import { Search } from '../Search';
-import { ThemeToggle } from '../ThemeToggle';
-import { ROUTER_PATHS } from '../../../consts';
 import { memo } from 'react';
 import { IHeaderProps } from './component.props';
-import { cn } from '../../lib/cn';
+import { cn } from '@/shared/lib/cn';
+import { LogoSvg } from '@/shared/assets';
+import { ROUTER_PATHS } from '@/app/consts';
+import { ThemeToggle } from '../ThemeToggle';
+import { Search } from '../Search';
 
 export const Header = memo(({ className, ...props }: IHeaderProps) => {
   return (
