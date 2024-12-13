@@ -13,16 +13,14 @@ export const Input = forwardRef<HTMLInputElement, IInputProps>(
 
     return (
       <div className="mb-4">
-        <label className="block text-base-blue-02 text-lg font-bold mb-2 transition-colors duration-500 ease-in-out">
-          {label}
-        </label>
+        <label className="block text-base-blue-02 text-lg font-bold mb-2">{label}</label>
         <div className="relative">
           <input
             ref={ref}
             type={toggleVisibility && isPasswordVisible ? 'text' : type}
             placeholder={placeholder}
             className={cn(
-              'w-full text-base-grey-09 py-2 px-3 bg-base-grey-01 border rounded-md hover:border-base-grey-05 focus:outline-none transition-colors duration-500 ease-in-out',
+              'w-full text-base-grey-09 py-1 px-3 bg-base-grey-01 border rounded-md hover:border-base-grey-05 focus:outline-none',
               {
                 'border-red-500': error,
                 'border-green-500': success,
@@ -35,7 +33,7 @@ export const Input = forwardRef<HTMLInputElement, IInputProps>(
             <button
               type="button"
               onClick={handleToggleVisibility}
-              className="absolute right-3 top-3 focus:outline-none opacity-50 text-base-grey-08"
+              className="absolute right-3 top-1 focus:outline-none opacity-50 text-base-grey-08"
               aria-label="Toggle password visibility"
             >
               {isPasswordVisible ? <VisibilitySvg /> : <NonVisibilitySvg />}

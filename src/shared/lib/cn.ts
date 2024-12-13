@@ -6,6 +6,7 @@ const tw = extendTailwindMerge({
   extend: {
     theme: {
       colors: [
+        'active-navbar',
         'base-grey-01',
         'base-grey-02',
         'base-grey-03',

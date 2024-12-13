@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { BASE_API_URL } from '@/app/consts';
 import { Button } from '@/shared/components/Button';
 import { IFormProps } from './component.props';
@@ -12,16 +12,13 @@ export const RegisterForm = ({ className, onRegisterSuccess, ...props }: IFormPr
     register,
     handleSubmit,
     watch,
-    formState: { errors, isValid },
-    clearErrors,
+    formState: { errors, isValid, touchedFields },
+    setError,
   } = useForm<IFormProps>({
     mode: 'onChange',
     criteriaMode: 'all',
   });
 
-  const [emailValid, setEmailValid] = useState(false);
-  const [passwordValid, setPasswordValid] = useState(false);
-  const [confirmPasswordValid, setConfirmPasswordValid] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
   const password = watch('password', '') || '';
 
@@ -35,6 +32,7 @@ export const RegisterForm = ({ className, onRegisterSuccess, ...props }: IFormPr
         body: JSON.stringify({
           email: data.email,
           password: data.password,
+          nickname: data.nickname,
           description: 'Описание пользователя',
         }),
       });
@@ -52,20 +50,9 @@ export const RegisterForm = ({ className, onRegisterSuccess, ...props }: IFormPr
     }
   };
 
-  useEffect(() => {
-    if (emailValid) clearErrors('email');
-  }, [emailValid, clearErrors]);
-
-  useEffect(() => {
-    if (passwordValid) clearErrors('password');
-  }, [passwordValid, clearErrors]);
-
   return (
     <div
-      className={cn(
-        'w-full text-center max-w-lg mx-auto mt-10 bg-base-grey-01 p-6 rounded-md shadow-md transition-colors duration-500 ease-in-out',
-        className,
-      )}
+      className={cn('w-full text-center max-w-lg mx-auto mt-10 bg-base-grey-01 p-6 rounded-md shadow-md', className)}
       {...props}
     >
       {!isRegistered ? (
@@ -73,11 +60,29 @@ export const RegisterForm = ({ className, onRegisterSuccess, ...props }: IFormPr
           <div className="flex justify-center mb-3">
             <img src={LogoSvg} alt="Logo" className="w-16 h-16 rounded-xl" />
           </div>
-          <h2 className="text-center text-2xl font-bold text-base-blue-01 mb-4 transition-colors duration-500 ease-in-out">
-            Создать аккаунт
-          </h2>
+          <h2 className="text-center text-2xl font-bold text-base-blue-01 mb-4">Создать аккаунт</h2>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
+            <Input
+              label="Никнейм"
+              placeholder="Ivanchik"
+              {...register('nickname', {
+                required: 'Никнейм обязателен',
+                validate: async value => {
+                  if (!touchedFields.nickname) return true;
+                  const isAvailable = true;
+                  // const isAvailable = await checkNicknameValidation(value);
+
+                  if (!isAvailable) {
+                    setError('nickname', { type: 'manual', message: 'Никнейм уже занят' });
+                  }
+                  return isAvailable || 'Никнейм уже занят';
+                },
+              })}
+              error={touchedFields.nickname && errors.nickname?.message}
+              success={watch('nickname') && !errors.nickname}
+            />
+
             <Input
               label="Почта"
               type="email"
@@ -88,10 +93,9 @@ export const RegisterForm = ({ className, onRegisterSuccess, ...props }: IFormPr
                   value: /^[a-zA-Z0-9._%+-]+@stud\.sfu-kras\.ru$/,
                   message: 'Введите корректный университетский email',
                 },
-                onChange: e => setEmailValid(e.target.value.match(/^[a-zA-Z0-9._%+-]+@stud\.sfu-kras\.ru$/) !== null),
               })}
-              error={errors.email?.message}
-              success={emailValid && !errors.email}
+              error={touchedFields.email && errors.email?.message}
+              success={watch('email') && !errors.email}
             />
 
             <Input
@@ -106,11 +110,9 @@ export const RegisterForm = ({ className, onRegisterSuccess, ...props }: IFormPr
                   value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
                   message: 'Должен содержать букву и цифру',
                 },
-                onChange: e =>
-                  setPasswordValid(e.target.value.length >= 8 && /^(?=.*[A-Za-z])(?=.*\d)/.test(e.target.value)),
               })}
-              error={errors.password?.message}
-              success={passwordValid && !errors.password}
+              error={touchedFields.password && errors.password?.message}
+              success={watch('password') && !errors.password}
             />
 
             <Input
@@ -120,15 +122,12 @@ export const RegisterForm = ({ className, onRegisterSuccess, ...props }: IFormPr
               toggleVisibility={true}
               {...register('confirmPassword', {
                 required: 'Подтвердите пароль',
-                validate: value => {
-                  const isMatch = value === password;
-                  setConfirmPasswordValid(isMatch);
-                  return isMatch || 'Пароли не совпадают';
-                },
+                validate: value => value === password || 'Пароли не совпадают',
               })}
-              error={errors.confirmPassword?.message}
-              success={confirmPasswordValid && !errors.confirmPassword}
+              error={touchedFields.confirmPassword && errors.confirmPassword?.message}
+              success={watch('confirmPassword') && !errors.confirmPassword}
             />
+
             <Button type="submit" className="w-[250px] h-10" disabled={!isValid}>
               Зарегистрироваться
             </Button>
@@ -139,7 +138,7 @@ export const RegisterForm = ({ className, onRegisterSuccess, ...props }: IFormPr
           <h2 className="text-2xl font-bold text-base-blue-01 mb-4">
             Мы отправили сообщение вам на почту для подтверждения.
           </h2>
-          <p>Пожалуйста, проверьте свою почту и следуйте инструкциям.</p>
+          <p className="text-base-grey-09">Пожалуйста, проверьте свою почту и следуйте инструкциям.</p>
         </div>
       )}
     </div>

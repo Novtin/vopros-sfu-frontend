@@ -1,7 +1,7 @@
 import { RouterProvider as ReactRouterProvider } from 'react-router-dom';
 import { getRouter } from '../../shared/lib';
 import { useEffect, useState } from 'react';
-import { useAuth } from './auth';
+import { useAuth } from '../hooks/useAuth';
 
 export const RouterProvider = () => {
   const { refreshAccessToken } = useAuth();

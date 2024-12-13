@@ -6,7 +6,7 @@ import { Input } from '@/shared/components/Input';
 import { ROUTER_PATHS } from '@/app/consts';
 import { Button } from '@/shared/components/Button';
 import { useState } from 'react';
-import { useAuth } from '@/app/providers/auth';
+import { useAuth } from '@/app/hooks/useAuth';
 
 export const LoginForm = ({ className, ...props }: IFormProps) => {
   const [email, setEmail] = useState('');
@@ -20,7 +20,7 @@ export const LoginForm = ({ className, ...props }: IFormProps) => {
     e.preventDefault();
     try {
       await login(email, password);
-      navigate('/');
+      navigate(ROUTER_PATHS.HOME);
     } catch (error) {
       setError(error.message || 'Ошибка при авторизации');
     }
@@ -28,18 +28,13 @@ export const LoginForm = ({ className, ...props }: IFormProps) => {
 
   return (
     <div
-      className={cn(
-        'w-full text-center max-w-md mx-auto mt-10 bg-base-grey-01 p-6 rounded-md shadow-md transition-colors duration-500 ease-in-out',
-        className,
-      )}
+      className={cn('w-full text-center max-w-md mx-auto bg-base-grey-01 p-6 rounded-md shadow-md', className)}
       {...props}
     >
       <div className="flex justify-center mb-4">
         <img src={LogoSvg} alt="Logo" className="w-16 h-16 rounded-xl" />
       </div>
-      <h2 className="text-center text-2xl font-bold text-base-blue-01 mb-6 transition-colors duration-500 ease-in-out">
-        Вход в аккаунт
-      </h2>
+      <h2 className="text-center text-2xl font-bold text-base-blue-01 mb-6 ">Вход в аккаунт</h2>
       <form onSubmit={handleSubmit}>
         <Input
           label="Почта"

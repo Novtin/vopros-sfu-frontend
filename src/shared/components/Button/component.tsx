@@ -10,7 +10,7 @@ const variants: Record<Variant, string> = {
 export const Button = memo(({ variant = 'primary', className, children, ...props }: IButtonProps) => (
   <button
     className={cn(
-      'custom-flex rounded-button cursor-pointer disabled:cursor-not-allowed font-bold transition-colors duration-500 ease-in-out',
+      'custom-flex rounded-button cursor-pointer disabled:cursor-not-allowed font-bold ',
       variants[variant],
       className,
     )}

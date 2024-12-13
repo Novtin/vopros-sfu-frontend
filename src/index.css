@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 html[data-theme='light'] {
+  --active-navbar: #ffe1cf;
   --base-grey-01: #ffffff;
   --base-grey-02: #f6f6f6;
   --base-grey-03: #f1f2f3;
@@ -25,6 +26,7 @@ html[data-theme='light'] {
 }
 
 html[data-theme='dark'] {
+  --active-navbar: #fda674;
   --base-grey-01: #121212;
   --base-grey-02: #1e1e1e;
   --base-grey-03: #2a2b2d;

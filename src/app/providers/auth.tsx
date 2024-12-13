@@ -1,23 +1,6 @@
-import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
+import React, { useState, useEffect, ReactNode } from 'react';
 import { BASE_API_URL } from '../consts';
-
-interface AuthContextType {
-  isAuth: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  logout: () => void;
-  refreshAccessToken: (refreshToken: string) => Promise<void>;
-}
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
-
+import { AuthContext } from '../hooks/useAuth';
 interface AuthProviderProps {
   children: ReactNode;
 }

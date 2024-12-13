@@ -4,6 +4,7 @@ import { ConfirmEmail } from '@/app/pages/Auth/ConfirmEmail';
 import { ROUTER_PATHS } from '@/app/consts';
 import { Auth } from '@/app/pages';
 import { HomePage } from '@/app/pages/Home/component';
+import { QuestionPage } from '@/app/pages/Questions/component';
 
 export const getRouter = (isAuth: boolean) => {
   const router: RouteObject[] = [];
@@ -15,8 +16,12 @@ export const getRouter = (isAuth: boolean) => {
         element: <HomePage />,
       },
       {
+        path: ROUTER_PATHS.HOME + ROUTER_PATHS.QUESTIONS,
+        element: <QuestionPage />,
+      },
+      {
         path: '*',
-        element: <Navigate to={ROUTER_PATHS.HOME} replace />,
+        element: <Navigate to={ROUTER_PATHS.QUESTIONS} />,
       },
     );
   } else {

@@ -4,7 +4,11 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
+      backgroundImage: {
+        'active-navbar': 'linear-gradient(to left, base-orange-01 2px, transparent 2px)',
+      },
       colors: {
+        'active-navbar': 'var(--active-navbar)',
         'base-grey-01': 'var(--base-grey-01)',
         'base-grey-02': 'var(--base-grey-02)',
         'base-grey-03': 'var(--base-grey-03)',
