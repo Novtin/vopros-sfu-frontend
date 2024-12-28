@@ -18,6 +18,7 @@ export default {
         'base-grey-07': 'var(--base-grey-07)',
         'base-grey-08': 'var(--base-grey-08)',
         'base-grey-09': 'var(--base-grey-09)',
+        'base-blue-hover': 'var(--base-blue-hover)',
         'base-blue-01': 'var(--base-blue-01)',
         'base-blue-02': 'var(--base-blue-02)',
         'base-blue-03': 'var(--base-blue-03)',
@@ -31,6 +32,14 @@ export default {
       },
       borderRadius: {
         button: '0.625rem',
+      },
+      screens: {
+        '3xl': '1920px',
+        '4xl': '2560px',
+      },
+      fontFamily: {
+        sans: ['ui-sans-serif', 'system-ui'],
+        opensans: ['Open Sans', 'sans-serif'],
       },
     },
   },

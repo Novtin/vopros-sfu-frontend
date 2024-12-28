@@ -17,6 +17,7 @@ import {
 } from '@/shared/assets';
 import { BASE_API_URL } from '@/app/consts';
 import { AuthContext } from '@/app/hooks/useAuth';
+import axios from 'axios';
 
 const avatarList = [
   Avatar1,
@@ -55,19 +56,14 @@ export const useFetchUserData = () => {
           return;
         }
 
-        const response = await fetch(`${BASE_API_URL}/user/this`, {
-          method: 'GET',
+        const response = await axios.get(`${BASE_API_URL}/user/this`, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
         });
 
-        if (!response.ok) {
-          throw new Error('Failed to fetch user data');
-        }
-
-        const data = await response.json();
+        const data = response.data;
         if (data && data.avatar) {
           setAvatar(data.avatar.name);
           localStorage.setItem('avatar', data.avatar.name);
@@ -89,7 +85,11 @@ export const useFetchUserData = () => {
         setNickname(data.nickname);
         localStorage.setItem('nickname', data.nickname);
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        if (axios.isAxiosError(error)) {
+          console.error('Ошибка при получении данных пользователя:', error.response?.data || error.message);
+        } else {
+          console.error('Ошибка сети:', error);
+        }
       }
     };
 

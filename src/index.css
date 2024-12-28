@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -13,6 +15,7 @@ html[data-theme='light'] {
   --base-grey-07: #455a64;
   --base-grey-08: #272c33;
   --base-grey-09: #121212;
+  --base-blue-hover: #1375cc;
   --base-blue-01: #0e69b9;
   --base-blue-02: #094173;
   --base-blue-03: #0f3559;
@@ -36,7 +39,8 @@ html[data-theme='dark'] {
   --base-grey-07: #e0e0e0;
   --base-grey-08: #b0b0b0;
   --base-grey-09: #ffffff;
-  --base-blue-01: #4ba3e2;
+  --base-blue-hover: #378bc8;
+  --base-blue-01: #0f69b7;
   --base-blue-02: #1a4e92;
   --base-blue-03: #002f4d;
   --base-orange-01: #d43306;

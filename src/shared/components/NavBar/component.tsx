@@ -24,10 +24,10 @@ export const Navbar: React.FC = () => {
 
   return (
     <div
-      className={`flex flex-col transition-all duration-300 ease-in-out ${
+      className={`flex flex-col transition-all duration-500 ease-in-out ${
         isCollapsed ? 'w-16' : 'w-64'
-      } bg-base-grey-01 border-t border-r border-base-grey-05`}
-      style={{ height: 'calc(100vh - 72px)' }}
+      } bg-base-grey-01 border-r border-base-grey-05`}
+      style={{ height: 'calc(100vh - 73px)' }}
     >
       <nav className="flex flex-col mt-4">
         <NavItem

@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { BASE_API_URL } from '@/app/consts';
 
 export const registerUser = async (data: {
@@ -7,23 +8,19 @@ export const registerUser = async (data: {
   description: string;
 }): Promise<void> => {
   try {
-    const response = await fetch(`${BASE_API_URL}/auth/register`, {
-      method: 'POST',
+    const response = await axios.post(`${BASE_API_URL}/auth/register`, data, {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
     });
 
-    if (!response.ok) {
-      console.error('Ошибка при регистрации:', response.statusText);
-      throw new Error(response.statusText);
-    }
-
-    const result = await response.json();
-    console.log('Успешная регистрация:', result);
+    console.log('Успешная регистрация:', response.data);
   } catch (error) {
-    console.error('Ошибка сети:', error);
+    if (axios.isAxiosError(error)) {
+      console.error('Ошибка при регистрации:', error.response?.data || error.message);
+    } else {
+      console.error('Ошибка сети:', error);
+    }
     throw error;
   }
 };

@@ -1,22 +1,23 @@
+import axios from 'axios';
 import { BASE_API_URL } from '@/app/consts';
 
 export const useCheckNicknameValidation = async (nickname: string): Promise<boolean> => {
   try {
-    const response = await fetch(`${BASE_API_URL}/auth/check-nickname`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nickname }),
-    });
+    const response = await axios.post(
+      `${BASE_API_URL}/auth/check-nickname`,
+      { nickname },
+      {
+        headers: { 'Content-Type': 'application/json' },
+      },
+    );
 
-    if (!response.ok) {
-      console.error('Ошибка при проверке никнейма:', response.statusText);
-      return false;
-    }
-
-    const result = await response.json();
-    return result.available;
+    return response.data.available;
   } catch (error) {
-    console.error('Ошибка сети:', error);
+    if (axios.isAxiosError(error)) {
+      console.error('Ошибка при проверке никнейма:', error.response?.data || error.message);
+    } else {
+      console.error('Ошибка сети:', error);
+    }
     return false;
   }
 };

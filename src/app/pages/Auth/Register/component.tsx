@@ -11,7 +11,7 @@ export const RegisterPage = () => {
   return (
     <main className="w-full min-h-screen">
       <Header />
-      <div className="flex flex-row" style={{ minHeight: `calc(100vh - 72px)` }}>
+      <div className="flex flex-row" style={{ minHeight: `calc(100vh - 73px)` }}>
         <Navbar />
         <div className="flex flex-col flex-1 items-center justify-center">
           <RegisterForm onRegisterSuccess={() => setIsRegistered(true)} />
