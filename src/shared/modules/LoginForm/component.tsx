@@ -39,12 +39,14 @@ export const LoginForm = ({ className, ...props }: IFormProps) => {
         <Input
           label="Почта"
           type="email"
+          autoComplete="email"
           placeholder="example@stud.sfu-kras.ru"
           onChange={e => setEmail(e.target.value)}
         />
         <Input
           label="Пароль"
           type="password"
+          autoComplete="current-password"
           placeholder="Пароль"
           onChange={e => setPassword(e.target.value)}
           toggleVisibility={true}

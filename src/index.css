@@ -24,6 +24,7 @@ html[data-theme='light'] {
   --base-orange-border: #b9320e;
   --base-orange-hover: #fc5223;
   --base-orange-disabled: #f92e00c6;
+  --base-orange-stroke: #ffb74d;
   --base-green-01: #cfefcf;
   --base-green-02: #18864b;
 }
@@ -48,6 +49,7 @@ html[data-theme='dark'] {
   --base-orange-border: #ff5a00;
   --base-orange-hover: #fc5223;
   --base-orange-disabled: #ff4d00;
+  --base-orange-stroke: #ff8b2cbc;
   --base-green-01: #2d7a34;
   --base-green-02: #9de5a5;
 }

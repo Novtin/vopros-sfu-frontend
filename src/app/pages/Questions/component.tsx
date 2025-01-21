@@ -2,11 +2,16 @@ import { getQuestionCount } from '@/api/useGetCountQuestions';
 import { useAuth } from '@/app/hooks/useAuth';
 import { Button } from '@/shared/components/Button';
 import { FiltersBar } from '@/shared/components/FilterBar/component';
-import { Header } from '@/shared/components/Header';
-import { Navbar } from '@/shared/components/NavBar/component';
 import { useEffect, useState } from 'react';
+import { PageLayout } from '../PageLayout';
+import { AddQuestionForm } from '@/shared/modules/AddQuestionForm';
+import { RootState } from '@/store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleFormVisibility } from '@/store/questionSlice';
 
 export const QuestionPage = () => {
+  const dispatch = useDispatch();
+  const isFormVisible = useSelector((state: RootState) => state.questions.isFormVisible);
   const { logout } = useAuth();
 
   const handleLogout = () => {
@@ -15,6 +20,10 @@ export const QuestionPage = () => {
 
   const [activeFilter, setActiveFilter] = useState<string>('new');
   const [countQuestions, setCountQuestions] = useState<number | null>();
+
+  const handleToggleFormVisibility = () => {
+    dispatch(toggleFormVisibility());
+  };
 
   const filterOptions = [
     { id: 'new', label: 'Новые' },
@@ -38,22 +47,27 @@ export const QuestionPage = () => {
   }, []);
 
   return (
-    <main>
-      <Header />
-      <div className="flex flex-row bg-base-grey-01">
-        <Navbar />
-        <div className="flex flex-col w-full gap-3 my-4 mx-6">
+    <PageLayout className={isFormVisible ? '' : 'gap-3 my-4 mx-6'}>
+      {isFormVisible ? (
+        <AddQuestionForm />
+      ) : (
+        <>
           <div className="flex flex-row justify-between">
             <p className="text-base-grey-09 text-3xl font-opensans font-semibold">Все вопросы</p>
-            <Button variant="secondary" className="w-[250px] font-opensans" children="Задать вопрос" />
+            <Button
+              variant="secondary"
+              className="w-[250px] font-opensans"
+              children="Задать вопрос"
+              onClick={handleToggleFormVisibility}
+            />
           </div>
           <div className="flex flex-row justify-between items-center">
             <p className="text-base-grey-09 text-base font-opensans">{countQuestions} вопросов</p>
             <FiltersBar options={filterOptions} activeFilter={activeFilter} onFilterChange={handleFilterChange} />
           </div>
           <button onClick={handleLogout}>Выйти из аккаунта</button>
-        </div>
-      </div>
-    </main>
+        </>
+      )}
+    </PageLayout>
   );
 };

@@ -7,14 +7,14 @@ import { useFetchUserData } from '@/api/useFetchUserData';
 import { BellSvg, LogoSvg } from '@/shared/assets';
 import { AuthContext } from '@/app/hooks/useAuth';
 
-export const Header = memo(({ className, ...props }: IHeaderProps) => {
+export const Header: React.FC<IHeaderProps> = memo(({ className, ...props }) => {
   const { avatar, nickname } = useFetchUserData();
   const { isAuth } = useContext(AuthContext);
 
   return (
     <header
       className={cn(
-        'flex items-center justify-between bg-base-grey-01 p-4 shadow-md border-b border-base-grey-05',
+        'flex items-center justify-between bg-base-grey-01 px-4 py-3 shadow-md border-b-2 border-base-orange-stroke',
         className,
       )}
       {...props}

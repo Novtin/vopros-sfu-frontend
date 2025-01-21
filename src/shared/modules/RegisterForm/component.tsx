@@ -6,21 +6,21 @@ import { IFormProps } from './component.props';
 import { LogoSvg } from '@/shared/assets';
 import { Input } from '@/shared/components/Input';
 import { cn } from '@/shared/lib/cn';
+import { REGISTER_SCHEMA } from './constants';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 export const RegisterForm = ({ className, onRegisterSuccess, ...props }: IFormProps) => {
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors, isValid, touchedFields },
-    setError,
+    formState: { errors, isValid, dirtyFields },
   } = useForm<IFormProps>({
     mode: 'onChange',
-    criteriaMode: 'all',
+    resolver: yupResolver(REGISTER_SCHEMA),
   });
 
   const [isRegistered, setIsRegistered] = useState(false);
-  const password = watch('password', '') || '';
 
   const onSubmit = async (data: IFormProps) => {
     try {
@@ -52,82 +52,53 @@ export const RegisterForm = ({ className, onRegisterSuccess, ...props }: IFormPr
 
   return (
     <div
-      className={cn('w-full text-center max-w-lg mx-auto mt-10 bg-base-grey-01 p-6 rounded-md shadow-md', className)}
+      className={cn('w-full text-center max-w-lg mx-auto mt-8 bg-base-grey-01 p-6 rounded-md shadow-md', className)}
       {...props}
     >
       {!isRegistered ? (
         <>
           <div className="flex justify-center mb-3">
-            <img src={LogoSvg} alt="Logo" className="w-16 h-16 rounded-xl" />
+            <img src={LogoSvg} alt="Logo" className="w-12 h-12 rounded-xl" />
           </div>
-          <h2 className="text-center text-2xl font-bold text-base-blue-01 mb-4">Создать аккаунт</h2>
-
+          <h2 className="text-center text-xl font-bold text-base-blue-01 mb-4">Создать аккаунт</h2>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
             <Input
               label="Никнейм"
+              autoComplete="username"
               placeholder="Ivanchik"
-              {...register('nickname', {
-                required: 'Никнейм обязателен',
-                validate: async value => {
-                  if (!touchedFields.nickname) return true;
-                  const isAvailable = true;
-                  // const isAvailable = await checkNicknameValidation(value);
-
-                  if (!isAvailable) {
-                    setError('nickname', { type: 'manual', message: 'Никнейм уже занят' });
-                  }
-                  return isAvailable || 'Никнейм уже занят';
-                },
-              })}
-              error={touchedFields.nickname && errors.nickname?.message}
-              success={watch('nickname') && !errors.nickname}
+              {...register('nickname')}
+              error={errors.nickname?.message}
+              success={!!(!errors.nickname && (dirtyFields.nickname || watch('nickname')))}
             />
-
             <Input
               label="Почта"
               type="email"
+              autoComplete="email"
               placeholder="example@stud.sfu-kras.ru"
-              {...register('email', {
-                required: 'Почта обязательна',
-                pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@stud\.sfu-kras\.ru$/,
-                  message: 'Введите корректный университетский email',
-                },
-              })}
-              error={touchedFields.email && errors.email?.message}
-              success={watch('email') && !errors.email}
+              {...register('email')}
+              error={errors.email?.message}
+              success={!!(!errors.email && (dirtyFields.email || watch('email')))}
             />
-
             <Input
               label="Пароль"
               type="password"
+              autoComplete="new-password"
               placeholder="Пароль"
               toggleVisibility={true}
-              {...register('password', {
-                required: 'Пароль обязателен',
-                minLength: { value: 8, message: 'Минимум 8 символов' },
-                pattern: {
-                  value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
-                  message: 'Должен содержать букву и цифру',
-                },
-              })}
-              error={touchedFields.password && errors.password?.message}
-              success={watch('password') && !errors.password}
+              {...register('password')}
+              error={errors.password?.message}
+              success={!!(!errors.password && (dirtyFields.password || watch('password')))}
             />
-
             <Input
               label="Подтверждение пароля"
               type="password"
+              autoComplete="new-password"
               placeholder="Подтверждение пароля"
               toggleVisibility={true}
-              {...register('confirmPassword', {
-                required: 'Подтвердите пароль',
-                validate: value => value === password || 'Пароли не совпадают',
-              })}
-              error={touchedFields.confirmPassword && errors.confirmPassword?.message}
-              success={watch('confirmPassword') && !errors.confirmPassword}
+              {...register('confirmPassword')}
+              error={errors.confirmPassword?.message}
+              success={!!(!errors.confirmPassword && (dirtyFields.confirmPassword || watch('confirmPassword')))}
             />
-
             <Button type="submit" className="w-[250px] h-10" disabled={!isValid}>
               Зарегистрироваться
             </Button>

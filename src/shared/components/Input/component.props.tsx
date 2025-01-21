@@ -1,5 +1,7 @@
 import { InputHTMLAttributes } from 'react';
 
+export type Variant = 'login' | 'primary';
+
 export interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   placeholder?: string;
@@ -7,4 +9,5 @@ export interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
   toggleVisibility?: boolean;
   error?: string;
   success?: boolean;
+  variant?: Variant;
 }

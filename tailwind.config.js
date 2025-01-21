@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}', , './src/global.css'],
   darkMode: 'class',
   theme: {
     extend: {
@@ -27,6 +27,7 @@ export default {
         'base-orange-border': 'var(--base-orange-border)',
         'base-orange-hover': 'var(--base-orange-hover)',
         'base-orange-disabled': 'var(--base-orange-disabled)',
+        'base-orange-stroke': 'var(--base-orange-stroke)',
         'base-green-01': 'var(--base-green-01)',
         'base-green-02': 'var(--base-green-02)',
       },

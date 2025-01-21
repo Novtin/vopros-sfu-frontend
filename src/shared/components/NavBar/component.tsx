@@ -26,8 +26,8 @@ export const Navbar: React.FC = () => {
     <div
       className={`flex flex-col transition-all duration-500 ease-in-out ${
         isCollapsed ? 'w-16' : 'w-64'
-      } bg-base-grey-01 border-r border-base-grey-05`}
-      style={{ height: 'calc(100vh - 73px)' }}
+      } bg-base-grey-01 border-r-2 border-base-orange-stroke`}
+      style={{ height: 'calc(100vh - 65px)' }}
     >
       <nav className="flex flex-col mt-4">
         <NavItem
@@ -76,7 +76,6 @@ export const Navbar: React.FC = () => {
           />
         )}
       </nav>
-      {/* Кнопка сворачивания */}
       <button className="p-2 m-2 text-gray-600 hover:bg-gray-200 rounded" onClick={() => setIsCollapsed(!isCollapsed)}>
         {isCollapsed ? '>' : '<'}
       </button>
@@ -84,7 +83,7 @@ export const Navbar: React.FC = () => {
   );
 };
 
-export const NavItem = memo<NavItemProps & { isActive: boolean; className?: string }>(
+const NavItem = memo<NavItemProps & { isActive: boolean; className?: string }>(
   ({ icon, text, isCollapsed, isActive, onClick, className }) => {
     return (
       <div
@@ -98,7 +97,14 @@ export const NavItem = memo<NavItemProps & { isActive: boolean; className?: stri
         onClick={onClick}
       >
         <span className="text-xl pl-3">{icon}</span>
-        {!isCollapsed && <span className="ml-2 text-sm text-nowrap">{text}</span>}
+        <span
+          className={cn(
+            'ml-2 text-sm text-nowrap transition-opacity duration-500 ease-in-out',
+            isCollapsed ? 'opacity-0 w-0 overflow-hidden' : 'opacity-100 w-auto overflow-visible',
+          )}
+        >
+          {text}
+        </span>
       </div>
     );
   },

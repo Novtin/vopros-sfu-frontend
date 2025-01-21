@@ -9,15 +9,17 @@ const variants: Record<Variant, string> = {
   filterBar: 'text-sm',
 };
 
-export const Button = memo(({ variant = 'primary', className, children, ...props }: IButtonProps) => (
-  <button
-    className={cn(
-      'custom-flex rounded-button cursor-pointer disabled:cursor-not-allowed ',
-      variants[variant],
-      className,
-    )}
-    {...props}
-  >
-    {children}
-  </button>
-));
+export const Button: React.FC<IButtonProps> = memo(({ variant = 'primary', className, children, ...props }) => {
+  return (
+    <button
+      className={cn(
+        'custom-flex rounded-button cursor-pointer disabled:cursor-not-allowed ',
+        variants[variant],
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+});

@@ -1,10 +1,18 @@
 import { forwardRef, useState } from 'react';
 import { cn } from '@/shared/lib/cn';
-import { IInputProps } from './component.props';
+import { IInputProps, Variant } from './component.props';
 import { NonVisibilitySvg, VisibilitySvg } from '@/shared/assets';
 
+const variants: Record<Variant, string> = {
+  login: 'block text-base-blue-02 text-base font-bold mb-2',
+  primary: 'block text-base-grey-07 text-xl font-bold mb-2',
+};
+
 export const Input = forwardRef<HTMLInputElement, IInputProps>(
-  ({ label, type = 'text', placeholder, toggleVisibility, error, success, className, ...props }, ref) => {
+  (
+    { label, type = 'text', placeholder, toggleVisibility, error, success, className, variant = 'login', ...props },
+    ref,
+  ) => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
     const handleToggleVisibility = () => {
@@ -13,7 +21,7 @@ export const Input = forwardRef<HTMLInputElement, IInputProps>(
 
     return (
       <div className="mb-4">
-        <label className="block text-base-blue-02 text-lg font-bold mb-2">{label}</label>
+        <label className={variants[variant]}>{label}</label>
         <div className="relative">
           <input
             ref={ref}
@@ -45,3 +53,5 @@ export const Input = forwardRef<HTMLInputElement, IInputProps>(
     );
   },
 );
+
+Input.displayName = 'Input';
