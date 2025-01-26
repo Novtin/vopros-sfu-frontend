@@ -3,13 +3,18 @@ import { IHeaderProps } from './component.props';
 import { cn } from '@/shared/lib/cn';
 import { ThemeToggle } from '../ThemeToggle';
 import { Search } from '../Search';
-import { useFetchUserData } from '@/api/useFetchUserData';
-import { BellSvg, LogoSvg } from '@/shared/assets';
-import { AuthContext } from '@/app/hooks/useAuth';
+import { useFetchUserData } from '@/app/hooks/user/useFetchUserData';
+import { BellSvg, ExitSvg, LogoSvg } from '@/shared/assets';
+import { AuthContext, useAuth } from '@/app/hooks/authentication/useAuth';
 
-export const Header: React.FC<IHeaderProps> = memo(({ className, ...props }) => {
-  const { avatar, nickname } = useFetchUserData();
+export const Header = memo(({ className, ...props }: IHeaderProps) => {
+  const { data } = useFetchUserData();
   const { isAuth } = useContext(AuthContext);
+  const { logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
     <header
@@ -29,14 +34,18 @@ export const Header: React.FC<IHeaderProps> = memo(({ className, ...props }) => 
               <BellSvg />
             </button>
             <div className="flex items-center ml-7">
-              <img src={avatar} alt="User Avatar" className="w-10 h-10 rounded-xl" />
-              <span className="ml-3 text-base-grey-07 font-bold">{nickname}</span>
+              <img src={data?.avatar?.name} alt="User Avatar" className="w-10 h-10 rounded-xl" />
+              <span className="ml-3 text-base-grey-07 font-bold">{data?.nickname}</span>
             </div>
           </div>
         )}
       </div>
-
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-3">
+        {isAuth && (
+          <button>
+            <ExitSvg onClick={handleLogout} />
+          </button>
+        )}
         <ThemeToggle />
       </div>
     </header>

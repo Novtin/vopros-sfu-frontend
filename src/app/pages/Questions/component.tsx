@@ -1,25 +1,20 @@
-import { getQuestionCount } from '@/api/useGetCountQuestions';
-import { useAuth } from '@/app/hooks/useAuth';
 import { Button } from '@/shared/components/Button';
 import { FiltersBar } from '@/shared/components/FilterBar/component';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { PageLayout } from '../PageLayout';
 import { AddQuestionForm } from '@/shared/modules/AddQuestionForm';
 import { RootState } from '@/store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleFormVisibility } from '@/store/questionSlice';
+import { Loader } from '@/shared/components/Loader';
+import { useQuestionCount } from '@/app/hooks/question/useGetCountQuestions';
 
 export const QuestionPage = () => {
   const dispatch = useDispatch();
   const isFormVisible = useSelector((state: RootState) => state.questions.isFormVisible);
-  const { logout } = useAuth();
-
-  const handleLogout = () => {
-    logout();
-  };
+  const { isLoading: isLoadingCountQuestions, data: countQuestions, refetch } = useQuestionCount();
 
   const [activeFilter, setActiveFilter] = useState<string>('new');
-  const [countQuestions, setCountQuestions] = useState<number | null>();
 
   const handleToggleFormVisibility = () => {
     dispatch(toggleFormVisibility());
@@ -37,19 +32,18 @@ export const QuestionPage = () => {
     console.log(`Выбран фильтр: ${filterId}`);
   };
 
-  useEffect(() => {
-    const fetchCount = async () => {
-      const count = (await getQuestionCount()) ?? 0;
-      setCountQuestions(count);
-    };
+  const handleFormSuccess = () => {
+    refetch();
+  };
 
-    fetchCount();
-  }, []);
+  if (isLoadingCountQuestions) {
+    return <Loader />;
+  }
 
   return (
-    <PageLayout className={isFormVisible ? '' : 'gap-3 my-4 mx-6'}>
+    <PageLayout className={isFormVisible ? 'my-4 mx-6' : 'gap-3 my-4 mx-6'}>
       {isFormVisible ? (
-        <AddQuestionForm />
+        <AddQuestionForm onSuccess={handleFormSuccess} />
       ) : (
         <>
           <div className="flex flex-row justify-between">
@@ -62,10 +56,9 @@ export const QuestionPage = () => {
             />
           </div>
           <div className="flex flex-row justify-between items-center">
-            <p className="text-base-grey-09 text-base font-opensans">{countQuestions} вопросов</p>
+            <p className="text-base-grey-09 text-base font-opensans">{countQuestions ?? 0} вопросов</p>
             <FiltersBar options={filterOptions} activeFilter={activeFilter} onFilterChange={handleFilterChange} />
           </div>
-          <button onClick={handleLogout}>Выйти из аккаунта</button>
         </>
       )}
     </PageLayout>

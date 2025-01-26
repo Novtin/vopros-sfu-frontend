@@ -3,7 +3,7 @@ import { ISearchProps } from './component.props';
 import { cn } from '@/shared/lib/cn';
 import { SearchSvg } from '@/shared/assets';
 
-export const Search: React.FC<ISearchProps> = memo(({ className, ...props }) => {
+export const Search = memo(({ className, ...props }: ISearchProps) => {
   return (
     <div className={cn('relative', className)}>
       <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500">

@@ -1,6 +1,5 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { BASE_API_URL } from '@/app/consts';
+import axios from 'axios';
 
 interface UseConfirmEmailProps {
   emailHash: string | null;
@@ -17,15 +16,9 @@ export const useConfirmEmail = ({ emailHash, onSuccess }: UseConfirmEmailProps) 
         setStatus('error');
         return;
       }
-
       try {
-        const response = await axios.post(
-          `${BASE_API_URL}/auth/confirm-email`,
-          { emailHash },
-          { headers: { 'Content-Type': 'application/json' } },
-        );
-
-        if (response.status === 200) {
+        const response = await axios.post<{ status: number }>('/auth/confirm-email', { emailHash });
+        if (response?.data?.status === 200) {
           setStatus('success');
           const interval = setInterval(() => {
             setCountdown(prev => {
@@ -40,11 +33,7 @@ export const useConfirmEmail = ({ emailHash, onSuccess }: UseConfirmEmailProps) 
           setStatus('error');
         }
       } catch (error) {
-        if (axios.isAxiosError(error)) {
-          console.error('Ошибка при подтверждении email:', error.response?.data || error.message);
-        } else {
-          console.error('Ошибка сети:', error);
-        }
+        console.error('Ошибка при подтверждении email:', error);
         setStatus('error');
       }
     };

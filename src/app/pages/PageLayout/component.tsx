@@ -4,7 +4,7 @@ import { Navbar } from '@/shared/components/NavBar/component';
 import { PageLayoutProps } from './component.props';
 import { cn } from '@/shared/lib/cn';
 
-export const PageLayout: React.FC<PageLayoutProps> = ({ className, children }) => {
+export const PageLayout = ({ className, children }: PageLayoutProps) => {
   return (
     <main className="h-screen flex flex-col">
       <Header />

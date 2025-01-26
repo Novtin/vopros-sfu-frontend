@@ -1,30 +1,41 @@
 import { Button } from '@/shared/components/Button';
 import { Input } from '@/shared/components/Input';
 import { Textarea } from '@/shared/components/Textarea';
-import React from 'react';
+import { hideForm } from '@/store/questionSlice';
+import notify from '@/utils/notify';
 import { useForm } from 'react-hook-form';
 import { FormValues } from './component.props';
-import { AddNewQuestion } from '@/api/useAddNewQuestion';
 import { useDispatch } from 'react-redux';
-import { hideForm } from '@/store/questionSlice';
+import { useAddNewQuestion } from '@/app/hooks/question/useAddQuestion';
 
-export const AddQuestionForm: React.FC = () => {
+interface AddQuestionFormProps {
+  onSuccess: () => void;
+}
+
+export const AddQuestionForm = ({ onSuccess }: AddQuestionFormProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<FormValues>();
   const dispatch = useDispatch();
+  const { mutateAsync: addNewQuestion } = useAddNewQuestion();
 
   const onSubmit = async (data: FormValues) => {
     try {
       const tagNames = data.tags.split(',').map(tag => tag.trim());
-      const result = await AddNewQuestion(data.title, data.content, tagNames);
-      console.log(result);
+      const statusCode = await addNewQuestion({
+        title: data.title,
+        description: data.content,
+        tagNames,
+      });
 
-      if (result) {
-        alert('Ваш вопрос успешно опубликован!');
+      if (statusCode === 200 || statusCode == 201) {
+        notify('Вопрос создан!', 'Ваш вопрос успешно опубликован!', 'success');
         dispatch(hideForm());
+        onSuccess();
+      } else {
+        alert(`Произошла ошибка. Код состояния: ${statusCode}`);
       }
     } catch (error) {
       console.error('Произошла ошибка:', error);

@@ -1,4 +1,4 @@
 export interface PageLayoutProps {
   className?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }

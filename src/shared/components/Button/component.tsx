@@ -9,7 +9,7 @@ const variants: Record<Variant, string> = {
   filterBar: 'text-sm',
 };
 
-export const Button: React.FC<IButtonProps> = memo(({ variant = 'primary', className, children, ...props }) => {
+export const Button = memo(({ variant = 'primary', className, children, ...props }: IButtonProps) => {
   return (
     <button
       className={cn(

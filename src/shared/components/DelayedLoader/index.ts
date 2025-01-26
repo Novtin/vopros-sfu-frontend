@@ -1,0 +1,1 @@
+export { DelayedLoader } from './component';

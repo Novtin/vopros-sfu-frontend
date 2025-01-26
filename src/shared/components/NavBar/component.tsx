@@ -1,11 +1,11 @@
 import { ROUTER_PATHS } from '@/app/consts';
-import React, { memo, useContext, useEffect, useState } from 'react';
+import { memo, useContext, useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { NavItemProps } from './component.props';
 import { cn } from '@/shared/lib/cn';
-import { AuthContext } from '@/app/hooks/useAuth';
+import { AuthContext } from '@/app/hooks/authentication/useAuth';
 
-export const Navbar: React.FC = () => {
+export const Navbar = () => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(() => {
     const savedState = localStorage.getItem('navbarOpen');
     return savedState === 'true';

@@ -1,10 +1,11 @@
-export { default as SearchSvg } from './search.svg?react';
+export { default as SearchSvg } from './icons/search.svg?react';
 export { default as LogoSvg } from './logo.png';
-export { default as VisibilitySvg } from './visibility.svg?react';
-export { default as NonVisibilitySvg } from './visibilityOff.svg?react';
-export { default as HouseSvg } from './house.svg?react';
-export { default as FeedbackSvg } from './feedback.svg?react';
-export { default as BellSvg } from './bell.svg?react';
+export { default as VisibilitySvg } from './icons/visibility.svg?react';
+export { default as NonVisibilitySvg } from './icons/visibilityOff.svg?react';
+export { default as HouseSvg } from './icons/house.svg?react';
+export { default as FeedbackSvg } from './icons/feedback.svg?react';
+export { default as BellSvg } from './icons/bell.svg?react';
+export { default as ExitSvg } from './icons/exit.svg?react';
 export { default as Avatar1 } from './avatars/avatar0.png';
 export { default as Avatar2 } from './avatars/avatar1.png';
 export { default as Avatar3 } from './avatars/avatar2.png';

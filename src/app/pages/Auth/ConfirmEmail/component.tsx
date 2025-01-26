@@ -1,4 +1,4 @@
-import { useConfirmEmail } from '@/api/useConfirmEmail';
+import { useConfirmEmail } from '@/app/hooks/authentication/useConfirmEmail';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 
 export const ConfirmEmail = () => {

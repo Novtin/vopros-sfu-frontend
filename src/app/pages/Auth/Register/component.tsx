@@ -10,7 +10,7 @@ export const RegisterPage = () => {
     <div className="flex flex-col flex-1 items-center justify-center">
       <RegisterForm onRegisterSuccess={() => setIsRegistered(true)} />
       {!isRegistered && (
-        <Link to={ROUTER_PATHS.HOME + ROUTER_PATHS.LOGIN} className="mt-4 text-body-2 text-base-grey-08">
+        <Link to={ROUTER_PATHS.LOGIN} className="mt-4 text-body-2 text-base-grey-08">
           У вас уже есть аккаунт? <span className="text-base-blue-01">Войти</span>
         </Link>
       )}

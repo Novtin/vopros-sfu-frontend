@@ -1,6 +1,6 @@
 import React, { useState, useEffect, ReactNode } from 'react';
 import { BASE_API_URL } from '../consts';
-import { AuthContext } from '../hooks/useAuth';
+import { AuthContext } from '../hooks/authentication/useAuth';
 interface AuthProviderProps {
   children: ReactNode;
 }
@@ -49,7 +49,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const refreshAccessToken = async (refreshToken: string) => {
     try {
-      const response = await fetch(`${BASE_API_URL}/auth/refresh}`, {
+      const response = await fetch(`${BASE_API_URL}/auth/refresh`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -61,12 +61,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         const data = await response.json();
         localStorage.setItem('accessToken', data.accessToken);
         localStorage.setItem('refreshToken', data.refreshToken);
+        return data.accessToken;
       } else {
         throw new Error('Не удалось обновить токен');
       }
     } catch (error) {
       console.error('Ошибка обновления токена:', error);
       setIsAuth(false);
+      throw error;
     }
   };
 

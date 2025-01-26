@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react';
 import { ITextareaProps } from './component.props';
 import { cn } from '@/shared/lib/cn';
 
-const Textarea: React.FC<ITextareaProps> = forwardRef<HTMLTextAreaElement, ITextareaProps>(
+const Textarea = forwardRef<HTMLTextAreaElement, ITextareaProps>(
   ({ label, placeholder, error, success, className, ...props }, ref) => {
     return (
       <div className="mb-4">

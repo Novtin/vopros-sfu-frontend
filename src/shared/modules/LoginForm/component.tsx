@@ -6,7 +6,7 @@ import { Input } from '@/shared/components/Input';
 import { ROUTER_PATHS } from '@/app/consts';
 import { Button } from '@/shared/components/Button';
 import { useState } from 'react';
-import { useAuth } from '@/app/hooks/useAuth';
+import { useAuth } from '@/app/hooks/authentication/useAuth';
 
 export const LoginForm = ({ className, ...props }: IFormProps) => {
   const [email, setEmail] = useState('');

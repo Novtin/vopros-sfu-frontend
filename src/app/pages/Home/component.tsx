@@ -1,18 +1,5 @@
-import { useAuth } from '@/app/hooks/useAuth';
-import { Navbar } from '@/shared/components/NavBar/component';
+import { PageLayout } from '../PageLayout';
 
 export const HomePage = () => {
-  const { logout } = useAuth();
-
-  const handleLogout = () => {
-    logout();
-  };
-
-  return (
-    <main>
-      <Navbar />
-      <div>HomePage</div>
-      <button onClick={handleLogout}>Выйти из аккаунта</button>
-    </main>
-  );
+  return <PageLayout className="my-4 mx-6"></PageLayout>;
 };
