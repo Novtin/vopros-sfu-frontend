@@ -1,0 +1,1 @@
+export { QuestionsRow } from './component';

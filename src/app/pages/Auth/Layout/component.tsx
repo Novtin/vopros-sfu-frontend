@@ -7,7 +7,7 @@ export const Layout = () => (
     <Header />
     <div className="flex flex-row flex-1 bg-base-grey-01 overflow-hidden">
       <Navbar />
-      <div className="flex flex-col w-full overflow-y-auto bg-base-grey-03">
+      <div className="flex flex-col w-full overflow-y-auto">
         <Outlet />
       </div>
     </div>

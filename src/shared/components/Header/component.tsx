@@ -6,6 +6,9 @@ import { Search } from '../Search';
 import { useFetchUserData } from '@/app/hooks/user/useFetchUserData';
 import { BellSvg, ExitSvg, LogoSvg } from '@/shared/assets';
 import { AuthContext, useAuth } from '@/app/hooks/authentication/useAuth';
+import { Button } from '../Button';
+import { Link } from 'react-router-dom';
+import { ROUTER_PATHS } from '@/app/consts';
 
 export const Header = memo(({ className, ...props }: IHeaderProps) => {
   const { data } = useFetchUserData();
@@ -41,10 +44,14 @@ export const Header = memo(({ className, ...props }: IHeaderProps) => {
         )}
       </div>
       <div className="flex items-center space-x-3">
-        {isAuth && (
+        {isAuth ? (
           <button>
             <ExitSvg onClick={handleLogout} />
           </button>
+        ) : (
+          <Link to={ROUTER_PATHS.LOGIN}>
+            <Button className="mr-4 text-sm py-1 px-3">Войти</Button>
+          </Link>
         )}
         <ThemeToggle />
       </div>

@@ -1,6 +1,5 @@
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import { BASE_API_URL } from '@/app/consts';
 import { Button } from '@/shared/components/Button';
 import { IFormProps } from './component.props';
 import { LogoSvg } from '@/shared/assets';
@@ -8,6 +7,7 @@ import { Input } from '@/shared/components/Input';
 import { cn } from '@/shared/lib/cn';
 import { REGISTER_SCHEMA } from './constants';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useRegisterUser } from '@/app/hooks/authentication/useRegisterUser';
 
 export const RegisterForm = ({ className, onRegisterSuccess, ...props }: IFormProps) => {
   const {
@@ -22,37 +22,32 @@ export const RegisterForm = ({ className, onRegisterSuccess, ...props }: IFormPr
 
   const [isRegistered, setIsRegistered] = useState(false);
 
-  const onSubmit = async (data: IFormProps) => {
-    try {
-      const response = await fetch(`${BASE_API_URL}/auth/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: data.email,
-          password: data.password,
-          nickname: data.nickname,
-          description: 'Описание пользователя',
-        }),
-      });
+  const { mutate: registerUser } = useRegisterUser();
 
-      if (response.ok) {
-        const result = await response.json();
-        console.log('Успешная регистрация:', result);
-        setIsRegistered(true);
-        onRegisterSuccess?.();
-      } else {
-        console.error('Ошибка при регистрации:', response.statusText);
-      }
-    } catch (error) {
-      console.error('Ошибка сети:', error);
-    }
+  const onSubmit = (data: IFormProps) => {
+    registerUser(
+      {
+        email: data.email,
+        password: data.password,
+        nickname: data.nickname,
+        description: 'Описание пользователя',
+      },
+      {
+        onSuccess: result => {
+          console.log('Успешная регистрация:', result);
+          setIsRegistered(true);
+          onRegisterSuccess?.();
+        },
+        onError: error => {
+          console.error('Ошибка при регистрации:', error);
+        },
+      },
+    );
   };
 
   return (
     <div
-      className={cn('w-full text-center max-w-lg mx-auto mt-8 bg-base-grey-01 p-6 rounded-md shadow-md', className)}
+      className={cn('w-full text-center max-w-lg mx-auto mt-8 bg-base-grey-03 p-6 rounded-md shadow-md', className)}
       {...props}
     >
       {!isRegistered ? (

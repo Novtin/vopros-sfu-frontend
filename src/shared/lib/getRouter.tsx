@@ -5,7 +5,7 @@ import { ROUTER_PATHS } from '@/app/consts';
 import { Auth } from '@/app/pages';
 import { HomePage } from '@/app/pages/Home/component';
 import { QuestionPage } from '@/app/pages/Questions/component';
-import { Error404 } from '@/app/pages/ErrorPages/404';
+import { ErrorPages } from '@/app/pages/ErrorPages';
 import { DelayedLoader } from '../components/DelayedLoader';
 import { PrivateRoute } from './PrivateRoute';
 
@@ -23,11 +23,7 @@ export const getRouter = (isAuth: boolean) => {
     },
     {
       path: ROUTER_PATHS.QUESTIONS,
-      element: (
-        <PrivateRoute isAuth={isAuth}>
-          <QuestionPage />
-        </PrivateRoute>
-      ),
+      element: <QuestionPage />,
     },
     {
       path: ROUTER_PATHS.HOME + ROUTER_PATHS.LOGIN,
@@ -57,7 +53,7 @@ export const getRouter = (isAuth: boolean) => {
       path: '*',
       element: (
         <DelayedLoader delay={10}>
-          <Error404 />
+          <ErrorPages errorCode="404" message="Страница не найдена" />
         </DelayedLoader>
       ),
     },

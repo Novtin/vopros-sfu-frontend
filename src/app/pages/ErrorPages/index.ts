@@ -1,0 +1,1 @@
+export { ErrorPages } from './component';

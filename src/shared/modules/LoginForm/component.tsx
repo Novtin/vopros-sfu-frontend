@@ -28,7 +28,7 @@ export const LoginForm = ({ className, ...props }: IFormProps) => {
 
   return (
     <div
-      className={cn('w-full text-center max-w-md mx-auto bg-base-grey-01 p-6 rounded-md shadow-md', className)}
+      className={cn('w-full text-center max-w-md mx-auto bg-base-grey-03 p-6 rounded-md shadow-md', className)}
       {...props}
     >
       <div className="flex justify-center mb-4">

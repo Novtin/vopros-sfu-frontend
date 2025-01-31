@@ -7,18 +7,16 @@ import { useForm } from 'react-hook-form';
 import { FormValues } from './component.props';
 import { useDispatch } from 'react-redux';
 import { useAddNewQuestion } from '@/app/hooks/question/useAddQuestion';
+import { useQueryClient } from '@tanstack/react-query';
 
-interface AddQuestionFormProps {
-  onSuccess: () => void;
-}
-
-export const AddQuestionForm = ({ onSuccess }: AddQuestionFormProps) => {
+export const AddQuestionForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<FormValues>();
   const dispatch = useDispatch();
+  const queryClient = useQueryClient();
   const { mutateAsync: addNewQuestion } = useAddNewQuestion();
 
   const onSubmit = async (data: FormValues) => {
@@ -32,8 +30,9 @@ export const AddQuestionForm = ({ onSuccess }: AddQuestionFormProps) => {
 
       if (statusCode === 200 || statusCode == 201) {
         notify('Вопрос создан!', 'Ваш вопрос успешно опубликован!', 'success');
+        queryClient.invalidateQueries(['questions']);
+        queryClient.invalidateQueries(['questionCount']);
         dispatch(hideForm());
-        onSuccess();
       } else {
         alert(`Произошла ошибка. Код состояния: ${statusCode}`);
       }

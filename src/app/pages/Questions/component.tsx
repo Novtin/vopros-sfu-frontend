@@ -1,6 +1,6 @@
 import { Button } from '@/shared/components/Button';
 import { FiltersBar } from '@/shared/components/FilterBar/component';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PageLayout } from '../PageLayout';
 import { AddQuestionForm } from '@/shared/modules/AddQuestionForm';
 import { RootState } from '@/store/store';
@@ -8,15 +8,31 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toggleFormVisibility } from '@/store/questionSlice';
 import { Loader } from '@/shared/components/Loader';
 import { useQuestionCount } from '@/app/hooks/question/useGetCountQuestions';
+import { useAuth } from '@/app/hooks/authentication/useAuth';
+import { useNavigate } from 'react-router-dom';
+import { useGetQuestions } from '@/app/hooks/question/useGetQuestions';
+import { QuestionsTable } from './QuestionTable/component';
 
 export const QuestionPage = () => {
   const dispatch = useDispatch();
+  const { isAuth } = useAuth();
+  const navigate = useNavigate();
   const isFormVisible = useSelector((state: RootState) => state.questions.isFormVisible);
-  const { isLoading: isLoadingCountQuestions, data: countQuestions, refetch } = useQuestionCount();
+
+  const { isLoading: isLoadingCountQuestions, data: countQuestions } = useQuestionCount();
+  const { data: questionsData, isLoading: isLoadingQuestions } = useGetQuestions({
+    page: 0,
+    pageSize: 20,
+    filter: 'createdAt',
+  });
 
   const [activeFilter, setActiveFilter] = useState<string>('new');
 
   const handleToggleFormVisibility = () => {
+    if (!isAuth) {
+      navigate('/login');
+      return;
+    }
     dispatch(toggleFormVisibility());
   };
 
@@ -32,18 +48,20 @@ export const QuestionPage = () => {
     console.log(`Выбран фильтр: ${filterId}`);
   };
 
-  const handleFormSuccess = () => {
-    refetch();
-  };
+  useEffect(() => {
+    if (isFormVisible && !isAuth) {
+      navigate('/login');
+    }
+  }, [isFormVisible, isAuth, navigate]);
 
-  if (isLoadingCountQuestions) {
+  if (isLoadingCountQuestions || isLoadingQuestions) {
     return <Loader />;
   }
 
   return (
-    <PageLayout className={isFormVisible ? 'my-4 mx-6' : 'gap-3 my-4 mx-6'}>
+    <PageLayout className={isFormVisible ? 'my-4 mx-6' : 'gap-3 my-4 mx-6 pr-1'}>
       {isFormVisible ? (
-        <AddQuestionForm onSuccess={handleFormSuccess} />
+        <AddQuestionForm />
       ) : (
         <>
           <div className="flex flex-row justify-between">
@@ -58,6 +76,9 @@ export const QuestionPage = () => {
           <div className="flex flex-row justify-between items-center">
             <p className="text-base-grey-09 text-base font-opensans">{countQuestions ?? 0} вопросов</p>
             <FiltersBar options={filterOptions} activeFilter={activeFilter} onFilterChange={handleFilterChange} />
+          </div>
+          <div>
+            <QuestionsTable questions={questionsData.items} />
           </div>
         </>
       )}

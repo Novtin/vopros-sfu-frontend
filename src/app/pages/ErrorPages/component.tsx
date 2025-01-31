@@ -1,15 +1,18 @@
 import { ROUTER_PATHS } from '@/app/consts';
 import { Link } from 'react-router-dom';
+import { ErrorPagesProps } from './component.props';
 
-export const Error404 = () => {
+export const ErrorPages = ({ errorCode, message }: ErrorPagesProps) => {
   return (
     <div className="h-screen flex flex-col items-center justify-center bg-[#ffffff] dark:bg-[#030005]">
-      <h1 className="text-[224px] font-extrabold text-[#030005] leading-none tracking-tighter shadow-text">404</h1>
+      <h1 className="text-[224px] font-extrabold text-[#030005] leading-none tracking-tighter shadow-text">
+        {errorCode}
+      </h1>
       <h2
         style={{ textShadow: '0px 2px 0px #8400ff' }}
         className="text-2xl md:text-4xl font-bold text-base-grey-09 uppercase tracking-[6px] whitespace-nowrap"
       >
-        Страница не найдена
+        {message}
       </h2>
       <Link
         to={ROUTER_PATHS.HOME}
