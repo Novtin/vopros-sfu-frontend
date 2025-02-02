@@ -4,7 +4,6 @@
 @tailwind utilities;
 
 /* scrollbar для Google Chrome */
-
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -22,14 +21,6 @@
 .dark ::-webkit-scrollbar-track {
   background: #2c2c2c;
   border-radius: 6px;
-}
-
-/* scrollbar для Firefox */
-scrollbar-width: thin;
-scrollbar-color: #ff5722 #f1f1f1;
-
-.dark {
-  scrollbar-color: #ff5722 #2c2c2c;
 }
 
 .shadow-text {

@@ -8,6 +8,7 @@ import { QuestionPage } from '@/app/pages/Questions/component';
 import { ErrorPages } from '@/app/pages/ErrorPages';
 import { DelayedLoader } from '../components/DelayedLoader';
 import { PrivateRoute } from './PrivateRoute';
+import { TagsPage } from '@/app/pages/Tags/component';
 
 export const getRouter = (isAuth: boolean) => {
   const router: RouteObject[] = [];
@@ -24,6 +25,10 @@ export const getRouter = (isAuth: boolean) => {
     {
       path: ROUTER_PATHS.QUESTIONS,
       element: <QuestionPage />,
+    },
+    {
+      path: ROUTER_PATHS.TAGS,
+      element: <TagsPage />,
     },
     {
       path: ROUTER_PATHS.HOME + ROUTER_PATHS.LOGIN,

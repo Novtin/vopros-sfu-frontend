@@ -1,3 +1,5 @@
+import { Tag } from './tag';
+
 export interface QuestionsResponse {
   items: Question[];
   total: number;
@@ -21,11 +23,6 @@ export interface Question {
   countDislikes: number;
   rating: number;
   dislikeUserIds: string[];
-}
-
-export interface Tag {
-  id: number;
-  name: string;
 }
 
 export interface Answer {

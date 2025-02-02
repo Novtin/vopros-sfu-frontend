@@ -7,17 +7,24 @@ import { useFetchUserData } from '@/app/hooks/user/useFetchUserData';
 import { BellSvg, ExitSvg, LogoSvg } from '@/shared/assets';
 import { AuthContext, useAuth } from '@/app/hooks/authentication/useAuth';
 import { Button } from '../Button';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { ROUTER_PATHS } from '@/app/consts';
+import { useFileUrl } from '@/app/hooks/user/useGetFile';
+import { ClipLoader } from 'react-spinners';
 
 export const Header = memo(({ className, ...props }: IHeaderProps) => {
   const { data } = useFetchUserData();
+  const { fileUrl, isLoading } = useFileUrl(data?.avatar?.id, true);
+
   const { isAuth } = useContext(AuthContext);
   const { logout } = useAuth();
+  const location = useLocation();
 
   const handleLogout = () => {
     logout();
   };
+
+  const isAuthPage = location.pathname === ROUTER_PATHS.LOGIN || location.pathname === ROUTER_PATHS.REGISTER;
 
   return (
     <header
@@ -37,7 +44,11 @@ export const Header = memo(({ className, ...props }: IHeaderProps) => {
               <BellSvg />
             </button>
             <div className="flex items-center ml-7">
-              <img src={data?.avatar?.name} alt="User Avatar" className="w-10 h-10 rounded-xl" />
+              {isLoading ? (
+                <ClipLoader color="#ff5722" size={30} />
+              ) : (
+                fileUrl && <img src={fileUrl} alt="User Avatar" className="w-10 h-10 rounded-xl" />
+              )}
               <span className="ml-3 text-base-grey-07 font-bold">{data?.nickname}</span>
             </div>
           </div>
@@ -49,9 +60,11 @@ export const Header = memo(({ className, ...props }: IHeaderProps) => {
             <ExitSvg onClick={handleLogout} />
           </button>
         ) : (
-          <Link to={ROUTER_PATHS.LOGIN}>
-            <Button className="mr-4 text-sm py-1 px-3">Войти</Button>
-          </Link>
+          !isAuthPage && (
+            <Link to={ROUTER_PATHS.LOGIN}>
+              <Button className="mr-4 text-sm py-1 px-3">Войти</Button>
+            </Link>
+          )
         )}
         <ThemeToggle />
       </div>

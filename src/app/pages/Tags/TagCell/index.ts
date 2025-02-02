@@ -1,0 +1,1 @@
+export { TagCell } from './component';

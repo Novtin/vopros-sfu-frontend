@@ -6,5 +6,6 @@ export interface FilterOption {
 export interface FiltersProps {
   options: FilterOption[];
   activeFilter: string;
+  className?: string;
   onFilterChange: (id: string) => void;
 }

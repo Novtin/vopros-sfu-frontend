@@ -17,7 +17,7 @@ export const ConfirmEmail = () => {
       <div>
         {status === 'loading' && <p>Подтверждение email...</p>}
         {status === 'success' && (
-          <div>
+          <div className="text-center">
             <p>Ваш email успешно подтвержден!</p>
             <p>Вы будете перенаправлены на страницу логина через {countdown} секунд...</p>
           </div>
