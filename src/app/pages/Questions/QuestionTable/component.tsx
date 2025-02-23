@@ -4,7 +4,7 @@ import { getTimeAgo } from './constants';
 import { ClipLoader } from 'react-spinners';
 
 const QuestionsRow = ({ question }: QuestionRowProps) => {
-  const { fileUrl, isLoading } = useFileUrl(question?.author?.avatar?.id, true);
+  const { fileUrl, isLoading } = useFileUrl(question?.author?.avatar?.id);
   return (
     <div
       className="grid grid-cols-4 border py-2"
@@ -39,7 +39,11 @@ const QuestionsRow = ({ question }: QuestionRowProps) => {
         {isLoading ? (
           <ClipLoader color="#ff5722" size={30} />
         ) : (
-          fileUrl && <img src={fileUrl} alt="User Avatar" className="w-8 h-8 rounded-xl" />
+          fileUrl && (
+            <div className="w-8 h-8 rounded-xl overflow-hidden">
+              <img src={fileUrl} alt="User Avatar" className="w-full h-full object-cover" />
+            </div>
+          )
         )}
         <span className="ml-3 text-base-blue-01">{question.author.nickname}</span>
       </div>

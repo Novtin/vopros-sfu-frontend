@@ -2,6 +2,8 @@ import { createContext, useContext } from 'react';
 
 export interface AuthContextType {
   isAuth: boolean;
+  isLoading: boolean;
+  loginId: number | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   refreshAccessToken: (refreshToken: string) => Promise<void>;

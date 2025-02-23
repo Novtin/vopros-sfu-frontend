@@ -4,6 +4,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { NavItemProps } from './component.props';
 import { cn } from '@/shared/lib/cn';
 import { AuthContext } from '@/app/hooks/authentication/useAuth';
+import { LogoSvg } from '@/shared/assets';
+import { Menu01Icon } from 'hugeicons-react';
 
 export const Navbar = () => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(() => {
@@ -25,10 +27,25 @@ export const Navbar = () => {
   return (
     <div
       className={`flex flex-col transition-all duration-500 ease-in-out ${
-        isCollapsed ? 'w-16' : 'w-64'
+        isCollapsed ? 'w-16' : 'w-60'
       } bg-base-grey-01 border-r-2 border-base-orange-stroke`}
-      style={{ height: 'calc(100vh - 65px)' }}
     >
+      <div
+        className={cn(
+          'flex items-center p-2 border-b-2 border-base-orange-stroke min-h-[60px]',
+          !isCollapsed ? 'justify-evenly' : 'justify-center',
+        )}
+      >
+        <Menu01Icon
+          color="var(--base-grey-09)"
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          className="hover:cursor-pointer"
+        />
+        <div className="flex items-center">
+          {!isCollapsed && <img src={LogoSvg} alt="Logo" className="w-10 h-10 rounded-xl" />}
+          {!isCollapsed && <span className="ml-2 text-lg font-bold text-base-orange-01">ВопроСФУ</span>}
+        </div>
+      </div>
       <nav className="flex flex-col mt-4">
         <NavItem
           icon="🏠"
@@ -48,7 +65,7 @@ export const Navbar = () => {
           icon="❓"
           text="Вопросы"
           isCollapsed={isCollapsed}
-          isActive={location.pathname === ROUTER_PATHS.HOME + ROUTER_PATHS.QUESTIONS}
+          isActive={location.pathname === ROUTER_PATHS.QUESTIONS}
           onClick={() => handleNavigation(ROUTER_PATHS.QUESTIONS)}
           className="mt-4"
         />
@@ -76,9 +93,9 @@ export const Navbar = () => {
           />
         )}
       </nav>
-      <button className="p-2 m-2 text-gray-600 hover:bg-gray-200 rounded" onClick={() => setIsCollapsed(!isCollapsed)}>
+      {/* <button className="p-2 m-2 text-gray-600 hover:bg-gray-200 rounded" onClick={() => setIsCollapsed(!isCollapsed)}>
         {isCollapsed ? '>' : '<'}
-      </button>
+      </button> */}
     </div>
   );
 };

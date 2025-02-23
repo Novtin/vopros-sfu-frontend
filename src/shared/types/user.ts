@@ -11,4 +11,26 @@ export type UserData = {
   nickname: string;
   description: string;
   avatar: Avatar;
+  countQuestions: number;
+  countAnswers: number;
+  rating: number;
 };
+
+export interface RegisterUserData {
+  email: string;
+  password: string;
+  nickname: string;
+}
+
+export interface ResponseUserData {
+  id: number;
+  email: string;
+  nickname: string;
+  description: string;
+  isOnline: boolean;
+  wasOnlineAt: string;
+  avatar: Avatar;
+  countQuestions: number;
+  countAnswers: number;
+  rating: number;
+}

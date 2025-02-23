@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { IFormProps } from './component.props';
 import { cn } from '@/shared/lib/cn';
 import { LogoSvg } from '@/shared/assets';
@@ -7,10 +7,14 @@ import { ROUTER_PATHS } from '@/app/consts';
 import { Button } from '@/shared/components/Button';
 import { useState } from 'react';
 import { useAuth } from '@/app/hooks/authentication/useAuth';
+import notify from '@/utils/notify';
+import { ResetPasswordForm } from '../ResetPasswordForm';
 
 export const LoginForm = ({ className, ...props }: IFormProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [resetPassword, setResetPassword] = useState(false);
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -22,7 +26,9 @@ export const LoginForm = ({ className, ...props }: IFormProps) => {
       await login(email, password);
       navigate(ROUTER_PATHS.HOME);
     } catch (error) {
-      setError(error.message || 'Ошибка при авторизации');
+      const errorMessage = error instanceof Error ? error.message : 'Ошибка при авторизации';
+      notify('Ошибка авторизации', errorMessage, 'danger');
+      setError(errorMessage);
     }
   };
 
@@ -31,10 +37,11 @@ export const LoginForm = ({ className, ...props }: IFormProps) => {
       className={cn('w-full text-center max-w-md mx-auto bg-base-grey-03 p-6 rounded-md shadow-md', className)}
       {...props}
     >
+      {resetPassword && <ResetPasswordForm onClose={() => setResetPassword(false)} />}
       <div className="flex justify-center mb-4">
         <img src={LogoSvg} alt="Logo" className="w-16 h-16 rounded-xl" />
       </div>
-      <h2 className="text-center text-2xl font-bold text-base-blue-01 mb-6 ">Вход в аккаунт</h2>
+      <h2 className="text-center text-2xl font-bold text-base-blue-01 mb-6">Вход в аккаунт</h2>
       <form onSubmit={handleSubmit}>
         <Input
           label="Почта"
@@ -52,17 +59,19 @@ export const LoginForm = ({ className, ...props }: IFormProps) => {
           toggleVisibility={true}
         />
         <div className="text-center mb-4">
-          <Link
-            to={ROUTER_PATHS.HOME + ROUTER_PATHS.REGISTER}
-            className="text-sm font-bold text-base-blue-01 hover:underline"
+          <a
+            className="text-sm font-bold text-base-blue-01 hover:cursor-pointer"
+            onClick={() => setResetPassword(true)}
           >
             Забыли пароль?
-          </Link>
+          </a>
         </div>
         <Button className="w-[250px] h-10" type="submit">
           Войти
         </Button>
       </form>
+      {/* </>
+      )} */}
     </div>
   );
 };

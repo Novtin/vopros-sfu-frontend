@@ -1,0 +1,1 @@
+export { ProfileStats } from './component';

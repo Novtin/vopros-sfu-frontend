@@ -1,5 +1,5 @@
 import { fetchUserData } from '@/data/user';
-import { UserData } from '@/shared/types';
+import { UserData } from '@/shared/types/user';
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 
 export const useFetchUserData = (queryOptions?: UseQueryOptions<UserData, Error>) => {

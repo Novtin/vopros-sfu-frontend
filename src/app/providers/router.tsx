@@ -2,9 +2,10 @@ import { RouterProvider as ReactRouterProvider } from 'react-router-dom';
 import { getRouter } from '../../shared/lib';
 import { useEffect } from 'react';
 import { useAuth } from '../hooks/authentication/useAuth';
+import { ClipLoader } from 'react-spinners';
 
 export const RouterProvider = () => {
-  const { refreshAccessToken, isAuth, logout } = useAuth();
+  const { refreshAccessToken, isAuth, isLoading, logout } = useAuth();
 
   useEffect(() => {
     if (isAuth) {
@@ -18,6 +19,10 @@ export const RouterProvider = () => {
       }
     }
   }, [isAuth, refreshAccessToken, logout]);
+
+  if (isLoading) {
+    return <ClipLoader size={50} />;
+  }
 
   const router = getRouter(isAuth);
 

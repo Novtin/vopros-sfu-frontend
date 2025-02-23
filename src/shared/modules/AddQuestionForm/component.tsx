@@ -8,6 +8,7 @@ import { FormValues } from './component.props';
 import { useDispatch } from 'react-redux';
 import { useAddNewQuestion } from '@/app/hooks/question/useAddQuestion';
 import { useQueryClient } from '@tanstack/react-query';
+import { ArrowRight02Icon } from 'hugeicons-react';
 
 export const AddQuestionForm = () => {
   const {
@@ -43,7 +44,16 @@ export const AddQuestionForm = () => {
 
   return (
     <div className="m-4">
-      <h2 className="text-base-grey-09 text-2xl font-medium mb-4 ml-3">Задать публичный вопрос</h2>
+      <div className="flex mb-4 gap-2">
+        <button
+          onClick={() => {
+            dispatch(hideForm());
+          }}
+        >
+          <ArrowRight02Icon color="var(--base-grey-08)" width="32px" height="32px" className="rotate-180" />
+        </button>
+        <h2 className="text-base-grey-09 text-2xl font-medium">Задать публичный вопрос</h2>
+      </div>
       <div className="p-6 bg-base-grey-03 rounded-md shadow-md">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div>

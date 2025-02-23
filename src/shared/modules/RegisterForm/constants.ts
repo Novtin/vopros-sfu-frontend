@@ -1,3 +1,4 @@
+import { AuthCodeType } from '@/shared/types/code';
 import * as yup from 'yup';
 
 export const REGISTER_SCHEMA = yup.object().shape({
@@ -17,3 +18,18 @@ export const REGISTER_SCHEMA = yup.object().shape({
     .oneOf([yup.ref('password')], 'Пароли не совпадают')
     .required('Подтвердите пароль'),
 });
+
+export const ERROR_MESSAGES = {
+  EMAIL_TAKEN: 'Пользователь с таким email уже зарегистрирован',
+  NICKNAME_TAKEN: 'Пользователь с таким nickname уже зарегистрирован',
+};
+
+export const NOTIFY_MESSAGES = {
+  SUCCESS_REGISTER: 'Вы успешно зарегистрировались!',
+  SUCCESS_CHANGE_PASSWORD: 'Вы успешно изменили пароль!',
+  NEW_CODE_SENT: 'Новый код был отправлен на почту!',
+  ERROR_CODE_EXHAUSTED: 'Попытки исчерпаны, запросите новый код',
+  ERROR_WRONG_CODE: (attempts: number) => `Неверный код. Осталось ${attempts} попыток`,
+};
+
+export const AUTH_CODE_TYPE = AuthCodeType.REGISTER_USER;

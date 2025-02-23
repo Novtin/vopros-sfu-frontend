@@ -6,63 +6,73 @@ import { Auth } from '@/app/pages';
 import { HomePage } from '@/app/pages/Home/component';
 import { QuestionPage } from '@/app/pages/Questions/component';
 import { ErrorPages } from '@/app/pages/ErrorPages';
-import { DelayedLoader } from '../components/DelayedLoader';
 import { PrivateRoute } from './PrivateRoute';
 import { TagsPage } from '@/app/pages/Tags/component';
+import { ProfilePage } from '@/app/pages/ProfilePage/component';
+import { PageLayout } from '@/app/pages/PageLayout';
+import { EditProfile } from '@/app/pages/EditProfile';
 
 export const getRouter = (isAuth: boolean) => {
-  const router: RouteObject[] = [];
-
-  router.push(
+  const routes: RouteObject[] = [
     {
-      path: ROUTER_PATHS.HOME,
-      element: (
-        <PrivateRoute isAuth={isAuth}>
-          <HomePage />
-        </PrivateRoute>
-      ),
-    },
-    {
-      path: ROUTER_PATHS.QUESTIONS,
-      element: <QuestionPage />,
-    },
-    {
-      path: ROUTER_PATHS.TAGS,
-      element: <TagsPage />,
-    },
-    {
-      path: ROUTER_PATHS.HOME + ROUTER_PATHS.LOGIN,
-      element: <Auth.Layout />,
+      element: <PageLayout />,
       children: [
         {
-          index: true,
-          element: <Auth.LoginPage />,
+          path: ROUTER_PATHS.HOME,
+          element: (
+            <PrivateRoute isAuth={isAuth}>
+              <HomePage />
+            </PrivateRoute>
+          ),
+        },
+        {
+          path: ROUTER_PATHS.PROFILE,
+          element: (
+            <PrivateRoute isAuth={isAuth}>
+              <ProfilePage />
+            </PrivateRoute>
+          ),
+        },
+        {
+          path: ROUTER_PATHS.EDIT_PROFILE,
+          element: (
+            <PrivateRoute isAuth={isAuth}>
+              <EditProfile />
+            </PrivateRoute>
+          ),
+        },
+        {
+          path: ROUTER_PATHS.QUESTIONS,
+          element: <QuestionPage />,
+        },
+        {
+          path: ROUTER_PATHS.TAGS,
+          element: <TagsPage />,
         },
       ],
     },
     {
-      path: ROUTER_PATHS.HOME + ROUTER_PATHS.REGISTER,
       element: <Auth.Layout />,
       children: [
         {
-          index: true,
+          path: ROUTER_PATHS.LOGIN,
+          element: <Auth.LoginPage />,
+        },
+        {
+          path: ROUTER_PATHS.REGISTER,
           element: <Auth.RegisterPage />,
         },
       ],
     },
     {
-      path: ROUTER_PATHS.HOME + ROUTER_PATHS.CONFIRM_EMAIL,
+      // Страница подтверждения email (можно оставить без layout или добавить свой)
+      path: ROUTER_PATHS.CONFIRM_EMAIL,
       element: <ConfirmEmail />,
     },
     {
       path: '*',
-      element: (
-        <DelayedLoader delay={10}>
-          <ErrorPages errorCode="404" message="Страница не найдена" />
-        </DelayedLoader>
-      ),
+      element: <ErrorPages errorCode="404" message="Страница не найдена" />,
     },
-  );
-
-  return createBrowserRouter(router);
+  ];
+  return createBrowserRouter(routes);
 };

@@ -1,5 +1,4 @@
 import { Search } from '@/shared/components/Search';
-import { PageLayout } from '../PageLayout';
 import { Button } from '@/shared/components/Button';
 import { FiltersBar } from '@/shared/components/FilterBar';
 import { useState } from 'react';
@@ -27,7 +26,7 @@ export const TagsPage = () => {
   }
 
   return (
-    <PageLayout className={'overflow-x-hidden gap-3 my-4 mx-6 px-4'}>
+    <div className="overflow-x-hidden grid gap-3 mt-4 mx-6 px-4">
       <h1 className="text-3xl text-base-grey-09">Теги</h1>
       <p className="text-base text-base-grey-09">
         Тег - это ключевое слово или метка, которая объединяет ваш вопрос с другими похожими вопросами. Использование
@@ -48,6 +47,6 @@ export const TagsPage = () => {
         />
       </div>
       <TagsTableGrid tags={tagsData?.items} />
-    </PageLayout>
+    </div>
   );
 };

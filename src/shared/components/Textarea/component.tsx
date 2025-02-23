@@ -3,10 +3,10 @@ import { ITextareaProps } from './component.props';
 import { cn } from '@/shared/lib/cn';
 
 const Textarea = forwardRef<HTMLTextAreaElement, ITextareaProps>(
-  ({ label, placeholder, error, success, className, ...props }, ref) => {
+  ({ label, placeholder, error, success, className, labelSx, ...props }, ref) => {
     return (
       <div className="mb-4">
-        {label && <label className="block text-xl text-base-grey-07 font-bold mb-2">{label}</label>}
+        {label && <label className={cn('block text-xl text-base-grey-07 font-bold mb-2', labelSx)}>{label}</label>}
         <textarea
           ref={ref}
           placeholder={placeholder}

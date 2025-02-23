@@ -1,7 +1,7 @@
 import { forwardRef, useState } from 'react';
 import { cn } from '@/shared/lib/cn';
 import { IInputProps, Variant } from './component.props';
-import { NonVisibilitySvg, VisibilitySvg } from '@/shared/assets';
+import { ViewIcon, ViewOffSlashIcon } from 'hugeicons-react';
 
 const variants: Record<Variant, string> = {
   login: 'block text-base-blue-02 text-base font-bold mb-2',
@@ -44,7 +44,7 @@ export const Input = forwardRef<HTMLInputElement, IInputProps>(
               className="absolute right-3 top-1 focus:outline-none opacity-50 text-base-grey-08"
               aria-label="Toggle password visibility"
             >
-              {isPasswordVisible ? <VisibilitySvg /> : <NonVisibilitySvg />}
+              {isPasswordVisible ? <ViewIcon /> : <ViewOffSlashIcon />}
             </button>
           )}
         </div>

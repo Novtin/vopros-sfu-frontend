@@ -1,13 +1,13 @@
 import { memo } from 'react';
 import { ISearchProps } from './component.props';
 import { cn } from '@/shared/lib/cn';
-import { SearchSvg } from '@/shared/assets';
+import { Search01Icon } from 'hugeicons-react';
 
 export const Search = memo(({ className, ...props }: ISearchProps) => {
   return (
     <div className={cn('relative', className)}>
       <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500">
-        <SearchSvg className="w-5 text-base-grey-08 opacity-50 " />
+        <Search01Icon color="var(--base-grey-06)" width={20} height={20} />
       </span>
       <input
         type="text"

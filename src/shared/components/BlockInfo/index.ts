@@ -1,0 +1,1 @@
+export { BlockInfo } from './component';
