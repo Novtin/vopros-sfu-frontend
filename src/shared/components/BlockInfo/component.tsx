@@ -2,8 +2,9 @@ import { cn } from '@/shared/lib/cn';
 import { BlockInfoProps } from './component.props';
 import { Link } from 'react-router-dom';
 import { COMMIN_CLASSES } from './constants';
+import { ClipLoader } from 'react-spinners';
 
-export const BlockInfo = ({ title, descroption, highlightText, className, link }: BlockInfoProps) => {
+export const BlockInfo = ({ title, description, highlightText, className, link, isLoading }: BlockInfoProps) => {
   return (
     <div>
       <h3 className="text-2xl text-base-grey-09 font-normal mb-2">{title}</h3>
@@ -14,16 +15,20 @@ export const BlockInfo = ({ title, descroption, highlightText, className, link }
           className,
         )}
       >
-        <p className="text-gray-500">
-          {descroption}{' '}
-          {link ? (
-            <Link to={link} className={COMMIN_CLASSES}>
-              {highlightText}
-            </Link>
-          ) : (
-            <span className={COMMIN_CLASSES}>{highlightText}</span>
-          )}
-        </p>
+        {isLoading ? (
+          <ClipLoader color="#ff5722" size={48} />
+        ) : (
+          <p className={`${link ? 'text-gray-500' : 'text-base-grey-09'}`}>
+            {description}{' '}
+            {link ? (
+              <Link to={link} className={COMMIN_CLASSES}>
+                {highlightText}
+              </Link>
+            ) : (
+              <span className={COMMIN_CLASSES}>{highlightText}</span>
+            )}
+          </p>
+        )}
       </div>
     </div>
   );

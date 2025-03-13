@@ -4,7 +4,7 @@ import { IInputProps, Variant } from './component.props';
 import { ViewIcon, ViewOffSlashIcon } from 'hugeicons-react';
 
 const variants: Record<Variant, string> = {
-  login: 'block text-base-blue-02 text-base font-bold mb-2',
+  login: 'block text-base-blue-01 text-base font-bold mb-2',
   primary: 'block text-base-grey-07 text-xl font-bold mb-2',
 };
 

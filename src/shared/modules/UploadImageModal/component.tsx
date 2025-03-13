@@ -4,16 +4,21 @@ import { Button } from '@/shared/components/Button';
 import { useUploadAvatarImage } from '@/app/hooks/image/useUploadAvatarImage';
 import { ALLOWED_TYPES, IMAGE_ACCEPT_ERROR, IMAGE_ACCEPT_TYPES } from './constants';
 import notify from '@/utils/notify';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const AvatarUploadModal = ({ isOpen, onClose, userId, multiple = false }: UploadImageModalProps) => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const queryClient = useQueryClient();
 
-  // Отправка аватарки
   const { mutate: uploadAvatar } = useUploadAvatarImage({
     onSuccess: () => {
+      notify('Успешно!', 'Новый аватар был успешно загружен!', 'success');
+      queryClient.invalidateQueries({ queryKey: ['userData'] });
+      queryClient.invalidateQueries({ queryKey: ['file'] });
       onClose();
     },
     onError: error => {
+      notify('Ошибка!', 'Произошла ошибка загрузки аватара!', 'warning');
       console.error('Ошибка загрузки:', error);
     },
   });

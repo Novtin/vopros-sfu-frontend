@@ -51,3 +51,19 @@ export const fetchFile = async (id: number) => {
   });
   return response.data;
 };
+
+export const updateUser = async (id: number, userData: { description: string; nickname: string }) => {
+  const token = localStorage.getItem('accessToken');
+  if (!token) {
+    throw new Error('Токен не найден');
+  }
+
+  const response = await axios.put(`${BASE_API_URL}/user/${id}`, userData, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data;
+};

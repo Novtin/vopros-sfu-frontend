@@ -31,8 +31,8 @@ export const AddQuestionForm = () => {
 
       if (statusCode === 200 || statusCode == 201) {
         notify('Вопрос создан!', 'Ваш вопрос успешно опубликован!', 'success');
-        queryClient.invalidateQueries(['questions']);
-        queryClient.invalidateQueries(['questionCount']);
+        queryClient.invalidateQueries({ queryKey: ['questions'] });
+        queryClient.invalidateQueries({ queryKey: ['questionCount'] });
         dispatch(hideForm());
       } else {
         alert(`Произошла ошибка. Код состояния: ${statusCode}`);

@@ -13,7 +13,7 @@ import { ROUTER_PATHS } from '@/app/consts';
 import { Clock01Icon, PencilEdit02Icon } from 'hugeicons-react';
 
 export const ProfilePage = () => {
-  const { data } = useFetchUserData();
+  const { data, isLoading: isLoadingData } = useFetchUserData();
   const { fileUrl, isLoading } = useFileUrl(data?.avatar?.id);
 
   const [activeTab, setActiveTab] = useState<string>(PROFILE_TABS[0]);
@@ -54,16 +54,19 @@ export const ProfilePage = () => {
           <div className="grid gap-4 flex-1">
             <BlockInfo
               title="О себе"
-              descroption="У вас не заполнена секция «Обо мне»."
-              highlightText="Редактировать профиль"
-              className="h-[185px]"
-              link={ROUTER_PATHS.EDIT_PROFILE}
+              description={data?.description ?? 'У вас не заполнена секция «Обо мне».'}
+              highlightText={data?.description ? undefined : 'Редактировать профиль'}
+              className="h-[185px] text-base-grey-08"
+              link={data?.description ? undefined : ROUTER_PATHS.EDIT_PROFILE}
+              isLoading={isLoadingData}
             />
             <BlockInfo
               title="Достижения"
-              descroption="Вы ещё не получали"
+              description="Вы ещё не получали"
               highlightText="знаки"
               className="h-[125px]"
+              link={ROUTER_PATHS.EDIT_PROFILE}
+              isLoading={isLoadingData}
             />
           </div>
         </div>

@@ -11,7 +11,6 @@ export const uploadAvatarImage = async (userId: number, file: File): Promise<Res
 
   const formData = new FormData();
   formData.append('imageFile', file);
-  console.log(formData);
 
   const response = await axios.post<ResponseUserData>(`${BASE_API_URL}/user/${userId}/image`, formData, {
     headers: {

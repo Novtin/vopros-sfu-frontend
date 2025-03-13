@@ -10,6 +10,8 @@ export type UserData = {
   email: string;
   nickname: string;
   description: string;
+  isOnline: boolean;
+  wasOnlineAt: string;
   avatar: Avatar;
   countQuestions: number;
   countAnswers: number;
