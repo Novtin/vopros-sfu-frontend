@@ -8,13 +8,20 @@ import { Tabs } from '@/shared/components/Tabs/component';
 import { LANGUAGES, PROFILE_TABS, STATS } from './constants';
 import { useState } from 'react';
 import { Select } from '@/shared/components/Select';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useParams } from 'react-router-dom';
 import { ROUTER_PATHS } from '@/app/consts';
 import { Clock01Icon, PencilEdit02Icon } from 'hugeicons-react';
+import { AxiosError } from 'axios';
 
 export const ProfilePage = () => {
-  const { data, isLoading: isLoadingData } = useFetchUserData();
+  const { id } = useParams<{ id: string }>();
+  const profileId = id ? Number(id) : undefined;
+
+  const { data, isLoading: isLoadingData, error } = useFetchUserData(profileId);
   const { fileUrl, isLoading } = useFileUrl(data?.avatar?.id);
+
+  const currentUserId = Number(localStorage.getItem('userId'));
+  const isOwnProfile = !profileId || data?.id === currentUserId;
 
   const [activeTab, setActiveTab] = useState<string>(PROFILE_TABS[0]);
   const [selectedLanguage, setSelectedLanguage] = useState(LANGUAGES[0]);
@@ -22,6 +29,13 @@ export const ProfilePage = () => {
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
   };
+
+  if (error) {
+    const axiosError = error as AxiosError;
+    if (axiosError.response?.status === 404) {
+      return <Navigate to={ROUTER_PATHS.ERROR_404} replace />;
+    }
+  }
 
   return (
     <div className="gap-3 my-2 mx-6 pr-1">
@@ -40,12 +54,14 @@ export const ProfilePage = () => {
           <Clock01Icon color="var(--base-grey-07)" />
           <p className="text-base-grey-07">последний раз в сети 1 час назад</p>
         </div>
-        <Link to={ROUTER_PATHS.EDIT_PROFILE} className="ml-auto">
-          <Button className="bg-base-orange-01 flex items-center text-base font-semibold gap-3 px-2 py-1">
-            <PencilEdit02Icon />
-            Редактировать профиль
-          </Button>
-        </Link>
+        {isOwnProfile && (
+          <Link to={ROUTER_PATHS.EDIT_PROFILE} className="ml-auto">
+            <Button className="bg-base-orange-01 flex items-center text-base font-semibold gap-3 px-2 py-1">
+              <PencilEdit02Icon />
+              Редактировать профиль
+            </Button>
+          </Link>
+        )}
       </div>
       <Tabs tabs={PROFILE_TABS} onTabChange={handleTabChange} className="pl-2" />
       {activeTab === 'Профиль' && (

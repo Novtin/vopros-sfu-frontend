@@ -5,6 +5,11 @@ export type Avatar = {
   mimetype: string;
 };
 
+export type UsersResponse = {
+  items: UserData[];
+  total: number;
+};
+
 export type UserData = {
   id: number;
   email: string;

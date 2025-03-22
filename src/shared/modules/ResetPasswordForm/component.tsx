@@ -1,4 +1,3 @@
-import { LogoSvg } from '@/shared/assets';
 import { Input } from '@/shared/components/Input';
 import { Button } from '@/shared/components/Button';
 import { useCallback, useEffect, useState } from 'react';
@@ -14,6 +13,7 @@ import { EMAIL_SCHEMA, PASSWORD_SCHEMA } from './constants';
 import { ResetPasswordFormProps } from './component.props';
 
 export const ResetPasswordForm = ({ onClose, ...props }: ResetPasswordFormProps) => {
+  const LogoSvg = '/images/logo.png';
   // Форма для шага 1: ввод email
   const {
     register: registerEmail,

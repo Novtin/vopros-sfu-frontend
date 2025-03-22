@@ -2,7 +2,6 @@ import { useForm } from 'react-hook-form';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Button } from '@/shared/components/Button';
 import { IFormProps } from './component.props';
-import { LogoSvg } from '@/shared/assets';
 import { Input } from '@/shared/components/Input';
 import { cn } from '@/shared/lib/cn';
 import { AUTH_CODE_TYPE, ERROR_MESSAGES, NOTIFY_MESSAGES, REGISTER_SCHEMA } from './constants';
@@ -26,7 +25,7 @@ export const RegisterForm = ({ className, onRegisterSuccess, ...props }: IFormPr
     mode: 'onChange',
     resolver: yupResolver(REGISTER_SCHEMA),
   });
-
+  const LogoSvg = '/images/logo.png';
   const [isRegistered, setIsRegistered] = useState(false);
   const [attempts, setAttempts] = useState<number>(null);
   const navigate = useNavigate();

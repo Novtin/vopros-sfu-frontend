@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { IFormProps } from './component.props';
 import { cn } from '@/shared/lib/cn';
-import { LogoSvg } from '@/shared/assets';
 import { Input } from '@/shared/components/Input';
 import { ROUTER_PATHS } from '@/app/consts';
 import { Button } from '@/shared/components/Button';
@@ -11,6 +10,7 @@ import notify from '@/utils/notify';
 import { ResetPasswordForm } from '../ResetPasswordForm';
 
 export const LoginForm = ({ className, ...props }: IFormProps) => {
+  const LogoSvg = '/images/logo.png';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [resetPassword, setResetPassword] = useState(false);

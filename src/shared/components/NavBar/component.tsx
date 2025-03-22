@@ -4,10 +4,10 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { NavItemProps } from './component.props';
 import { cn } from '@/shared/lib/cn';
 import { AuthContext } from '@/app/hooks/authentication/useAuth';
-import { LogoSvg } from '@/shared/assets';
 import { Menu01Icon } from 'hugeicons-react';
 
 export const Navbar = () => {
+  const LogoSvg = '/images/logo.png';
   const [isCollapsed, setIsCollapsed] = useState<boolean>(() => {
     const savedState = localStorage.getItem('navbarOpen');
     return savedState === 'true';

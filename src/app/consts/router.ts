@@ -11,4 +11,5 @@ export const ROUTER_PATHS = {
   SAVED: '/saved',
   TAGS: '/tags',
   USERS: '/users',
+  ERROR_404: '/404',
 } as const;

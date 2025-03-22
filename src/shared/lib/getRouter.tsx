@@ -5,12 +5,13 @@ import { ROUTER_PATHS } from '@/app/consts';
 import { Auth } from '@/app/pages';
 import { HomePage } from '@/app/pages/Home/component';
 import { QuestionPage } from '@/app/pages/Questions/component';
-import { ErrorPages } from '@/app/pages/ErrorPages';
+import { ErrorPage } from '@/app/pages/ErrorPage';
 import { PrivateRoute } from './PrivateRoute';
 import { TagsPage } from '@/app/pages/Tags/component';
 import { ProfilePage } from '@/app/pages/ProfilePage/component';
 import { PageLayout } from '@/app/pages/PageLayout';
 import { EditProfile } from '@/app/pages/EditProfile';
+import { UsersPage } from '@/app/pages/Users';
 
 export const getRouter = (isAuth: boolean) => {
   const routes: RouteObject[] = [
@@ -34,6 +35,14 @@ export const getRouter = (isAuth: boolean) => {
           ),
         },
         {
+          path: `${ROUTER_PATHS.PROFILE}/:id`,
+          element: (
+            <PrivateRoute isAuth={isAuth}>
+              <ProfilePage />
+            </PrivateRoute>
+          ),
+        },
+        {
           path: ROUTER_PATHS.EDIT_PROFILE,
           element: (
             <PrivateRoute isAuth={isAuth}>
@@ -48,6 +57,10 @@ export const getRouter = (isAuth: boolean) => {
         {
           path: ROUTER_PATHS.TAGS,
           element: <TagsPage />,
+        },
+        {
+          path: ROUTER_PATHS.USERS,
+          element: <UsersPage />,
         },
       ],
     },
@@ -65,13 +78,16 @@ export const getRouter = (isAuth: boolean) => {
       ],
     },
     {
-      // Страница подтверждения email (можно оставить без layout или добавить свой)
       path: ROUTER_PATHS.CONFIRM_EMAIL,
       element: <ConfirmEmail />,
     },
     {
+      path: ROUTER_PATHS.ERROR_404,
+      element: <ErrorPage errorCode="404" message="Страница не найдена" />,
+    },
+    {
       path: '*',
-      element: <ErrorPages errorCode="404" message="Страница не найдена" />,
+      element: <ErrorPage errorCode="404" message="Страница не найдена" />,
     },
   ];
   return createBrowserRouter(routes);

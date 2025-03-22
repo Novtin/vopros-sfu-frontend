@@ -2,7 +2,7 @@ import { ROUTER_PATHS } from '@/app/consts';
 import { Link } from 'react-router-dom';
 import { ErrorPagesProps } from './component.props';
 
-export const ErrorPages = ({ errorCode, message }: ErrorPagesProps) => {
+export const ErrorPage = ({ errorCode, message }: ErrorPagesProps) => {
   return (
     <div className="h-screen flex flex-col items-center justify-center bg-[#ffffff] dark:bg-[#030005]">
       <h1 className="text-[224px] font-extrabold text-[#030005] leading-none tracking-tighter shadow-text">
