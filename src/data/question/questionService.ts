@@ -1,38 +1,18 @@
-import axios from 'axios';
-import { BASE_API_URL } from '@/app/consts';
 import { QuestionsResponse } from '@/shared/types/question';
+import { apiClient, getAuthHeaders } from '../apiClient';
 
 export const getQuestionCount = async (): Promise<number> => {
-  const response = await axios.get(`${BASE_API_URL}/question/count`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-
+  const response = await apiClient.get<{ count: number }>('/question/count');
   return response.data.count;
 };
 
 export const addNewQuestion = async (title: string, description: string, tagNames: string[]): Promise<number> => {
-  const token = localStorage.getItem('accessToken');
-  if (!token) {
-    throw new Error('Токен не найден');
-  }
-
-  const response = await axios.post(
-    `${BASE_API_URL}/question`,
-    { title, description, tagNames },
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  );
+  const response = await apiClient.post('/question', { title, description, tagNames }, { headers: getAuthHeaders() });
 
   return response.status;
 };
 
 export const getQuestions = async (params?: Record<string, string | number | boolean>): Promise<QuestionsResponse> => {
-  const { data } = await axios.get(`${BASE_API_URL}/question`, { params });
-  return data;
+  const response = await apiClient.get<QuestionsResponse>('/question', { params });
+  return response.data;
 };

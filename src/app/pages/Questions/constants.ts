@@ -9,3 +9,5 @@ export const FILTER_OPTIONS = [
 export const getFilterQueryValue = (filterId: string) => {
   return FILTER_OPTIONS.find(option => option.id === filterId)?.queryValue || 'createdAt';
 };
+
+export const PAGE_SIZE = 20;

@@ -14,7 +14,7 @@ import { Logout02Icon, Notification03Icon } from 'hugeicons-react';
 
 export const Header = memo(({ className, ...props }: IHeaderProps) => {
   const { data } = useFetchUserData();
-  const { fileUrl, isLoading } = useFileUrl(data?.avatar?.id);
+  const { fileUrl, isLoading } = useFileUrl(data?.avatar?.id, true);
 
   const { isAuth } = useContext(AuthContext);
   const { logout } = useAuth();

@@ -18,8 +18,11 @@ export const AvatarUploadModal = ({ isOpen, onClose, userId, multiple = false }:
       onClose();
     },
     onError: error => {
-      notify('Ошибка!', 'Произошла ошибка загрузки аватара!', 'warning');
-      console.error('Ошибка загрузки:', error);
+      const errorMessage = error.message.includes('Файл слишком большой')
+        ? 'Ошибка! Файл слишком большой. Максимальный размер — 1.5 МБ.'
+        : 'Ошибка! Произошла ошибка загрузки аватара!';
+
+      notify('Ошибка!', errorMessage, 'warning');
     },
   });
 

@@ -1,23 +1,26 @@
-import { BASE_API_URL } from '@/app/consts';
 import { ResponseUserData } from '@/shared/types/user';
-import axios from 'axios';
+import { apiClient, getAuthHeaders } from '../apiClient';
 
 export const uploadAvatarImage = async (userId: number, file: File): Promise<ResponseUserData> => {
-  console.log(file);
-  const token = localStorage.getItem('accessToken');
-  if (!token) {
-    throw new Error('Токен не найден');
-  }
-
   const formData = new FormData();
   formData.append('imageFile', file);
 
-  const response = await axios.post<ResponseUserData>(`${BASE_API_URL}/user/${userId}/image`, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  try {
+    const response = await apiClient.post<ResponseUserData>(`/user/${userId}/image`, formData, {
+      headers: {
+        ...getAuthHeaders(),
+        'Content-Type': 'multipart/form-data',
+      },
+    });
 
-  return response.data;
+    return response.data;
+  } catch (error: any) {
+    if (error.response) {
+      if (error.response.status === 413) {
+        throw new Error('Файл слишком большой. Попробуйте выбрать изображение меньшего размера.');
+      }
+      throw new Error(`Ошибка загрузки: ${error.response.status} ${error.response.statusText}`);
+    }
+    throw new Error('Ошибка сети или сервера. Проверьте подключение.');
+  }
 };

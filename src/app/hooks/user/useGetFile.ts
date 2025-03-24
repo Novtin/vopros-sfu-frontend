@@ -1,32 +1,40 @@
 import { fetchFile } from '@/data/user';
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 export const useFileUrl = (
   id: number | undefined,
-  queryOptions?: Omit<UseQueryOptions<Blob, Error, Blob, [string, number | undefined]>, 'queryKey' | 'queryFn'>,
+  isMiniature?: boolean,
+  queryOptions?: Omit<
+    UseQueryOptions<Blob, Error, Blob, [string, number | undefined, boolean | undefined]>,
+    'queryKey' | 'queryFn'
+  >,
 ) => {
-  const { data: fileData, ...queryResult } = useQuery<Blob, Error, Blob, [string, number | undefined]>({
-    queryKey: ['file', id],
-    queryFn: () => {
-      if (id === undefined) {
-        return Promise.reject(new Error('id is undefined'));
-      }
-      return fetchFile(id);
-    },
+  const { data: fileData, ...queryResult } = useQuery<
+    Blob,
+    Error,
+    Blob,
+    [string, number | undefined, boolean | undefined]
+  >({
+    queryKey: ['file', id, isMiniature],
+    queryFn: () => fetchFile(id!, isMiniature),
+    enabled: Boolean(id),
     ...queryOptions,
   });
 
-  const [fileUrl, setFileUrl] = useState<string>('');
+  const plugAvatar = '/images/plugAvatar.png';
+  const [fileUrl, setFileUrl] = useState<string>(plugAvatar);
 
   useEffect(() => {
-    if (fileData) {
-      const url = URL.createObjectURL(fileData);
-      setFileUrl(url);
-      return () => {
-        URL.revokeObjectURL(url);
-      };
+    if (!fileData) {
+      setFileUrl(plugAvatar);
+      return;
     }
+    const newUrl = URL.createObjectURL(fileData);
+    setFileUrl(newUrl);
+    return () => {
+      URL.revokeObjectURL(newUrl);
+    };
   }, [fileData]);
 
   return { fileUrl, fileData, ...queryResult };

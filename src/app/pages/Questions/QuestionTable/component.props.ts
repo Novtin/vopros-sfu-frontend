@@ -6,4 +6,6 @@ export interface QuestionRowProps {
 
 export interface QuestionTableProps {
   questions: Question[];
+  fetchNextPage: () => void;
+  hasNextPage: boolean;
 }

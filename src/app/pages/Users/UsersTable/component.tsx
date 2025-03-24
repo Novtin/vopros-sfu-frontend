@@ -6,7 +6,6 @@ export const UserTable = () => {
   const { data: usersData, isLoading } = useUsers({ page: 1, pageSize: 100, filter: 'rating' });
 
   if (isLoading) {
-    console.log(usersData);
     return <Loader />;
   }
 

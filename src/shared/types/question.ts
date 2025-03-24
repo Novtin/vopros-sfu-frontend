@@ -1,8 +1,13 @@
 import { Tag } from './tag';
 
-export interface QuestionsResponse {
+export interface QuestionsRequest {
   items: Question[];
   total: number;
+}
+
+export interface QuestionsResponse {
+  items: Question[];
+  pageParams: number[];
 }
 
 export interface Question {

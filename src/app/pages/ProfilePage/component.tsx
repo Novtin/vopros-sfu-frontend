@@ -63,7 +63,7 @@ export const ProfilePage = () => {
           </Link>
         )}
       </div>
-      <Tabs tabs={PROFILE_TABS} onTabChange={handleTabChange} className="pl-2" />
+      {isOwnProfile && <Tabs tabs={PROFILE_TABS} onTabChange={handleTabChange} className="pl-2" />}
       {activeTab === 'Профиль' && (
         <div className="flex justify-between gap-10 pt-5">
           <ProfileStats items={STATS(data)} className="h-fit" />

@@ -10,7 +10,7 @@ import { useAuth } from '@/app/hooks/authentication/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { useGetQuestions } from '@/app/hooks/question/useGetQuestions';
 import { QuestionsTable } from './QuestionTable/component';
-import { FILTER_OPTIONS, getFilterQueryValue } from './constants';
+import { FILTER_OPTIONS, getFilterQueryValue, PAGE_SIZE } from './constants';
 import { Loader } from '@/shared/components/Loader';
 
 export const QuestionPage = () => {
@@ -23,11 +23,17 @@ export const QuestionPage = () => {
   const [filterQuery, setFilterQuery] = useState<string>('createdAt');
 
   const { data: countQuestions } = useQuestionCount();
-  const { data: questionsData, isLoading: isLoadingQuestions } = useGetQuestions({
-    page: 0,
-    pageSize: 20,
+  const {
+    data: questionsData,
+    isLoading: isLoadingQuestions,
+    fetchNextPage,
+    hasNextPage,
+  } = useGetQuestions({
+    pageSize: PAGE_SIZE,
     filter: filterQuery,
   });
+
+  const questions = questionsData?.pages.flatMap(page => page.items) || [];
 
   useEffect(() => {
     setFilterQuery(getFilterQueryValue(activeFilter));
@@ -70,7 +76,13 @@ export const QuestionPage = () => {
             <p className="text-base-grey-09 text-base font-opensans">{countQuestions ?? 0} вопросов</p>
             <FiltersBar options={FILTER_OPTIONS} activeFilter={activeFilter} onFilterChange={handleFilterChange} />
           </div>
-          <div>{isLoadingQuestions ? <Loader /> : <QuestionsTable questions={questionsData?.items ?? []} />}</div>
+          <div>
+            {isLoadingQuestions ? (
+              <Loader />
+            ) : (
+              <QuestionsTable questions={questions ?? []} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} />
+            )}
+          </div>
         </>
       )}
     </div>

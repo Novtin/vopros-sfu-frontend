@@ -2,11 +2,13 @@ import { useFileUrl } from '@/app/hooks/user/useGetFile';
 import { QuestionRowProps, QuestionTableProps } from './component.props';
 import { getTimeAgo } from './constants';
 import { ClipLoader } from 'react-spinners';
+import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 
-const QuestionsRow = ({ question }: QuestionRowProps) => {
-  const { fileUrl, isLoading } = useFileUrl(question?.author?.avatar?.id);
+const QuestionsRow = forwardRef<HTMLDivElement, QuestionRowProps>(({ question }, ref) => {
+  const { fileUrl, isLoading } = useFileUrl(question?.author?.avatar?.id, true);
   return (
     <div
+      ref={ref}
       className="grid grid-cols-4 border py-2"
       style={{
         gridTemplateColumns: 'minmax(220px, auto) 1fr minmax(180px, auto) minmax(200px, auto)',
@@ -52,18 +54,38 @@ const QuestionsRow = ({ question }: QuestionRowProps) => {
       </div>
     </div>
   );
-};
+});
 
-export const QuestionsTable = ({ questions }: QuestionTableProps) => {
+export const QuestionsTable = ({ questions, fetchNextPage, hasNextPage }: QuestionTableProps) => {
+  const observer = useRef<IntersectionObserver | null>(null);
+  const lastQuestionRef = useCallback(
+    node => {
+      if (!hasNextPage) return;
+      if (observer.current) observer.current.disconnect();
+
+      observer.current = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting) {
+          fetchNextPage(); // Загружаем новую страницу
+        }
+      });
+
+      if (node) observer.current.observe(node);
+    },
+    [fetchNextPage, hasNextPage],
+  );
+
   if (!questions || questions.length === 0) {
     return <div className="text-center text-gray-500 p-4 ">Вопросов пока нет</div>;
   }
 
   return (
     <div className="w-full border rounded-lg overflow-hidden">
-      {questions.map(question => (
-        <QuestionsRow key={question.id} question={question} />
-      ))}
+      {questions.map((question, index) => {
+        if (index === questions.length - 1) {
+          return <QuestionsRow ref={lastQuestionRef} key={question.id} question={question} />;
+        }
+        return <QuestionsRow key={question.id} question={question} />;
+      })}
     </div>
   );
 };

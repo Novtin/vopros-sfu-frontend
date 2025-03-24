@@ -12,12 +12,12 @@ export const UserCard = ({ userData }: UserCardProps) => {
     <Link to={`${ROUTER_PATHS.PROFILE}/${userData.id}`} className="cursor-pointer">
       <div className="flex items-center p-2 bg-base-grey-02 rounded-xl w-full shadow dark:shadow-[0_4px_12px_rgba(0,0,0,1)]">
         {isLoading ? (
-          <ClipLoader color="#ff5722" size={30} />
+          <ClipLoader color="#ff5722" size={48} />
         ) : (
           <img
             src={fileUrl}
             alt="User Avatar"
-            className="w-12 h-12 rounded-full mr-4"
+            className="w-12 h-12 rounded-full object-cover mr-4 flex-shrink-0"
             onError={e => {
               (e.target as HTMLImageElement).src = plugAvatar;
             }}
