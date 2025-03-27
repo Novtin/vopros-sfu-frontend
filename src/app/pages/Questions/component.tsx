@@ -12,6 +12,7 @@ import { useGetQuestions } from '@/app/hooks/question/useGetQuestions';
 import { QuestionsTable } from './QuestionTable/component';
 import { FILTER_OPTIONS, getFilterQueryValue, PAGE_SIZE } from './constants';
 import { Loader } from '@/shared/components/Loader';
+import { FilterModal } from '@/shared/modules/FilterModal';
 
 export const QuestionPage = () => {
   const dispatch = useDispatch();
@@ -74,7 +75,10 @@ export const QuestionPage = () => {
           </div>
           <div className="flex flex-row justify-between items-center">
             <p className="text-base-grey-09 text-base font-opensans">{countQuestions ?? 0} вопросов</p>
-            <FiltersBar options={FILTER_OPTIONS} activeFilter={activeFilter} onFilterChange={handleFilterChange} />
+            <div className="flex flex-row flex-wrap items-center gap-5">
+              <FiltersBar options={FILTER_OPTIONS} activeFilter={activeFilter} onFilterChange={handleFilterChange} />
+              <FilterModal />
+            </div>
           </div>
           <div>
             {isLoadingQuestions ? (

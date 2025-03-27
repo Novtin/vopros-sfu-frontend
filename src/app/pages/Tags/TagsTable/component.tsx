@@ -6,9 +6,6 @@ import React from 'react';
 
 export const TagsTableGrid = ({ tags }: TagsTableProps) => {
   const tagChunks = chunkArray(tags, 10);
-  if (!tags || tags.length === 0) {
-    return <div className="text-center text-gray-500 p-4 ">Тегов пока нет</div>;
-  }
   return (
     <div>
       {tagChunks.map((chunk, index) => {

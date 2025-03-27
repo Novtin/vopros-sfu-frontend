@@ -9,4 +9,5 @@ export interface SelectProps {
   selected: Option;
   onChange: (option: Option) => void;
   className?: string;
+  labelClassName?: string;
 }

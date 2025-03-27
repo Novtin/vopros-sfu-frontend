@@ -2,7 +2,7 @@ import { useFileUrl } from '@/app/hooks/user/useGetFile';
 import { QuestionRowProps, QuestionTableProps } from './component.props';
 import { getTimeAgo } from './constants';
 import { ClipLoader } from 'react-spinners';
-import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import { forwardRef, useCallback, useRef } from 'react';
 
 const QuestionsRow = forwardRef<HTMLDivElement, QuestionRowProps>(({ question }, ref) => {
   const { fileUrl, isLoading } = useFileUrl(question?.author?.avatar?.id, true);
@@ -19,19 +19,30 @@ const QuestionsRow = forwardRef<HTMLDivElement, QuestionRowProps>(({ question },
         <div className="text-base-grey-09">{question.answers.length} ответ</div>
         <div className="text-sm font-medium text-black/50 dark:text-white/50">{question.views} просмотров</div>
       </div>
-      <div className="grid grid-rows-1" style={{ gridTemplateRows: 'auto 1fr' }}>
+      <div className="grid grid-rows-1 overflow-hidden" style={{ gridTemplateRows: 'auto 1fr' }}>
         <div className="text-base-blue-01 font-bold text-xl">{question.title}</div>
-        <div className="grid grid-flow-col items-center justify-start text-sm gap-3">
-          {question.tags.map(tag => (
-            <div
-              key={tag.id}
-              className="w-fit h-fit py-0.5 px-5 rounded-full bg-base-grey-06 text-base-grey-09 font-bold"
-            >
-              {tag.name}
-            </div>
-          ))}
+        <div className="relative w-full overflow-hidden">
+          <div
+            className="flex gap-3 overflow-x-auto"
+            style={{
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+              WebkitMaskImage: 'linear-gradient(to right, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%)',
+              maskImage: 'linear-gradient(to right, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%)',
+            }}
+          >
+            {question.tags.map(tag => (
+              <div
+                key={tag.id}
+                className="w-fit h-fit py-0.5 px-5 rounded-full bg-base-grey-06 text-base-grey-09 font-bold"
+              >
+                {tag.name}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
+
       <div
         className="grid grid-flow-col items-center"
         style={{
@@ -65,7 +76,7 @@ export const QuestionsTable = ({ questions, fetchNextPage, hasNextPage }: Questi
 
       observer.current = new IntersectionObserver(entries => {
         if (entries[0].isIntersecting) {
-          fetchNextPage(); // Загружаем новую страницу
+          fetchNextPage();
         }
       });
 
