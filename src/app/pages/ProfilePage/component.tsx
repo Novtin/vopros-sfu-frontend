@@ -81,7 +81,7 @@ export const ProfilePage = () => {
               description="Вы ещё не получали"
               highlightText="знаки"
               className="h-[125px]"
-              link={ROUTER_PATHS.EDIT_PROFILE}
+              link={data?.description ? undefined : ROUTER_PATHS.EDIT_PROFILE}
               isLoading={isLoadingData}
             />
           </div>
