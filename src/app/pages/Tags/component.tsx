@@ -5,39 +5,30 @@ import { useEffect, useState } from 'react';
 import { TagsTableGrid } from './TagsTable/component';
 import { useTags } from '@/app/hooks/tags/useGetTags';
 import { Loader } from '@/shared/components/Loader';
+import { FILTER_OPTIONS } from './constants';
 
 export const TagsPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [filteredTags, setFilteredTags] = useState([]);
-
-  const [activeFilter, setActiveFilter] = useState<string>('new');
-  const filterOptions = [
-    { id: 'popular', label: 'Популярные' },
-    { id: 'name', label: 'По имени' },
-    { id: 'new', label: 'Новые' },
-  ];
-
-  const handleFilterChange = (filterId: string) => {
-    setActiveFilter(filterId);
-    console.log(`Выбран фильтр: ${filterId}`);
-  };
-
-  const { data: tagsData, isLoading } = useTags();
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
+  const [activeFilter, setActiveFilter] = useState<string>('created_at');
 
   useEffect(() => {
-    if (!searchQuery) {
-      setFilteredTags(tagsData?.items || []);
+    if (searchQuery === '') {
+      setDebouncedSearchQuery('');
       return;
     }
     const handler = setTimeout(() => {
-      if (tagsData?.items) {
-        const results = tagsData.items.filter(tag => tag.name.toLowerCase().includes(searchQuery.toLowerCase()));
-        setFilteredTags(results);
-      }
-    }, 1000);
+      setDebouncedSearchQuery(searchQuery);
+    }, 500);
 
     return () => clearTimeout(handler);
-  }, [searchQuery, tagsData]);
+  }, [searchQuery]);
+
+  const handleFilterChange = (filterId: string) => {
+    setActiveFilter(filterId);
+  };
+
+  const { data: tagsData, isLoading } = useTags({ name: debouncedSearchQuery, sort: activeFilter });
 
   if (isLoading) {
     return <Loader />;
@@ -58,18 +49,16 @@ export const TagsPage = () => {
           </Button>
         </div>
         <FiltersBar
-          options={filterOptions}
+          options={FILTER_OPTIONS}
           activeFilter={activeFilter}
           onFilterChange={handleFilterChange}
           className="py-1"
         />
       </div>
-      {filteredTags.length > 0 ? (
-        <TagsTableGrid tags={filteredTags} />
-      ) : tagsData?.items?.length > 0 ? (
-        <p className="text-center text-gray-500 p-4">Ничего не найдено по запросу "{searchQuery}"</p>
+      {tagsData?.items?.length > 0 ? (
+        <TagsTableGrid tags={tagsData.items} />
       ) : (
-        <div className="text-center text-gray-500 p-4">Тегов пока нет</div>
+        <div className="text-center text-gray-500 p-4">Нет данных о тегах</div>
       )}
     </div>
   );

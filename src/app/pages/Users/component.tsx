@@ -8,14 +8,9 @@ export const UsersPage = () => {
   const [debouncedSearch, setDebouncedSearch] = useState('');
 
   useEffect(() => {
-    if (!searchQuery) {
-      setDebouncedSearch('');
-      return;
-    }
-
     const handler = setTimeout(() => {
       setDebouncedSearch(searchQuery);
-    }, 1000);
+    }, 500);
 
     return () => clearTimeout(handler);
   }, [searchQuery]);

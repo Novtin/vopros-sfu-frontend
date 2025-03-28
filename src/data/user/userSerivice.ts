@@ -9,25 +9,26 @@ export const fetchUsers = async ({
   page = 1,
   pageSize = 100,
   id,
-  filter = 'rating',
+  sort = 'rating',
   query,
   withDeleted = false,
 }: {
   page?: number;
   pageSize?: number;
   id?: number;
-  filter?: 'rating';
+  sort?: 'rating';
   query?: string;
   withDeleted?: boolean;
 }): Promise<UsersResponse> => {
-  const params = new URLSearchParams({
+  const params: Record<string, string> = {
     page: String(page),
     pageSize: String(pageSize),
-    ...(id && { id: String(id) }),
-    ...(filter && { filter }),
-    ...(query && { rating: query }),
-    ...(withDeleted && { withDeleted: 'true' }),
-  });
+    sort,
+  };
+
+  if (id !== undefined) params.id = String(id);
+  if (query) params.query = query; // исправлено
+  if (withDeleted) params.withDeleted = 'true';
 
   const response = await apiClient.get<UsersResponse>('/user', { params });
   return response.data;

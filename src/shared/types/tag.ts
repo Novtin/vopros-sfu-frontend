@@ -13,4 +13,5 @@ export interface GetTagsParams {
   pageSize?: number;
   id?: number;
   name?: string;
+  sort?: string;
 }
