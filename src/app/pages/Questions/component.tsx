@@ -7,10 +7,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toggleFormVisibility } from '@/store/questionSlice';
 import { useQuestionCount } from '@/app/hooks/question/useGetCountQuestions';
 import { useAuth } from '@/app/hooks/authentication/useAuth';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useGetQuestions } from '@/app/hooks/question/useGetQuestions';
 import { QuestionsTable } from './QuestionTable/component';
-import { FILTER_OPTIONS, getFilterQueryValue, PAGE_SIZE } from './constants';
+import { SORT_OPTIONS, getFilterQueryValue, PAGE_SIZE } from './constants';
 import { Loader } from '@/shared/components/Loader';
 import { FilterModal } from '@/shared/modules/FilterModal';
 
@@ -20,8 +20,21 @@ export const QuestionPage = () => {
   const navigate = useNavigate();
   const isFormVisible = useSelector((state: RootState) => state.questions.isFormVisible);
 
-  const [activeFilter, setActiveFilter] = useState<string>('new');
-  const [filterQuery, setFilterQuery] = useState<string>('createdAt');
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const tagIdsQuery = searchParams.get('tagIds');
+  const tagIds = tagIdsQuery ? [Number(tagIdsQuery)] : [];
+
+  const [filters, setFilters] = useState({
+    isWithoutAnswer: false,
+    isWithoutView: false,
+    isWithoutRating: false,
+    isResolved: false,
+    tagIds: tagIds,
+  });
+
+  const [activeSort, setActiveSort] = useState<string>('new');
+  const [sortQuery, setSortQuery] = useState<string>('createdAt');
 
   const { data: countQuestions } = useQuestionCount();
   const {
@@ -31,17 +44,26 @@ export const QuestionPage = () => {
     hasNextPage,
   } = useGetQuestions({
     pageSize: PAGE_SIZE,
-    filter: filterQuery,
+    sort: sortQuery,
+    isResolved: filters.isResolved,
+    isWithoutAnswer: filters.isWithoutAnswer,
+    isWithoutView: filters.isWithoutView,
+    isWithoutRating: filters.isWithoutRating,
+    tagIds: filters.tagIds,
   });
+
+  const handleApplyFilters = (newFilters: typeof filters) => {
+    setFilters(newFilters);
+  };
 
   const questions = questionsData?.pages.flatMap(page => page.items) || [];
 
   useEffect(() => {
-    setFilterQuery(getFilterQueryValue(activeFilter));
-  }, [activeFilter]);
+    setSortQuery(getFilterQueryValue(activeSort));
+  }, [activeSort]);
 
   const handleFilterChange = (filterId: string) => {
-    setActiveFilter(filterId);
+    setActiveSort(filterId);
   };
 
   const handleToggleFormVisibility = () => {
@@ -76,8 +98,8 @@ export const QuestionPage = () => {
           <div className="flex flex-row justify-between items-center">
             <p className="text-base-grey-09 text-base font-opensans">{countQuestions ?? 0} вопросов</p>
             <div className="flex flex-row flex-wrap items-center gap-5">
-              <FiltersBar options={FILTER_OPTIONS} activeFilter={activeFilter} onFilterChange={handleFilterChange} />
-              <FilterModal />
+              <FiltersBar options={SORT_OPTIONS} activeFilter={activeSort} onFilterChange={handleFilterChange} />
+              <FilterModal currentFilters={filters} onApplyFilters={handleApplyFilters} />
             </div>
           </div>
           <div>

@@ -1,0 +1,1 @@
+export { QuestionActions } from './component';

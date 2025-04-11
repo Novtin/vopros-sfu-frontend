@@ -8,7 +8,7 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [loginId, setLoginId] = useState<number | null>(null);
+  const [loginId, setLoginId] = useState<string | null>(null);
 
   const refreshAccessToken = async (refreshToken: string) => {
     try {
@@ -16,14 +16,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       if (!storedLoginId) {
         throw new Error('loginId отсутствует');
       }
-      const currentLoginId = typeof storedLoginId === 'string' ? parseInt(storedLoginId) : storedLoginId;
 
       const response = await fetch(`${BASE_API_URL}/auth/refresh`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ loginId: currentLoginId, refreshToken }),
+        body: JSON.stringify({ loginId: storedLoginId, refreshToken }),
       });
 
       if (response.ok) {
@@ -47,7 +46,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setIsAuth(true);
       const storedLoginId = localStorage.getItem('loginId');
       if (storedLoginId) {
-        setLoginId(parseInt(storedLoginId));
+        setLoginId(storedLoginId);
       }
       setIsLoading(false);
     } else {

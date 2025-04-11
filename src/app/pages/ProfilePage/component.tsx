@@ -20,8 +20,9 @@ export const ProfilePage = () => {
   const { data, isLoading: isLoadingData, error } = useFetchUserData(profileId);
   const { fileUrl, isLoading } = useFileUrl(data?.avatar?.id);
 
-  const currentUserId = Number(localStorage.getItem('userId'));
-  const isOwnProfile = !profileId || data?.id === currentUserId;
+  const { data: currentUser } = useFetchUserData();
+
+  const isOwnProfile = !profileId || data?.id === currentUser?.id;
 
   const [activeTab, setActiveTab] = useState<string>(PROFILE_TABS[0]);
   const [selectedLanguage, setSelectedLanguage] = useState(LANGUAGES[0]);
@@ -70,16 +71,22 @@ export const ProfilePage = () => {
           <div className="grid gap-4 flex-1">
             <BlockInfo
               title="О себе"
-              description={data?.description ?? 'У вас не заполнена секция «Обо мне».'}
-              highlightText={data?.description ? undefined : 'Редактировать профиль'}
+              description={
+                !data?.description && isOwnProfile
+                  ? 'У вас не заполнена секция «Обо мне»'
+                  : 'У пользователя не заполнена секция «Обо мне»'
+              }
+              highlightText={!data?.description && isOwnProfile ? 'Редактировать профиль' : undefined}
               className="h-[185px] text-base-grey-08"
               link={data?.description ? undefined : ROUTER_PATHS.EDIT_PROFILE}
               isLoading={isLoadingData}
             />
             <BlockInfo
               title="Достижения"
-              description="Вы ещё не получали"
-              highlightText="знаки"
+              description={
+                !data?.description && isOwnProfile ? 'Вы ещё не получали' : 'Пользователь ещё не получил знаки'
+              }
+              highlightText={!data?.description && isOwnProfile ? 'знаки' : undefined}
               className="h-[125px]"
               link={data?.description ? undefined : ROUTER_PATHS.EDIT_PROFILE}
               isLoading={isLoadingData}

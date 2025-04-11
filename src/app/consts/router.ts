@@ -1,15 +1,16 @@
 export const ROUTER_PATHS = {
+  ANSWER_QUESTION: '/questions/:id',
   ABOUT: '/about',
   CONFIRM_EMAIL: '/confirm-email',
   CONTACT: '/contact',
   EDIT_PROFILE: '/edit-profile',
+  ERROR_404: '/404',
+  FAVOURITES_QUESTIONS: '/favourites',
   HOME: '/',
   LOGIN: '/login',
   PROFILE: '/profile',
   QUESTIONS: '/questions',
   REGISTER: '/register',
-  SAVED: '/saved',
   TAGS: '/tags',
   USERS: '/users',
-  ERROR_404: '/404',
 } as const;

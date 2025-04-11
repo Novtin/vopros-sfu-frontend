@@ -3,6 +3,8 @@ import { QuestionRowProps, QuestionTableProps } from './component.props';
 import { getTimeAgo } from './constants';
 import { ClipLoader } from 'react-spinners';
 import { forwardRef, useCallback, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import { ROUTER_PATHS } from '@/app/consts';
 
 const QuestionsRow = forwardRef<HTMLDivElement, QuestionRowProps>(({ question }, ref) => {
   const { fileUrl, isLoading } = useFileUrl(question?.author?.avatar?.id, true);
@@ -19,9 +21,11 @@ const QuestionsRow = forwardRef<HTMLDivElement, QuestionRowProps>(({ question },
         <div className="text-base-grey-09">{question.answers.length} ответ</div>
         <div className="text-sm font-medium text-black/50 dark:text-white/50">{question.views} просмотров</div>
       </div>
-      <div className="grid grid-rows-1 overflow-hidden" style={{ gridTemplateRows: 'auto 1fr' }}>
-        <div className="text-base-blue-01 font-bold text-xl">{question.title}</div>
-        <div className="relative w-full overflow-hidden">
+      <div className="grid grid-rows-1 overflow-hidden gap-2" style={{ gridTemplateRows: 'auto 1fr' }}>
+        <Link to={ROUTER_PATHS.ANSWER_QUESTION.replace(':id', String(question.id))}>
+          <div className="text-base-blue-01 font-bold text-xl">{question.title}</div>
+        </Link>
+        <div className="relative w-full overflow-hidden align-middle">
           <div
             className="flex gap-3 overflow-x-auto"
             style={{
@@ -34,7 +38,7 @@ const QuestionsRow = forwardRef<HTMLDivElement, QuestionRowProps>(({ question },
             {question.tags.map(tag => (
               <div
                 key={tag.id}
-                className="w-fit h-fit py-0.5 px-5 rounded-full bg-base-grey-06 text-base-grey-09 font-bold"
+                className="w-fit text-sm inline-block h-fit py-1 px-3 rounded-full bg-base-grey-04 text-base-grey-08"
               >
                 {tag.name}
               </div>
@@ -68,6 +72,7 @@ const QuestionsRow = forwardRef<HTMLDivElement, QuestionRowProps>(({ question },
 });
 
 export const QuestionsTable = ({ questions, fetchNextPage, hasNextPage }: QuestionTableProps) => {
+  console.log(questions);
   const observer = useRef<IntersectionObserver | null>(null);
   const lastQuestionRef = useCallback(
     node => {

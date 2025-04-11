@@ -65,7 +65,7 @@ export const Navbar = () => {
           icon="❓"
           text="Вопросы"
           isCollapsed={isCollapsed}
-          isActive={location.pathname === ROUTER_PATHS.QUESTIONS}
+          isActive={location.pathname.startsWith(ROUTER_PATHS.QUESTIONS)}
           onClick={() => handleNavigation(ROUTER_PATHS.QUESTIONS)}
           className="mt-4"
         />
@@ -80,22 +80,19 @@ export const Navbar = () => {
           icon="👤"
           text="Пользователи"
           isCollapsed={isCollapsed}
-          isActive={location.pathname === ROUTER_PATHS.USERS}
+          isActive={location.pathname === ROUTER_PATHS.USERS || /^\/profile\/\d+$/.test(location.pathname)}
           onClick={() => handleNavigation(ROUTER_PATHS.USERS)}
         />
         {isAuth && (
           <NavItem
             icon="📑"
-            text="Сохраненные"
+            text="Избранные"
             isCollapsed={isCollapsed}
-            isActive={location.pathname === ROUTER_PATHS.SAVED}
-            onClick={() => handleNavigation(ROUTER_PATHS.SAVED)}
+            isActive={location.pathname === ROUTER_PATHS.FAVOURITES_QUESTIONS}
+            onClick={() => handleNavigation(ROUTER_PATHS.FAVOURITES_QUESTIONS)}
           />
         )}
       </nav>
-      {/* <button className="p-2 m-2 text-gray-600 hover:bg-gray-200 rounded" onClick={() => setIsCollapsed(!isCollapsed)}>
-        {isCollapsed ? '>' : '<'}
-      </button> */}
     </div>
   );
 };

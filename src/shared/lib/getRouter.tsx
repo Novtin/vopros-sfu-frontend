@@ -12,6 +12,8 @@ import { ProfilePage } from '@/app/pages/ProfilePage/component';
 import { PageLayout } from '@/app/pages/PageLayout';
 import { EditProfile } from '@/app/pages/EditProfile';
 import { UsersPage } from '@/app/pages/Users';
+import { AnswerQuestion } from '@/app/pages/AnswerQuestion';
+import { FavoritesPage } from '@/app/pages/FavoritesPage';
 
 export const getRouter = (isAuth: boolean) => {
   const routes: RouteObject[] = [
@@ -55,12 +57,24 @@ export const getRouter = (isAuth: boolean) => {
           element: <QuestionPage />,
         },
         {
+          path: ROUTER_PATHS.ANSWER_QUESTION,
+          element: <AnswerQuestion />,
+        },
+        {
           path: ROUTER_PATHS.TAGS,
           element: <TagsPage />,
         },
         {
           path: ROUTER_PATHS.USERS,
           element: <UsersPage />,
+        },
+        {
+          path: ROUTER_PATHS.FAVOURITES_QUESTIONS,
+          element: (
+            <PrivateRoute isAuth={isAuth}>
+              <FavoritesPage />
+            </PrivateRoute>
+          ),
         },
       ],
     },

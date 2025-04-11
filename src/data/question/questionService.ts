@@ -1,4 +1,4 @@
-import { QuestionsResponse } from '@/shared/types/question';
+import { Question, QuestionsParams, QuestionsResponse } from '@/shared/types/question';
 import { apiClient, getAuthHeaders } from '../apiClient';
 
 export const getQuestionCount = async (): Promise<number> => {
@@ -12,7 +12,20 @@ export const addNewQuestion = async (title: string, description: string, tagName
   return response.status;
 };
 
-export const getQuestions = async (params?: Record<string, string | number | boolean>): Promise<QuestionsResponse> => {
+export const getQuestions = async (params?: QuestionsParams): Promise<QuestionsResponse> => {
   const response = await apiClient.get<QuestionsResponse>('/question', { params });
   return response.data;
+};
+
+export const getQuestionById = async (id: string | number): Promise<Question> => {
+  const response = await apiClient.get<Question>(`/question/${id}`, { headers: getAuthHeaders() });
+  return response.data;
+};
+
+export const addFavoriteQuestion = async (id: number): Promise<void> => {
+  await apiClient.post(`/question/${id}/favorite`, {}, { headers: getAuthHeaders() });
+};
+
+export const removeFromFavorites = async (id: number): Promise<void> => {
+  await apiClient.delete(`/question/${id}/favorite`, { headers: getAuthHeaders() });
 };

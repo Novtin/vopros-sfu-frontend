@@ -29,6 +29,7 @@ export const TagsPage = () => {
   };
 
   const { data: tagsData, isLoading } = useTags({ name: debouncedSearchQuery, sort: activeFilter });
+  console.log(tagsData);
 
   if (isLoading) {
     return <Loader />;

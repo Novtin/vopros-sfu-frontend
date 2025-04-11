@@ -20,6 +20,7 @@ export type UserData = {
   avatar: Avatar;
   countQuestions: number;
   countAnswers: number;
+  favoriteQuestionIds: number[];
   rating: number;
 };
 

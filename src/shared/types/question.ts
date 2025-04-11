@@ -1,4 +1,19 @@
 import { Tag } from './tag';
+import { Avatar } from './user';
+
+export interface QuestionsParams {
+  page?: number;
+  pageSize?: number;
+  sort?: string;
+  title?: string;
+  description?: string;
+  isWithoutAnswer?: boolean;
+  isWithoutView?: boolean;
+  isWithoutRating?: boolean;
+  isResolved?: boolean;
+  tagIds?: number[];
+  favoriteUserId?: number;
+}
 
 export interface QuestionsRequest {
   items: Question[];
@@ -54,5 +69,10 @@ export interface Author {
   email: string;
   nickname: string;
   description: string;
-  avatar: Image;
+  isOnline: boolean;
+  wasOnlineAt: string;
+  avatar: Avatar;
+  countQuestions: number;
+  countAnswers: number;
+  rating: number;
 }
