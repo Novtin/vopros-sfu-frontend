@@ -3,4 +3,6 @@ export interface QuestionActionsProps {
   countLikes: number;
   countDislikes: number;
   isFavoriteInitial: boolean;
+  isLiked: boolean;
+  isDisliked: boolean;
 }

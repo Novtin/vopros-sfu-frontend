@@ -8,8 +8,11 @@ import { useFetchUserData } from '@/app/hooks/user/useFetchUserData';
 
 export const AnswerQuestion = () => {
   const { id } = useParams<{ id: string }>();
-  const { data: dataQuestion, isLoading, isError, error } = useGetQuestionById(id || '');
+  const { data: dataQuestion, isLoading } = useGetQuestionById(id || '');
   const { data: currentUser, isLoading: isLoadingUser } = useFetchUserData();
+
+  const isLiked = dataQuestion?.likeUserIds.includes(Number(currentUser?.id));
+  const isDisliked = dataQuestion?.dislikeUserIds.includes(Number(currentUser?.id));
 
   if (isLoading || isLoadingUser) {
     return <Loader />;
@@ -22,6 +25,8 @@ export const AnswerQuestion = () => {
         countLikes={dataQuestion.countLikes}
         countDislikes={dataQuestion.countDislikes}
         isFavoriteInitial={currentUser?.favoriteQuestionIds.includes(parseInt(id))}
+        isLiked={isLiked}
+        isDisliked={isDisliked}
       />
       <div className="flex flex-col flex-grow">
         <div className="flex flex-row items-start mb-4 justify-between">

@@ -6,7 +6,7 @@ import { useFetchUserData } from '@/app/hooks/user/useFetchUserData';
 import { Loader } from '@/shared/components/Loader';
 
 export const FavoritesPage = () => {
-  const { data } = useFetchUserData();
+  const { data, isLoading } = useFetchUserData();
   const {
     data: questionsData,
     isLoading: isLoadingQuestions,
@@ -19,6 +19,10 @@ export const FavoritesPage = () => {
   });
 
   const questions = questionsData?.pages.flatMap(page => page.items) || [];
+
+  if (isLoading && isLoadingQuestions) {
+    return <Loader />;
+  }
   return (
     <div className="flex flex-col flex-grow gap-3 my-4 mx-6 pr-1">
       <div className="flex flex-col gap-10 align-middle justify-between">

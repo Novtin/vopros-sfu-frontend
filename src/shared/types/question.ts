@@ -38,11 +38,11 @@ export interface Question {
   countAnswers: number;
   isResolved: boolean;
   views: number;
-  likeUserIds: string[];
+  likeUserIds: number[];
   countLikes: number;
   countDislikes: number;
   rating: number;
-  dislikeUserIds: string[];
+  dislikeUserIds: number[];
 }
 
 export interface Answer {

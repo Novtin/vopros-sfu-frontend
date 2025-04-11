@@ -29,3 +29,16 @@ export const addFavoriteQuestion = async (id: number): Promise<void> => {
 export const removeFromFavorites = async (id: number): Promise<void> => {
   await apiClient.delete(`/question/${id}/favorite`, { headers: getAuthHeaders() });
 };
+
+export const rateQuestion = async ({ id, value }: { id: number; value: 1 | -1 }) => {
+  const response = await apiClient.post(`/question/${id}/rate`, { value }, { headers: getAuthHeaders() });
+  return response.data;
+};
+
+export const deleteRateQuestion = async ({ id, value }: { id: number; value: 1 | -1 }) => {
+  const response = await apiClient.delete(`/question/${id}/rate`, {
+    headers: getAuthHeaders(),
+    data: { value },
+  });
+  return response.data;
+};

@@ -72,7 +72,6 @@ const QuestionsRow = forwardRef<HTMLDivElement, QuestionRowProps>(({ question },
 });
 
 export const QuestionsTable = ({ questions, fetchNextPage, hasNextPage }: QuestionTableProps) => {
-  console.log(questions);
   const observer = useRef<IntersectionObserver | null>(null);
   const lastQuestionRef = useCallback(
     node => {
