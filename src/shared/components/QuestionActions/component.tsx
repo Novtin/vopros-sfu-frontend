@@ -34,7 +34,12 @@ export const QuestionActions = ({
   const deleteRateQuestion = useDeleteRateQuestion();
 
   const dispatch = useDispatch();
-  const currentRating = useSelector((state: any) => state.ratings[questionId]?.currentRating);
+  const currentRating = useSelector((state: any) => state.ratings[questionId]?.currentRating || 'none');
+
+  useEffect(() => {
+    setLocalLikes(countLikes);
+    setLocalDislikes(countDislikes);
+  }, [countLikes, countDislikes]);
 
   useEffect(() => {
     if (isLiked) {
@@ -50,17 +55,15 @@ export const QuestionActions = ({
     if (currentRating === 'up') {
       dispatch(resetRating(questionId));
       deleteRateQuestion.mutate({ id: questionId, value: 1 });
-      setLocalLikes(localLikes - 1);
+      setLocalLikes(prev => prev - 1);
     } else if (currentRating === 'down') {
-      dispatch(setRating({ questionId, rating: 'up' }));
+      dispatch(setRating({ questionId, rating: 'none' }));
       deleteRateQuestion.mutate({ id: questionId, value: -1 });
-      rateQuestion.mutate({ id: questionId, value: 1 });
-      setLocalLikes(localLikes + 1);
-      setLocalDislikes(localDislikes - 1);
+      setLocalDislikes(prev => prev - 1);
     } else {
       dispatch(setRating({ questionId, rating: 'up' }));
       rateQuestion.mutate({ id: questionId, value: 1 });
-      setLocalLikes(localLikes + 1);
+      setLocalLikes(prev => prev + 1);
     }
   };
 
@@ -68,17 +71,15 @@ export const QuestionActions = ({
     if (currentRating === 'down') {
       dispatch(resetRating(questionId));
       deleteRateQuestion.mutate({ id: questionId, value: -1 });
-      setLocalDislikes(localDislikes - 1);
+      setLocalDislikes(prev => prev - 1);
     } else if (currentRating === 'up') {
-      dispatch(setRating({ questionId, rating: 'down' }));
+      dispatch(setRating({ questionId, rating: 'none' }));
       deleteRateQuestion.mutate({ id: questionId, value: 1 });
-      rateQuestion.mutate({ id: questionId, value: -1 });
-      setLocalLikes(localLikes - 1);
-      setLocalDislikes(localDislikes + 1);
+      setLocalLikes(prev => prev - 1);
     } else {
       dispatch(setRating({ questionId, rating: 'down' }));
       rateQuestion.mutate({ id: questionId, value: -1 });
-      setLocalDislikes(localDislikes + 1);
+      setLocalDislikes(prev => prev + 1);
     }
   };
 
