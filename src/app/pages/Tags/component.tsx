@@ -28,8 +28,14 @@ export const TagsPage = () => {
     setActiveFilter(filterId);
   };
 
-  const { data: tagsData, isLoading } = useTags({ name: debouncedSearchQuery, sort: activeFilter });
-  console.log(tagsData);
+  const {
+    data: tagsData,
+    isLoading,
+    fetchNextPage,
+    hasNextPage,
+  } = useTags({ name: debouncedSearchQuery, sort: activeFilter });
+
+  const tags = tagsData?.pages.flatMap(page => page.items) || [];
 
   if (isLoading) {
     return <Loader />;
@@ -56,8 +62,8 @@ export const TagsPage = () => {
           className="py-1"
         />
       </div>
-      {tagsData?.items?.length > 0 ? (
-        <TagsTableGrid tags={tagsData.items} />
+      {tags?.length > 0 ? (
+        <TagsTableGrid tags={tags} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} />
       ) : (
         <div className="text-center text-gray-500 p-4">Нет данных о тегах</div>
       )}

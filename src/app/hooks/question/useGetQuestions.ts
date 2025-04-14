@@ -15,5 +15,7 @@ export const useGetQuestions = (params?: QuestionsParams) => {
     },
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => (lastPage.items.length > 0 ? allPages.length + 1 : undefined),
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
   });
 };

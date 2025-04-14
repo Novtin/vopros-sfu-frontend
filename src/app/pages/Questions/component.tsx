@@ -5,7 +5,6 @@ import { AddQuestionForm } from '@/shared/modules/AddQuestionForm';
 import { RootState } from '@/store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleFormVisibility } from '@/store/questionSlice';
-import { useQuestionCount } from '@/app/hooks/question/useGetCountQuestions';
 import { useAuth } from '@/app/hooks/authentication/useAuth';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useGetQuestions } from '@/app/hooks/question/useGetQuestions';
@@ -36,7 +35,6 @@ export const QuestionPage = () => {
   const [activeSort, setActiveSort] = useState<string>('new');
   const [sortQuery, setSortQuery] = useState<string>('createdAt');
 
-  const { data: countQuestions } = useQuestionCount();
   const {
     data: questionsData,
     isLoading: isLoadingQuestions,
@@ -96,7 +94,7 @@ export const QuestionPage = () => {
             />
           </div>
           <div className="flex flex-row justify-between items-center">
-            <p className="text-base-grey-09 text-base font-opensans">{countQuestions ?? 0} вопросов</p>
+            <p className="text-base-grey-09 text-base font-opensans">{questions?.length ?? 0} вопросов</p>
             <div className="flex flex-row flex-wrap items-center gap-5">
               <FiltersBar options={SORT_OPTIONS} activeFilter={activeSort} onFilterChange={handleFilterChange} />
               <FilterModal currentFilters={filters} onApplyFilters={handleApplyFilters} />
