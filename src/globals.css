@@ -32,3 +32,30 @@
     @apply transition-colors duration-500 ease-in-out;
   }
 }
+
+/* Применяются для любых отрендеренных данных из Quill */
+.quill-content .ql-editor {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  color: var(text-base-grey-09);
+}
+
+/* Для цитат */
+.quill-content .ql-editor blockquote {
+  color: var(--base-grey-08);
+  background-color: var(--base-grey-02);
+  border-left: 4px solid var(--base-orange-03);
+  margin: 1.5em 0;
+  padding-left: 1em;
+}
+
+/* Для блоков кода */
+.quill-content .ql-editor pre {
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  background-color: var(--base-grey-02);
+  color: var(--base-grey-08);
+  padding: 8px;
+  border-radius: 4px;
+  overflow-x: auto;
+}

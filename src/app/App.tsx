@@ -3,6 +3,7 @@ import { AuthProvider } from './providers/auth';
 import { Provider } from 'react-redux';
 import { store } from '@/store/store';
 import '../globals.css';
+import 'react-quill/dist/quill.snow.css';
 import { ReactNotifications } from 'react-notifications-component';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 

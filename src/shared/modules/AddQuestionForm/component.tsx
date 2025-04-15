@@ -1,19 +1,20 @@
 import { Button } from '@/shared/components/Button';
 import { Input } from '@/shared/components/Input';
-import { Textarea } from '@/shared/components/Textarea';
 import { hideForm } from '@/store/questionSlice';
 import notify from '@/utils/notify';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { FormValues } from './component.props';
 import { useDispatch } from 'react-redux';
 import { useAddNewQuestion } from '@/app/hooks/question/useAddQuestion';
 import { useQueryClient } from '@tanstack/react-query';
 import { ArrowRight02Icon } from 'hugeicons-react';
+import { QuillEditor } from '../QuillEditor';
 
 export const AddQuestionForm = () => {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<FormValues>();
   const dispatch = useDispatch();
@@ -67,12 +68,13 @@ export const AddQuestionForm = () => {
             />
           </div>
           <div>
-            <Textarea
-              label="Основная часть"
-              placeholder="Добавьте всю информацию, которая может понадобиться для ответа на ваш вопрос."
-              {...register('content', { required: 'Основная часть обязательна' })}
-              className="min-h-[100px]"
-              error={errors.content?.message}
+            <Controller
+              name="content"
+              control={control}
+              rules={{ required: 'Основная часть обязательна' }}
+              render={({ field: { value, onChange }, fieldState: { error } }) => (
+                <QuillEditor value={value || ''} onChange={onChange} error={error?.message} />
+              )}
             />
           </div>
           <div>

@@ -12,6 +12,7 @@ import { QuestionsTable } from './QuestionTable/component';
 import { SORT_OPTIONS, getFilterQueryValue, PAGE_SIZE } from './constants';
 import { Loader } from '@/shared/components/Loader';
 import { FilterModal } from '@/shared/modules/FilterModal';
+import { useQuestionCount } from '@/app/hooks/question/useGetCountQuestions';
 
 export const QuestionPage = () => {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ export const QuestionPage = () => {
   const searchParams = new URLSearchParams(location.search);
   const tagIdsQuery = searchParams.get('tagIds');
   const tagIds = tagIdsQuery ? [Number(tagIdsQuery)] : [];
+  const countQuestions = useQuestionCount();
 
   const [filters, setFilters] = useState({
     isWithoutAnswer: false,
@@ -49,6 +51,16 @@ export const QuestionPage = () => {
     isWithoutRating: filters.isWithoutRating,
     tagIds: filters.tagIds,
   });
+
+  const areFiltersApplied = () => {
+    return (
+      filters.isWithoutAnswer ||
+      filters.isWithoutView ||
+      filters.isWithoutRating ||
+      filters.isResolved ||
+      (filters.tagIds && filters.tagIds.length > 0)
+    );
+  };
 
   const handleApplyFilters = (newFilters: typeof filters) => {
     setFilters(newFilters);
@@ -94,7 +106,9 @@ export const QuestionPage = () => {
             />
           </div>
           <div className="flex flex-row justify-between items-center">
-            <p className="text-base-grey-09 text-base font-opensans">{questions?.length ?? 0} вопросов</p>
+            <p className="text-base-grey-09 text-base font-opensans">
+              {areFiltersApplied() ? questions?.length ?? 0 : countQuestions.data ?? 0} вопросов
+            </p>
             <div className="flex flex-row flex-wrap items-center gap-5">
               <FiltersBar options={SORT_OPTIONS} activeFilter={activeSort} onFilterChange={handleFilterChange} />
               <FilterModal currentFilters={filters} onApplyFilters={handleApplyFilters} />

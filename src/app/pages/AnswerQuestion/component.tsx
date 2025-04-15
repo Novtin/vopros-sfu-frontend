@@ -59,8 +59,9 @@ export const AnswerQuestion = () => {
           </div>
         </div>
         {/* Текст вопроса */}
-        <div className="text-base-grey-08 mb-4 leading-relaxed whitespace-pre-line">{dataQuestion.description}</div>
-
+        <div className="quill-content text-base-grey-08 mb-4">
+          <div className="ql-editor" dangerouslySetInnerHTML={{ __html: dataQuestion.description }} />
+        </div>
         {/* Теги */}
         <div className="flex flex-wrap gap-2">
           {dataQuestion.tags.map(tag => (
