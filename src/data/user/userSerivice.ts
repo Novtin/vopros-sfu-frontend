@@ -45,24 +45,6 @@ export const fetchExampleAvatars = async (): Promise<number[]> => {
   return response.data.fileIds;
 };
 
-export const fetchFile = async (id: number, isMiniature?: boolean) => {
-  const exampleAvatars = await fetchExampleAvatars();
-  const isExample = exampleAvatars.includes(id);
-
-  const params = {
-    ...(isExample && { isExample: true }),
-    ...(isMiniature !== undefined && { isMiniature }),
-  };
-
-  const response = await apiClient.get(`/file/${id}`, {
-    headers: getAuthHeaders(),
-    params,
-    responseType: 'blob',
-  });
-
-  return response.data;
-};
-
 export const updateUser = async (id: number, userData: { description: string; nickname: string }) => {
   const response = await apiClient.put(`/user/${id}`, { id, ...userData }, { headers: getAuthHeaders() });
   return response.data;

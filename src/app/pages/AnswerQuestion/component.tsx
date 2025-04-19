@@ -5,6 +5,9 @@ import { useParams } from 'react-router-dom';
 import { getTimeAgo } from '../Questions/QuestionTable/constants';
 import { QuestionActions } from '@/shared/components/QuestionActions';
 import { useFetchUserData } from '@/app/hooks/user/useFetchUserData';
+import { ClipLoader } from 'react-spinners';
+import { useFileUrl } from '@/app/hooks/user/useGetFile';
+import { ImageWithHook } from '@/shared/components/ImageWithHook';
 
 export const AnswerQuestion = () => {
   const { id } = useParams<{ id: string }>();
@@ -61,6 +64,12 @@ export const AnswerQuestion = () => {
         {/* Текст вопроса */}
         <div className="quill-content text-base-grey-08 mb-4">
           <div className="ql-editor" dangerouslySetInnerHTML={{ __html: dataQuestion.description }} />
+        </div>
+        {/* Отображение изображений */}
+        <div className="flex gap-3 my-4">
+          {dataQuestion?.images?.map(image => (
+            <ImageWithHook key={image.id} id={image.id} title={dataQuestion.title} />
+          ))}
         </div>
         {/* Теги */}
         <div className="flex flex-wrap gap-2">

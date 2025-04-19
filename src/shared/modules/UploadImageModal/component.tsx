@@ -1,32 +1,12 @@
 import { useState, DragEvent, ChangeEvent } from 'react';
 import { UploadImageModalProps } from './component.props';
 import { Button } from '@/shared/components/Button';
-import { useUploadAvatarImage } from '@/app/hooks/image/useUploadAvatarImage';
 import { ALLOWED_TYPES, IMAGE_ACCEPT_ERROR, IMAGE_ACCEPT_TYPES } from './constants';
 import notify from '@/utils/notify';
-import { useQueryClient } from '@tanstack/react-query';
 
-export const AvatarUploadModal = ({ isOpen, onClose, userId, multiple = false }: UploadImageModalProps) => {
+export const ImageUploadModal = ({ isOpen, onClose, userId, multiple = false, onUpload }: UploadImageModalProps) => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const queryClient = useQueryClient();
 
-  const { mutate: uploadAvatar } = useUploadAvatarImage({
-    onSuccess: () => {
-      notify('Успешно!', 'Новый аватар был успешно загружен!', 'success');
-      queryClient.invalidateQueries({ queryKey: ['userData'] });
-      queryClient.invalidateQueries({ queryKey: ['file'] });
-      onClose();
-    },
-    onError: error => {
-      const errorMessage = error.message.includes('Файл слишком большой')
-        ? 'Ошибка! Файл слишком большой. Максимальный размер — 1.5 МБ.'
-        : 'Ошибка! Произошла ошибка загрузки аватара!';
-
-      notify('Ошибка!', errorMessage, 'warning');
-    },
-  });
-
-  // Функция проверки типа файла
   const isValidImage = (file: File) => {
     return ALLOWED_TYPES.includes(file.type);
   };
@@ -50,6 +30,7 @@ export const AvatarUploadModal = ({ isOpen, onClose, userId, multiple = false }:
       setSelectedFiles(multiple ? [...selectedFiles, ...validFiles] : validFiles);
     }
   };
+
   // Обработчик "дропа" файла
   const handleDrop = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -60,7 +41,7 @@ export const AvatarUploadModal = ({ isOpen, onClose, userId, multiple = false }:
 
     files.forEach(file => {
       if (!isValidImage(file)) {
-        notify('Ошибка', 'Можно загружать только изображения (PNG, JPEG, TIFF)', 'danger');
+        notify('Ошибка', 'Можно загружать только изображения (PNG, JPEG, JPG)', 'danger');
       } else {
         validFiles.push(file);
       }
@@ -71,7 +52,6 @@ export const AvatarUploadModal = ({ isOpen, onClose, userId, multiple = false }:
     }
   };
 
-  // Удаление отдельного файла перед загрузкой
   const removeFile = (index: number) => {
     setSelectedFiles(selectedFiles.filter((_, i) => i !== index));
   };
@@ -79,11 +59,8 @@ export const AvatarUploadModal = ({ isOpen, onClose, userId, multiple = false }:
   // Отправка файлов на сервер
   const handleSubmit = () => {
     if (selectedFiles.length === 0) return;
-    if (!multiple) {
-      uploadAvatar({ userId, file: selectedFiles[0] });
-    } else {
-      console.log('Множественная загрузка пока не реализована');
-    }
+    onUpload(selectedFiles, userId);
+    onClose();
   };
 
   if (!isOpen) return null;
@@ -109,6 +86,7 @@ export const AvatarUploadModal = ({ isOpen, onClose, userId, multiple = false }:
               multiple={multiple}
             />
           </label>
+          <p className="text-xs text-gray-500 mt-1">Поддерживаемые типы: PNG, JPG, JPEG</p>
         </div>
         {/* Предпросмотр загруженных файлов */}
         {selectedFiles.length > 0 && (
@@ -126,7 +104,6 @@ export const AvatarUploadModal = ({ isOpen, onClose, userId, multiple = false }:
             ))}
           </div>
         )}
-        {/* Кнопки управления */}
         <div className="flex justify-end space-x-2">
           <Button className="text-sm px-5 py-1" variant="secondary" onClick={onClose}>
             Отмена

@@ -1,3 +1,4 @@
+import { useUploadAvatarImage } from '@/app/hooks/image/useUploadAvatarImage';
 import { useFetchUserData } from '@/app/hooks/user/useFetchUserData';
 import { useFileUrl } from '@/app/hooks/user/useGetFile';
 import { useUpdateUser } from '@/app/hooks/user/useUpdateUser';
@@ -5,7 +6,7 @@ import { Button } from '@/shared/components/Button';
 import { Input } from '@/shared/components/Input';
 import { Textarea } from '@/shared/components/Textarea';
 import { ResetPasswordForm } from '@/shared/modules/ResetPasswordForm';
-import { AvatarUploadModal } from '@/shared/modules/UploadImageModal';
+import { ImageUploadModal } from '@/shared/modules/UploadImageModal/component';
 import notify from '@/utils/notify';
 import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
@@ -37,6 +38,21 @@ export const EditProfile = () => {
     },
   });
 
+  const { mutate: uploadAvatar } = useUploadAvatarImage({
+    onSuccess: () => {
+      notify('Успешно!', 'Новый аватар был успешно загружен!', 'success');
+      queryClient.invalidateQueries({ queryKey: ['userData'] });
+      queryClient.invalidateQueries({ queryKey: ['file'] });
+    },
+    onError: error => {
+      const errorMessage = error.message.includes('Файл слишком большой')
+        ? 'Ошибка! Файл слишком большой. Максимальный размер — 1.5 МБ.'
+        : 'Ошибка! Произошла ошибка загрузки аватара!';
+
+      notify('Ошибка!', errorMessage, 'warning');
+    },
+  });
+
   const handleUpdateUser = () => {
     if (!data?.id) return;
     updateUser({
@@ -58,7 +74,15 @@ export const EditProfile = () => {
     <>
       {changePassword && <ResetPasswordForm className="text-center" onClose={() => setChangePassword(false)} />}
       <div className="grid gap-3 my-5 mx-8">
-        <AvatarUploadModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} userId={data?.id} />
+        <ImageUploadModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          userId={data?.id}
+          onUpload={(files, userId) => {
+            if (!files.length || !userId) return;
+            uploadAvatar({ userId, file: files[0] });
+          }}
+        />
         <div className="w-fit flex flex-col gap-2.5 items-center">
           <h2 className="text-base-blue-01 font-bold text-2xl">Изображение профиля</h2>
           {isLoading ? (

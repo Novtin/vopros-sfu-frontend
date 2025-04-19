@@ -6,10 +6,9 @@ export const getQuestionCount = async (): Promise<number> => {
   return response.data.count;
 };
 
-export const addNewQuestion = async (title: string, description: string, tagNames: string[]): Promise<number> => {
+export const addNewQuestion = async (title: string, description: string, tagNames: string[]): Promise<Question> => {
   const response = await apiClient.post('/question', { title, description, tagNames }, { headers: getAuthHeaders() });
-
-  return response.status;
+  return response.data;
 };
 
 export const getQuestions = async (params?: QuestionsParams): Promise<QuestionsResponse> => {

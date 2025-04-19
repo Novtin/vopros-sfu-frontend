@@ -9,6 +9,10 @@ import { useAddNewQuestion } from '@/app/hooks/question/useAddQuestion';
 import { useQueryClient } from '@tanstack/react-query';
 import { ArrowRight02Icon } from 'hugeicons-react';
 import { QuillEditor } from '../QuillEditor';
+import { useState } from 'react';
+import { ImageUploadModal } from '../UploadImageModal/component';
+import { FORMAT_FILE_SIZE, GET_FILE_EXTENSION, GET_ICON_BY_EXTENSION } from './constants';
+import { useUploadQuestionImages } from '@/app/hooks/image/useUploadQuestionImages';
 
 export const AddQuestionForm = () => {
   const {
@@ -20,27 +24,42 @@ export const AddQuestionForm = () => {
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
   const { mutateAsync: addNewQuestion } = useAddNewQuestion();
+  const { mutate: uploadImages } = useUploadQuestionImages();
+
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
 
   const onSubmit = async (data: FormValues) => {
     try {
       const tagNames = data.tags.split(',').map(tag => tag.trim());
-      const statusCode = await addNewQuestion({
+      const question = await addNewQuestion({
         title: data.title,
         description: data.content,
         tagNames,
       });
 
-      if (statusCode === 200 || statusCode == 201) {
-        notify('Вопрос создан!', 'Ваш вопрос успешно опубликован!', 'success');
-        queryClient.invalidateQueries({ queryKey: ['questions'] });
-        queryClient.invalidateQueries({ queryKey: ['questionCount'] });
-        dispatch(hideForm());
+      if (question?.id) {
+        if (uploadedFiles.length > 0) {
+          uploadImages({ id: question.id, imageFiles: uploadedFiles });
+          notify('Вопрос создан!', 'Ваш вопрос успешно опубликован!', 'success');
+          queryClient.invalidateQueries({ queryKey: ['questions'] });
+          queryClient.invalidateQueries({ queryKey: ['questionCount'] });
+          dispatch(hideForm());
+        }
       } else {
-        alert(`Произошла ошибка. Код состояния: ${statusCode}`);
+        alert(`Произошла ошибка: вопрос не создан`);
       }
     } catch (error) {
       console.error('Произошла ошибка:', error);
     }
+  };
+
+  const handleUploadImages = (files: File[]) => {
+    if (uploadedFiles.length + files.length > 5) {
+      notify('Ошибка', `Вы можете загрузить только 5 фотографий. Лишние файлы были удалены.`, 'warning');
+    }
+    const newFiles = [...uploadedFiles, ...files].slice(0, 5);
+    setUploadedFiles(newFiles);
   };
 
   return (
@@ -95,8 +114,46 @@ export const AddQuestionForm = () => {
             />
           </div>
         </form>
+        <div className="flex my-2 gap-3 flex-wrap">
+          {uploadedFiles.map((file, index) => {
+            const extension = GET_FILE_EXTENSION(file.name);
+            const icon = GET_ICON_BY_EXTENSION(extension);
+
+            const handleRemove = () => {
+              setUploadedFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
+            };
+
+            return (
+              <div
+                key={index}
+                className="relative flex items-center border p-2 rounded max-w-[200px] bg-base-grey-02 shadow"
+              >
+                <button
+                  type="button"
+                  onClick={handleRemove}
+                  className="absolute top-[-6px] right-[-6px] bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600"
+                  title="Удалить"
+                >
+                  ✕
+                </button>
+                <div className="flex items-center gap-2">
+                  <img src={icon} alt={extension} className="w-8 h-8" />
+                  <div className="flex flex-col">
+                    <span className="text-base-grey-09 text-sm block overflow-hidden whitespace-nowrap overflow-ellipsis max-w-[150px]">
+                      {file.name}
+                    </span>
+                    <span className="text-xs text-base-grey-06">{FORMAT_FILE_SIZE(file.size)}</span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <Button onClick={() => setIsImageModalOpen(true)} variant="primary" className="w-[250px] text-sm py-0.5">
+          Загрузить изображения
+        </Button>
       </div>
-      <div className="mt-3 text-center">
+      <div className="mt-3 text-center flex items-center justify-center gap-4">
         <Button
           type="submit"
           className="w-[250px] h-10 bg-base-blue-01"
@@ -107,6 +164,17 @@ export const AddQuestionForm = () => {
           Опубликовать вопрос
         </Button>
       </div>
+
+      <ImageUploadModal
+        isOpen={isImageModalOpen}
+        onClose={() => setIsImageModalOpen(false)}
+        multiple={true}
+        onUpload={files => {
+          const newFiles = [...uploadedFiles, ...files];
+          handleUploadImages(newFiles);
+          setIsImageModalOpen(false);
+        }}
+      />
     </div>
   );
 };
