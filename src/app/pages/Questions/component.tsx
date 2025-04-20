@@ -13,6 +13,8 @@ import { SORT_OPTIONS, getFilterQueryValue, PAGE_SIZE } from './constants';
 import { Loader } from '@/shared/components/Loader';
 import { FilterModal } from '@/shared/modules/FilterModal';
 import { useQuestionCount } from '@/app/hooks/question/useGetCountQuestions';
+import { useTagById } from '@/app/hooks/tags/useTagById';
+import { Tag } from '@/shared/types';
 
 export const QuestionPage = () => {
   const dispatch = useDispatch();
@@ -24,7 +26,16 @@ export const QuestionPage = () => {
   const searchParams = new URLSearchParams(location.search);
   const tagIdsQuery = searchParams.get('tagIds');
   const tagIds = tagIdsQuery ? [Number(tagIdsQuery)] : [];
+  const { data: tagData } = useTagById(tagIds?.[0]);
   const countQuestions = useQuestionCount();
+
+  const [initialSelectedTags, setInitialSelectedTags] = useState<Tag[]>([]);
+
+  useEffect(() => {
+    if (tagData) {
+      setInitialSelectedTags([tagData]);
+    }
+  }, [tagData]);
 
   const [filters, setFilters] = useState({
     isWithoutAnswer: false,
@@ -111,7 +122,11 @@ export const QuestionPage = () => {
             </p>
             <div className="flex flex-row flex-wrap items-center gap-5">
               <FiltersBar options={SORT_OPTIONS} activeFilter={activeSort} onFilterChange={handleFilterChange} />
-              <FilterModal currentFilters={filters} onApplyFilters={handleApplyFilters} />
+              <FilterModal
+                currentFilters={filters}
+                onApplyFilters={handleApplyFilters}
+                initialSelectedTags={initialSelectedTags}
+              />
             </div>
           </div>
           <div>

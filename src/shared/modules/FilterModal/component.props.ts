@@ -1,3 +1,5 @@
+import { Tag } from '@/shared/types';
+
 export interface FilterModalProps {
   currentFilters: {
     isWithoutAnswer: boolean;
@@ -7,4 +9,5 @@ export interface FilterModalProps {
     tagIds: number[];
   };
   onApplyFilters: (filters: FilterModalProps['currentFilters']) => void;
+  initialSelectedTags?: Tag[];
 }

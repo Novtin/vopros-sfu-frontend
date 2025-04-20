@@ -10,4 +10,5 @@ export interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
   success?: boolean;
   variant?: Variant;
+  optionalMargin?: boolean;
 }

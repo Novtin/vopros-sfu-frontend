@@ -1,6 +1,5 @@
 import { uploadQuestionImages } from '@/data/img';
 import { Question } from '@/shared/types/question';
-import notify from '@/utils/notify';
 import { useMutation, UseMutationOptions } from '@tanstack/react-query';
 
 export const useUploadQuestionImages = (

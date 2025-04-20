@@ -1,8 +1,6 @@
-export const SORT_OPTIONS = [
-  { label: 'Новые', value: 'new' },
-  { label: 'Обновлённые', value: 'updated' },
-  { label: 'Наивысший рейтинг', value: 'top-rated' },
-  { label: 'Наиболее частые', value: 'frequent' },
-  { label: 'Популярные', value: 'popular' },
-  { label: 'Наибольшая активность', value: 'most-active' },
-];
+export const CHECKBOX_FILTERS = [
+  { key: 'isWithoutAnswer', label: 'Без ответов' },
+  { key: 'isWithoutView', label: 'Без просмотров' },
+  { key: 'isWithoutRating', label: 'Без голосов' },
+  { key: 'isResolved', label: 'Без решения' },
+] as const;

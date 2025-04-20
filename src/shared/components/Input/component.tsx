@@ -10,7 +10,18 @@ const variants: Record<Variant, string> = {
 
 export const Input = forwardRef<HTMLInputElement, IInputProps>(
   (
-    { label, type = 'text', placeholder, toggleVisibility, error, success, className, variant = 'login', ...props },
+    {
+      label,
+      type = 'text',
+      placeholder,
+      toggleVisibility,
+      error,
+      success,
+      className,
+      variant = 'login',
+      optionalMargin = false,
+      ...props
+    },
     ref,
   ) => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -20,8 +31,8 @@ export const Input = forwardRef<HTMLInputElement, IInputProps>(
     };
 
     return (
-      <div className="mb-4">
-        <label className={variants[variant]}>{label}</label>
+      <div className={`${!optionalMargin ? 'mb-4' : 'mb-0'}`}>
+        {label && <label className={variants[variant]}>{label}</label>}
         <div className="relative">
           <input
             ref={ref}
@@ -53,5 +64,3 @@ export const Input = forwardRef<HTMLInputElement, IInputProps>(
     );
   },
 );
-
-Input.displayName = 'Input';
