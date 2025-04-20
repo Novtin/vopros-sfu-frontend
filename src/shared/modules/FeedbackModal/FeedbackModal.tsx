@@ -48,7 +48,7 @@ export const FeedbackModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: (
               onChange={e => setDescription(e.target.value)}
             />
           </div>
-          <div>
+          <div className="text-center">
             <Button className="text-sm py-0.5 px-4" onClick={() => setIsImageModalOpen(true)}>
               Загрузить изображения
             </Button>
