@@ -1,5 +1,5 @@
 import { ResponseUserData } from '@/shared/types/user';
-import { apiClient, getAuthHeaders } from '../apiClient';
+import { apiClient } from '../apiClient';
 import { Question } from '@/shared/types/question';
 import { fetchExampleAvatars } from '../user';
 
@@ -10,7 +10,6 @@ export const uploadAvatarImage = async (userId: number, file: File): Promise<Res
   try {
     const response = await apiClient.post<ResponseUserData>(`/user/${userId}/image`, formData, {
       headers: {
-        ...getAuthHeaders(),
         'Content-Type': 'multipart/form-data',
       },
     });
@@ -37,7 +36,6 @@ export const fetchFile = async (id: number, isMiniature?: boolean) => {
   };
 
   const response = await apiClient.get(`/file/${id}`, {
-    headers: getAuthHeaders(),
     params,
     responseType: 'blob',
   });
@@ -52,7 +50,7 @@ export const uploadQuestionImages = async (id: number, imageFiles: File[]): Prom
   });
 
   const response = await apiClient.post(`/question/${id}/images`, formData, {
-    headers: { ...getAuthHeaders(), 'Content-Type': 'multipart/form-data' },
+    headers: { 'Content-Type': 'multipart/form-data' },
   });
 
   return response.data;

@@ -1,5 +1,5 @@
 import { Question, QuestionsParams, QuestionsResponse } from '@/shared/types/question';
-import { apiClient, getAuthHeaders } from '../apiClient';
+import { apiClient } from '../apiClient';
 
 export const getQuestionCount = async (): Promise<number> => {
   const response = await apiClient.get<{ count: number }>('/question/count');
@@ -7,7 +7,7 @@ export const getQuestionCount = async (): Promise<number> => {
 };
 
 export const addNewQuestion = async (title: string, description: string, tagNames: string[]): Promise<Question> => {
-  const response = await apiClient.post('/question', { title, description, tagNames }, { headers: getAuthHeaders() });
+  const response = await apiClient.post('/question', { title, description, tagNames });
   return response.data;
 };
 
@@ -17,26 +17,25 @@ export const getQuestions = async (params?: QuestionsParams): Promise<QuestionsR
 };
 
 export const getQuestionById = async (id: string | number): Promise<Question> => {
-  const response = await apiClient.get<Question>(`/question/${id}`, { headers: getAuthHeaders() });
+  const response = await apiClient.get<Question>(`/question/${id}`);
   return response.data;
 };
 
 export const addFavoriteQuestion = async (id: number): Promise<void> => {
-  await apiClient.post(`/question/${id}/favorite`, {}, { headers: getAuthHeaders() });
+  await apiClient.post(`/question/${id}/favorite`, {});
 };
 
 export const removeFromFavorites = async (id: number): Promise<void> => {
-  await apiClient.delete(`/question/${id}/favorite`, { headers: getAuthHeaders() });
+  await apiClient.delete(`/question/${id}/favorite`);
 };
 
 export const rateQuestion = async ({ id, value }: { id: number; value: 1 | -1 }) => {
-  const response = await apiClient.post(`/question/${id}/rate`, { value }, { headers: getAuthHeaders() });
+  const response = await apiClient.post(`/question/${id}/rate`, { value });
   return response.data;
 };
 
 export const deleteRateQuestion = async ({ id, value }: { id: number; value: 1 | -1 }) => {
   const response = await apiClient.delete(`/question/${id}/rate`, {
-    headers: getAuthHeaders(),
     data: { value },
   });
   return response.data;

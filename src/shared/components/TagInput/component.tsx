@@ -66,9 +66,13 @@ export const TagInput = ({ allTags, selectedTags, onChange }: TagInputProps) => 
         </div>
       </div>
       {inputValue && (
-        <ul className="absolute bg-white border mt-1 max-h-40 overflow-y-auto z-10 w-64 rounded shadow-sm">
+        <ul className="absolute bg-base-grey-01 border mt-1 max-h-40 overflow-y-auto z-10 w-64 rounded shadow-sm">
           {filteredSuggestions.map(tag => (
-            <li key={tag.id} className="px-2 py-1 hover:bg-gray-100 cursor-pointer" onMouseDown={() => addTag(tag)}>
+            <li
+              key={tag.id}
+              className="px-2 py-1 text-base-grey-09 hover:bg-gray-300 cursor-pointer"
+              onMouseDown={() => addTag(tag)}
+            >
               {tag.name}
             </li>
           ))}

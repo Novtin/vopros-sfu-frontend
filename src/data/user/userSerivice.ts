@@ -1,5 +1,5 @@
 import { UsersResponse } from '@/shared/types/user';
-import { apiClient, getAuthHeaders } from '../apiClient';
+import { apiClient } from '../apiClient';
 
 export interface ExampleAvatarsResponse {
   fileIds: number[];
@@ -36,7 +36,7 @@ export const fetchUsers = async ({
 
 export const fetchUserData = async (id?: number) => {
   const url = id ? `/user/${id}` : '/user/this';
-  const response = await apiClient.get(url, { headers: getAuthHeaders() });
+  const response = await apiClient.get(url);
   return response.data;
 };
 
@@ -46,6 +46,6 @@ export const fetchExampleAvatars = async (): Promise<number[]> => {
 };
 
 export const updateUser = async (id: number, userData: { description: string; nickname: string }) => {
-  const response = await apiClient.put(`/user/${id}`, { id, ...userData }, { headers: getAuthHeaders() });
+  const response = await apiClient.put(`/user/${id}`, { id, ...userData });
   return response.data;
 };

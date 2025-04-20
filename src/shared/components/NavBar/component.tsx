@@ -5,6 +5,7 @@ import { NavItemProps } from './component.props';
 import { cn } from '@/shared/lib/cn';
 import { AuthContext } from '@/app/hooks/authentication/useAuth';
 import { Menu01Icon } from 'hugeicons-react';
+import { FeedbackModal } from '@/shared/modules/FeedbackModal';
 
 export const Navbar = () => {
   const LogoSvg = '/images/logo.png';
@@ -15,6 +16,8 @@ export const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { isAuth } = useContext(AuthContext);
+
+  const [isFeedbackOpen, setFeedbackOpen] = useState(false);
 
   const handleNavigation = (path: string) => {
     navigate(path);
@@ -59,7 +62,7 @@ export const Navbar = () => {
           text="Обратная связь"
           isCollapsed={isCollapsed}
           isActive={location.pathname === ROUTER_PATHS.CONTACT}
-          onClick={() => handleNavigation(ROUTER_PATHS.CONTACT)}
+          onClick={() => setFeedbackOpen(true)}
         />
         <NavItem
           icon="❓"
@@ -93,6 +96,7 @@ export const Navbar = () => {
           />
         )}
       </nav>
+      <FeedbackModal isOpen={isFeedbackOpen} onClose={() => setFeedbackOpen(false)} />
     </div>
   );
 };

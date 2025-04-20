@@ -8,7 +8,10 @@ export const apiClient = axios.create({
   },
 });
 
-export const getAuthHeaders = (): Record<string, string> => {
+apiClient.interceptors.request.use(config => {
   const token = localStorage.getItem('accessToken');
-  return token ? { Authorization: `Bearer ${token}` } : {};
-};
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});

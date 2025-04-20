@@ -1,5 +1,5 @@
 import { GetTagsParams, Tag, TagsResponse } from '@/shared/types/tag';
-import { apiClient, getAuthHeaders } from '../apiClient';
+import { apiClient } from '../apiClient';
 
 export const getTags = async (params?: GetTagsParams): Promise<TagsResponse> => {
   const response = await apiClient.get<TagsResponse>('/tag', { params });
