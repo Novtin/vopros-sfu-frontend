@@ -30,9 +30,6 @@ export const FeedbackModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: (
           {currentUser && (
             <>
               <div>
-                <Input label="Имя" type="text" variant="primary" value={currentUser?.nickname || ''} disabled />
-              </div>
-              <div>
                 <Input label="Email" type="email" variant="primary" value={currentUser?.email || ''} disabled />
               </div>
             </>
