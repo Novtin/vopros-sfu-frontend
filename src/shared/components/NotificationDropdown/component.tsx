@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { Notification03Icon } from 'hugeicons-react';
 import { useNotifications } from '@/app/hooks/notification/useNotifications';
 import { useClickAway } from 'react-use';
+import { ClipLoader } from 'react-spinners';
 
 export const NotificationDropdown = ({ userId }: { userId: number }) => {
   const [open, setOpen] = useState(false);
@@ -17,11 +18,12 @@ export const NotificationDropdown = ({ userId }: { userId: number }) => {
       </button>
 
       {open && (
-        <div className="absolute left-0 mt-1 w-80 bg-white border border-gray-200 rounded-xl shadow-lg z-50">
-          <div className="p-4 border-b text-base font-semibold">Уведомления</div>
-
+        <div className="absolute left-0 mt-1 w-80 bg-base-grey-01 border border-gray-300 rounded-xl shadow-lg z-50">
+          <div className="p-4 border-b text-base font-semibold text-base-grey-09">Уведомления</div>
           {isLoading ? (
-            <div className="p-4 text-sm text-gray-500">Загрузка...</div>
+            <div className="flex items-center justify-center h-32">
+              <ClipLoader size={48} color="var(--base-orange-01)" />
+            </div>
           ) : data?.items.length ? (
             <ul className="max-h-60 overflow-y-auto">
               {data.items.map(notif => (

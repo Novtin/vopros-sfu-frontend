@@ -5,3 +5,22 @@ export const getNotifications = async (params: NotificationRequest): Promise<Not
   const response = await apiClient.get<NotificationResponse>('/notification', { params });
   return response.data;
 };
+
+export const sendFeedback = async (title: string, text: string, email: string, imageFiles: File[]): Promise<void> => {
+  const formData = new FormData();
+  formData.append('title', title);
+  formData.append('text', text);
+  formData.append('email', email);
+
+  imageFiles.forEach((file, index) => {
+    formData.append(`imageFiles[${index}]`, file);
+  });
+
+  const response = await apiClient.post('/notification/feedback', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+
+  return response.data;
+};

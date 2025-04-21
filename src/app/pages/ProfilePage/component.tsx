@@ -85,7 +85,9 @@ export const ProfilePage = () => {
             <BlockInfo
               title="О себе"
               description={
-                !data?.description && isOwnProfile
+                data?.description
+                  ? data.description
+                  : isOwnProfile
                   ? 'У вас не заполнена секция «Обо мне»'
                   : 'У пользователя не заполнена секция «Обо мне»'
               }

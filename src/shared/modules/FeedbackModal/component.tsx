@@ -4,6 +4,9 @@ import { useFetchUserData } from '@/app/hooks/user/useFetchUserData';
 import { ImageUploadModal } from '../UploadImageModal/component';
 import { Input } from '@/shared/components/Input';
 import { Textarea } from '@/shared/components/Textarea';
+import { useSendFeedback } from '@/app/hooks/notification/useSendFeedback';
+import notify from '@/utils/notify';
+import { ClipLoader } from 'react-spinners';
 
 export const FeedbackModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
   const { data: currentUser } = useFetchUserData();
@@ -16,8 +19,18 @@ export const FeedbackModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: (
     setFiles(uploaded.slice(0, 5));
   };
 
+  const { mutate, isPending } = useSendFeedback({
+    onSuccess: () => {
+      notify('Обратная связь отправлена!', 'Спасибо за ваше сообщение.', 'success');
+      onClose();
+    },
+    onError: () => {
+      notify('Ошибка', 'Не удалось отправить сообщение. Попробуйте позже.', 'danger');
+    },
+  });
+
   const handleSubmit = () => {
-    onClose();
+    mutate({ title: topic, text: description, email: currentUser?.email || '', imageFiles: files });
   };
 
   if (!isOpen) return null;
@@ -42,6 +55,7 @@ export const FeedbackModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: (
               label="Описание"
               placeholder="Введите описание"
               value={description}
+              className="text-sm"
               onChange={e => setDescription(e.target.value)}
             />
           </div>
@@ -58,8 +72,9 @@ export const FeedbackModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: (
           <Button className="text-base px-3 py-1" variant="secondary" onClick={onClose}>
             Отмена
           </Button>
-          <Button className="text-base px-3 py-1" onClick={handleSubmit}>
+          <Button className="text-base px-3 py-1 flex items-center justify-center" onClick={handleSubmit}>
             Отправить
+            {isPending && <ClipLoader className="ml-2" size={16} color="var(--base-grey-01)" />}
           </Button>
         </div>
         <ImageUploadModal

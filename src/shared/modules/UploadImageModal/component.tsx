@@ -95,7 +95,7 @@ export const ImageUploadModal = ({ isOpen, onClose, userId, multiple = false, on
               <div key={index} className="flex items-center justify-between border p-2 rounded">
                 <div className="flex items-center">
                   <img src={URL.createObjectURL(file)} alt="preview" className="w-10 h-10 object-cover rounded mr-2" />
-                  <span className="text-sm text-base-grey-09">{file.name}</span>
+                  <span className="text-sm text-base-grey-09 max-w-[350px] truncate">{file.name}</span>
                 </div>
                 <button className="text-red-500 hover:text-red-300" onClick={() => removeFile(index)}>
                   ✕

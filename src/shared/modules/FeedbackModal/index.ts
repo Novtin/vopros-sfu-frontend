@@ -1,1 +1,1 @@
-export { FeedbackModal } from './FeedbackModal';
+export { FeedbackModal } from './component';
