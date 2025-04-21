@@ -5,8 +5,6 @@ import { useParams } from 'react-router-dom';
 import { getTimeAgo } from '../Questions/QuestionTable/constants';
 import { QuestionActions } from '@/shared/components/QuestionActions';
 import { useFetchUserData } from '@/app/hooks/user/useFetchUserData';
-import { ClipLoader } from 'react-spinners';
-import { useFileUrl } from '@/app/hooks/user/useGetFile';
 import { ImageWithHook } from '@/shared/components/ImageWithHook';
 
 export const AnswerQuestion = () => {

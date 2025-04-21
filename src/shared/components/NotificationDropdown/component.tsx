@@ -7,6 +7,7 @@ export const NotificationDropdown = ({ userId }: { userId: number }) => {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
   const { data, isLoading } = useNotifications(userId, 1, 5);
+
   useClickAway(ref, () => setOpen(false));
 
   return (

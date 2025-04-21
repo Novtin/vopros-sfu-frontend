@@ -10,8 +10,9 @@ import { useState } from 'react';
 import { Select } from '@/shared/components/Select';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import { ROUTER_PATHS } from '@/app/consts';
-import { Clock01Icon, PencilEdit02Icon } from 'hugeicons-react';
+import { Clock01Icon, ComputerIcon, PencilEdit02Icon } from 'hugeicons-react';
 import { AxiosError } from 'axios';
+import { getTimeAgo } from '../Questions/QuestionTable/constants';
 
 export const ProfilePage = () => {
   const { id } = useParams<{ id: string }>();
@@ -20,7 +21,18 @@ export const ProfilePage = () => {
   const { data, isLoading: isLoadingData, error } = useFetchUserData(profileId);
   const { fileUrl, isLoading } = useFileUrl(data?.avatar?.id);
   const { data: currentUser } = useFetchUserData();
-  console.log(data);
+
+  const isOnline = currentUser?.isOnline;
+  const wasOnlineAt = currentUser?.wasOnlineAt;
+
+  const renderOnlineText = () => {
+    if (!currentUser) return '';
+    if (isOnline) return 'онлайн';
+
+    const lastSeen = getTimeAgo(wasOnlineAt);
+
+    return `последний раз в сети ${lastSeen}`;
+  };
 
   const isOwnProfile = !profileId || data?.id === currentUser?.id;
 
@@ -52,9 +64,10 @@ export const ProfilePage = () => {
         )}
         <h2 className="text-3xl font-bold text-base-grey-07">{data?.nickname}</h2>
         <div className="flex items-center pl-3 gap-2">
-          <Clock01Icon color="var(--base-grey-07)" />
-          <p className="text-base-grey-07">последний раз в сети 1 час назад</p>
+          {isOnline ? <ComputerIcon color="var(--base-grey-07)" /> : <Clock01Icon color="var(--base-grey-07)" />}
+          <p className={'text-base text-base-grey-07'}>{renderOnlineText()}</p>
         </div>
+
         {isOwnProfile && (
           <Link to={ROUTER_PATHS.EDIT_PROFILE} className="ml-auto">
             <Button className="bg-base-orange-01 flex items-center text-base font-semibold gap-3 px-2 py-1">

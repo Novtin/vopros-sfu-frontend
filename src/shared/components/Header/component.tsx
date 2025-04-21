@@ -10,7 +10,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { ROUTER_PATHS } from '@/app/consts';
 import { useFileUrl } from '@/app/hooks/user/useGetFile';
 import { ClipLoader } from 'react-spinners';
-import { Logout02Icon, Notification03Icon } from 'hugeicons-react';
+import { Logout02Icon } from 'hugeicons-react';
 import { NotificationDropdown } from '../NotificationDropdown/component';
 import { useSocket } from '@/app/hooks/socket/useSocket';
 
@@ -42,9 +42,6 @@ export const Header = memo(({ className, ...props }: IHeaderProps) => {
         <Search className="ml-10 w-full sm:max-w-[150px] md:max-w-[300px] lg:max-w-[500px] xl:max-w-[800px] 2xl:max-w-[1000px] 3xl:max-w-[1400px] 4xl:max-w-[2000px]" />
         {isAuth && (
           <div className="flex items-center mr-24">
-            {/* <button className="text-xl ml-4">
-              <Notification03Icon size={24} color="var(--base-grey-08)" />
-            </button> */}
             <NotificationDropdown userId={data?.id} />
             <Link to={ROUTER_PATHS.PROFILE}>
               <div className="flex items-center ml-7">

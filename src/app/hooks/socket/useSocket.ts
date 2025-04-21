@@ -4,14 +4,14 @@ import { useQueryClient } from '@tanstack/react-query';
 
 export const useSocket = (userId: number) => {
   const socketRef = useRef<Socket | null>(null);
-  const queryClient = useQueryClient(); // Используем для обновления кэшированных данных React Query
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (!userId) return;
 
     const socket = io('http://localhost:9311', {
       query: { userId },
-      transports: ['websocket'], // Принудительно через websocket
+      transports: ['websocket'],
     });
 
     socketRef.current = socket;
@@ -25,7 +25,7 @@ export const useSocket = (userId: number) => {
       queryClient.setQueryData(['notifications', userId], (oldData: any) => {
         return {
           ...oldData,
-          items: [notification, ...oldData.items], // Добавляем новое уведомление в начало списка
+          items: [notification, ...oldData.items],
         };
       });
     });
