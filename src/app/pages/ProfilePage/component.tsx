@@ -19,8 +19,8 @@ export const ProfilePage = () => {
 
   const { data, isLoading: isLoadingData, error } = useFetchUserData(profileId);
   const { fileUrl, isLoading } = useFileUrl(data?.avatar?.id);
-
   const { data: currentUser } = useFetchUserData();
+  console.log(data);
 
   const isOwnProfile = !profileId || data?.id === currentUser?.id;
 
