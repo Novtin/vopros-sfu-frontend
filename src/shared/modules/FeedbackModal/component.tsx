@@ -7,6 +7,7 @@ import { Textarea } from '@/shared/components/Textarea';
 import { useSendFeedback } from '@/app/hooks/notification/useSendFeedback';
 import notify from '@/utils/notify';
 import { ClipLoader } from 'react-spinners';
+import { AxiosError } from 'axios';
 
 export const FeedbackModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
   const { data: currentUser } = useFetchUserData();
@@ -22,10 +23,18 @@ export const FeedbackModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: (
   const { mutate, isPending } = useSendFeedback({
     onSuccess: () => {
       notify('Обратная связь отправлена!', 'Спасибо за ваше сообщение.', 'success');
+      setTopic('');
+      setDescription('');
+      setFiles([]);
       onClose();
     },
-    onError: () => {
-      notify('Ошибка', 'Не удалось отправить сообщение. Попробуйте позже.', 'danger');
+    onError: (error: AxiosError) => {
+      const status = error?.response?.status;
+      if (status === 413) {
+        notify('Файлы слишком большие', 'Максимальный размер загружаемого файла - 1.5Мб.', 'danger');
+      } else {
+        notify('Ошибка', 'Не удалось отправить сообщение. Попробуйте позже.', 'danger');
+      }
     },
   });
 

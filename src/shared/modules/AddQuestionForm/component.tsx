@@ -13,6 +13,7 @@ import { useState } from 'react';
 import { ImageUploadModal } from '../UploadImageModal/component';
 import { FORMAT_FILE_SIZE, GET_FILE_EXTENSION, GET_ICON_BY_EXTENSION } from './constants';
 import { useUploadQuestionImages } from '@/app/hooks/image/useUploadQuestionImages';
+import { ClipLoader } from 'react-spinners';
 
 export const AddQuestionForm = () => {
   const {
@@ -23,7 +24,7 @@ export const AddQuestionForm = () => {
   } = useForm<FormValues>();
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
-  const { mutateAsync: addNewQuestion } = useAddNewQuestion();
+  const { mutateAsync: addNewQuestion, isPending } = useAddNewQuestion();
   const { mutate: uploadImages } = useUploadQuestionImages();
 
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
@@ -39,13 +40,13 @@ export const AddQuestionForm = () => {
       });
 
       if (question?.id) {
-        if (uploadedFiles.length > 0) {
+        if (uploadedFiles) {
           uploadImages({ id: question.id, imageFiles: uploadedFiles });
-          notify('Вопрос создан!', 'Ваш вопрос успешно опубликован!', 'success');
-          queryClient.invalidateQueries({ queryKey: ['questions'] });
-          queryClient.invalidateQueries({ queryKey: ['questionCount'] });
-          dispatch(hideForm());
         }
+        notify('Вопрос создан!', 'Ваш вопрос успешно опубликован!', 'success');
+        queryClient.invalidateQueries({ queryKey: ['questions'] });
+        queryClient.invalidateQueries({ queryKey: ['questionCount'] });
+        dispatch(hideForm());
       } else {
         alert(`Произошла ошибка: вопрос не создан`);
       }
@@ -156,12 +157,13 @@ export const AddQuestionForm = () => {
       <div className="mt-3 text-center flex items-center justify-center gap-4">
         <Button
           type="submit"
-          className="w-[250px] h-10 bg-base-blue-01"
+          className="w-[250px] h-10 bg-base-blue-01 flex items-center justify-center"
           variant="secondary"
           onClick={handleSubmit(onSubmit)}
           disabled={isSubmitting}
         >
           Опубликовать вопрос
+          {isPending && <ClipLoader className="ml-2" size={20} color="var(--base-grey-01)" />}
         </Button>
       </div>
 

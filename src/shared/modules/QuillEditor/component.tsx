@@ -1,11 +1,11 @@
 import ReactQuill from 'react-quill';
 import { QuillEditorProps } from './component.props';
-import { FORMATS, MODULES } from './constants';
+import { FORMATS, LABEL, MODULES, PLACEHOLDER } from './constants';
 
-export const QuillEditor = ({ value, onChange, error }: QuillEditorProps) => {
+export const QuillEditor = ({ value, onChange, error, label = LABEL, placeholder = PLACEHOLDER }: QuillEditorProps) => {
   return (
     <div className="mb-4">
-      <label className="block text-xl text-base-grey-07 font-bold mb-2">Основная часть</label>
+      <label className="block text-xl text-base-grey-07 font-bold mb-2">{label}</label>
       <style>
         {`
       .quill-editor .ql-editor {
@@ -24,7 +24,7 @@ export const QuillEditor = ({ value, onChange, error }: QuillEditorProps) => {
           onChange={onChange}
           modules={MODULES}
           formats={FORMATS}
-          placeholder="Добавьте всю информацию, которая может понадобиться для ответа на ваш вопрос."
+          placeholder={placeholder}
         />
       </div>
       {error && <p className="text-red-500 text-sm mt-1">{error}</p>}

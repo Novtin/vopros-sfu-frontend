@@ -18,3 +18,6 @@ export const MODULES = {
     [{ script: 'super' }, { script: 'sub' }],
   ],
 };
+
+export const LABEL = 'Основная часть';
+export const PLACEHOLDER = 'Добавьте всю информацию, которая может понадобиться для ответа на ваш вопрос.';

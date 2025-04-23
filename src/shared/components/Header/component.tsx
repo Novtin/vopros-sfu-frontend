@@ -42,7 +42,7 @@ export const Header = memo(({ className, ...props }: IHeaderProps) => {
         <Search className="ml-10 w-full sm:max-w-[150px] md:max-w-[300px] lg:max-w-[500px] xl:max-w-[800px] 2xl:max-w-[1000px] 3xl:max-w-[1400px] 4xl:max-w-[2000px]" />
         {isAuth && (
           <div className="flex items-center mr-24">
-            <NotificationDropdown userId={data?.id} />
+            <NotificationDropdown />
             <Link to={ROUTER_PATHS.PROFILE}>
               <div className="flex items-center ml-7">
                 {isLoading ? (

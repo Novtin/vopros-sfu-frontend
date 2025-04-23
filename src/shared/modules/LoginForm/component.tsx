@@ -4,7 +4,7 @@ import { cn } from '@/shared/lib/cn';
 import { Input } from '@/shared/components/Input';
 import { ROUTER_PATHS } from '@/app/consts';
 import { Button } from '@/shared/components/Button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from '@/app/hooks/authentication/useAuth';
 import notify from '@/utils/notify';
 import { ResetPasswordForm } from '../ResetPasswordForm';
@@ -18,19 +18,24 @@ export const LoginForm = ({ className, ...props }: IFormProps) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, isAuth } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await login(email, password);
-      navigate(ROUTER_PATHS.HOME);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Ошибка при авторизации';
       notify('Ошибка авторизации', errorMessage, 'danger');
       setError(errorMessage);
     }
   };
+
+  useEffect(() => {
+    if (isAuth) {
+      navigate(ROUTER_PATHS.HOME);
+    }
+  }, [isAuth, navigate]);
 
   return (
     <div

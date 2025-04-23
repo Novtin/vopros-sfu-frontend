@@ -12,8 +12,8 @@ export const sendFeedback = async (title: string, text: string, email: string, i
   formData.append('text', text);
   formData.append('email', email);
 
-  imageFiles.forEach((file, index) => {
-    formData.append(`imageFiles[${index}]`, file);
+  imageFiles.forEach(file => {
+    formData.append('imageFiles', file);
   });
 
   const response = await apiClient.post('/notification/feedback', formData, {
