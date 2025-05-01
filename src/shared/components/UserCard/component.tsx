@@ -12,7 +12,7 @@ export const UserCard = ({ userData, variant = 'usersTable' }: UserCardProps) =>
     <Link to={`${ROUTER_PATHS.PROFILE}/${userData.id}`} className="cursor-pointer">
       <div className="flex items-center p-2 bg-base-grey-02 rounded-xl w-full shadow dark:shadow-[0_4px_12px_rgba(0,0,0,1)]">
         {isLoading ? (
-          <ClipLoader color="#ff5722" size={variant === 'usersTable' ? 48 : 32} />
+          <ClipLoader role="status" color="#ff5722" size={variant === 'usersTable' ? 48 : 32} />
         ) : (
           <img
             src={fileUrl}

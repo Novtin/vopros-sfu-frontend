@@ -16,7 +16,7 @@ export const ImageWithHook = ({ id, title, onDelete }: ImageWithHookProps) => {
   };
 
   if (isLoading) {
-    return <ClipLoader color="#ff5722" size={30} />;
+    return <ClipLoader data-testid="loader" color="#ff5722" size={30} />;
   }
 
   return (

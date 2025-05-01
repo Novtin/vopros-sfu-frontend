@@ -14,7 +14,7 @@ export const Tabs = ({ tabs, initialActiveTab, onTabChange, className }: TabsPro
   };
 
   return (
-    <div className={cn('flex gap-4 mt-4', className)}>
+    <div role="group" className={cn('flex gap-4 mt-4', className)}>
       {tabs.map(tab => (
         <Button
           key={tab}

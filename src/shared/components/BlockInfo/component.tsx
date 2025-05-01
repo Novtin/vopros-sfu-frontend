@@ -16,7 +16,7 @@ export const BlockInfo = ({ title, description, highlightText, className, link, 
         )}
       >
         {isLoading ? (
-          <ClipLoader color="#ff5722" size={48} />
+          <ClipLoader color="#ff5722" size={48} data-testid="spinner" />
         ) : (
           <p className={`${link ? 'text-gray-500' : 'text-base-grey-09'}`}>
             {description}{' '}

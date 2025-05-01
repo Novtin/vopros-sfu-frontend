@@ -5,9 +5,9 @@ import { Search01Icon } from 'hugeicons-react';
 
 export const Search = memo(({ className, ...props }: ISearchProps) => {
   return (
-    <div className={cn('relative', className)}>
+    <div className={cn('relative', className)} data-testid="search-container">
       <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500">
-        <Search01Icon color="var(--base-grey-06)" width={20} height={20} />
+        <Search01Icon color="var(--base-grey-06)" width={20} height={20} data-testid="search-icon" />
       </span>
       <input
         type="text"

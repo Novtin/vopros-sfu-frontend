@@ -15,7 +15,13 @@ export const Select = ({ label, options, selected, onChange, className, labelCla
         className="w-full flex justify-between items-center px-3 py-1 border border-base-grey-07 rounded-lg text-base font-medium text-base-grey-09 bg-base-grey-01 hover:bg-base-grey-02 focus:border-base-grey-07 shadow-sm"
       >
         {selected.label}
-        <ArrowRight01Icon color="var(--base-grey-08)" width="24px" height="24px" className="rotate-90" />
+        <ArrowRight01Icon
+          data-testid="arrow-icon"
+          color="var(--base-grey-08)"
+          width="24px"
+          height="24px"
+          className="rotate-90"
+        />
       </Button>
       {isOpen && (
         <ul className="absolute w-full bg-base-grey-01 border rounded-lg shadow-md mt-0.5 z-10">

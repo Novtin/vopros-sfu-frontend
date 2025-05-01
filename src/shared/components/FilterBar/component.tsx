@@ -6,6 +6,7 @@ import { cn } from '@/shared/lib/cn';
 export const FiltersBar = ({ options, activeFilter, className, onFilterChange }: FiltersProps) => {
   return (
     <div
+      role="group"
       className={cn('flex py-1 px-4 rounded-xl gap-2 border border-base-grey-07 border-opacity-50 w-fit ', className)}
     >
       {options.map(option => (
