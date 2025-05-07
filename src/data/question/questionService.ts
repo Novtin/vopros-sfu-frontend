@@ -11,6 +11,16 @@ export const addNewQuestion = async (title: string, description: string, tagName
   return response.data;
 };
 
+export const updateQuestion = async (
+  id: number,
+  title: string,
+  description: string,
+  tagNames: string[],
+): Promise<Question> => {
+  const response = await apiClient.put(`/question/${id}`, { title, description, tagNames });
+  return response.data;
+};
+
 export const getQuestions = async (params?: QuestionsParams): Promise<QuestionsResponse> => {
   const response = await apiClient.get<QuestionsResponse>('/question', { params });
   return response.data;
