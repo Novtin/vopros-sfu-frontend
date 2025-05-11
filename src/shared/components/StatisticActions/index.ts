@@ -1,0 +1,1 @@
+export { StatisticActions } from './component';

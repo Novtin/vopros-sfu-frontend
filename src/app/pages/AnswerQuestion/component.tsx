@@ -3,7 +3,7 @@ import { Loader } from '@/shared/components/Loader';
 import { UserCard } from '@/shared/components/UserCard/component';
 import { Navigate, useParams } from 'react-router-dom';
 import { getTimeAgo } from '../Questions/QuestionTable/constants';
-import { QuestionActions } from '@/shared/components/QuestionActions';
+import { StatisticActions } from '@/shared/components/StatisticActions';
 import { useFetchUserData } from '@/app/hooks/user/useFetchUserData';
 import { ImageWithHook } from '@/shared/components/ImageWithHook';
 import { AddAnswer } from '@/shared/modules/AddAnswer';
@@ -12,10 +12,11 @@ import { ROUTER_PATHS } from '@/app/consts';
 import { Button } from '@/shared/components/Button';
 import { useState } from 'react';
 import { EditQuestionForm } from '@/shared/modules/EditQuestionForm';
+import { AnswerCard } from '@/shared/components/AnswerCard';
 
 export const AnswerQuestion = () => {
   const { id } = useParams<{ id: string }>();
-  const { data: dataQuestion, isLoading, refetch, error } = useGetQuestionById(id || '');
+  const { data: dataQuestion, isLoading, refetch, error } = useGetQuestionById(id);
   const { data: currentUser, isLoading: isLoadingUser } = useFetchUserData();
 
   const [isEditing, setIsEditing] = useState(false);
@@ -47,8 +48,8 @@ export const AnswerQuestion = () => {
       ) : (
         <div className="my-4 mx-6">
           <div className="bg-base-grey-01 rounded-md shadow-sm p-4 border border-gray-200 flex flex-row gap-4">
-            <QuestionActions
-              questionId={dataQuestion.id}
+            <StatisticActions
+              id={dataQuestion.id}
               countLikes={dataQuestion.countLikes}
               countDislikes={dataQuestion.countDislikes}
               isFavoriteInitial={currentUser?.favoriteQuestionIds.includes(parseInt(id))}
@@ -113,9 +114,14 @@ export const AnswerQuestion = () => {
               </div>
             </div>
           </div>
-          <div className="mt-3 ml-4">
+          <div className="mt-3 space-y-4">
             <div className="text-lg text-base-grey-09 font-medium">{dataQuestion?.countAnswers} ответов</div>
-            <AddAnswer idQuestion={Number(id)} />
+            {dataQuestion.answers.map(answer => (
+              <AnswerCard key={answer.id} answerId={answer.id} isOwner={currentUser?.id === dataQuestion.author.id} />
+            ))}
+          </div>
+          <div className="mt-3 ml-4">
+            <AddAnswer key={id} idQuestion={Number(id)} onFetch={() => refetch()} />
           </div>
         </div>
       )}

@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1746080536746" clover="3.2.0">
-  <project timestamp="1746080536746" name="All files">
-    <metrics statements="338" coveredstatements="284" conditionals="140" coveredconditionals="117" methods="111" coveredmethods="81" elements="589" coveredelements="482" complexity="0" loc="338" ncloc="338" packages="26" files="37" classes="37"/>
+<coverage generated="1746883570368" clover="3.2.0">
+  <project timestamp="1746883570368" name="All files">
+    <metrics statements="206" coveredstatements="202" conditionals="107" coveredconditionals="101" methods="76" coveredmethods="67" elements="389" coveredelements="370" complexity="0" loc="206" ncloc="206" packages="20" files="28" classes="28"/>
     <package name="app.consts">
-      <metrics statements="9" coveredstatements="9" conditionals="2" coveredconditionals="2" methods="8" coveredmethods="5"/>
+      <metrics statements="9" coveredstatements="9" conditionals="2" coveredconditionals="2" methods="8" coveredmethods="4"/>
       <file name="index.ts" path="C:\Web\voprosSIBFU\vopros-sfu-frontend\src\app\consts\index.ts">
-        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="4"/>
-        <line num="1" count="11" type="stmt"/>
-        <line num="3" count="8" type="stmt"/>
-        <line num="5" count="15" type="stmt"/>
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="3"/>
+        <line num="1" count="8" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="5" count="12" type="stmt"/>
       </file>
       <file name="router.ts" path="C:\Web\voprosSIBFU\vopros-sfu-frontend\src\app\consts\router.ts">
         <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="1" count="5" type="stmt"/>
+        <line num="1" count="2" type="stmt"/>
       </file>
       <file name="theme.ts" path="C:\Web\voprosSIBFU\vopros-sfu-frontend\src\app\consts\theme.ts">
         <metrics statements="5" coveredstatements="5" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
-        <line num="1" count="5" type="stmt"/>
-        <line num="2" count="5" type="cond" truecount="2" falsecount="0"/>
-        <line num="3" count="5" type="stmt"/>
-        <line num="4" count="5" type="stmt"/>
-        <line num="7" count="5" type="stmt"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="7" count="2" type="stmt"/>
       </file>
     </package>
     <package name="app.contexts">
@@ -35,99 +35,6 @@
       <file name="index.ts" path="C:\Web\voprosSIBFU\vopros-sfu-frontend\src\app\contexts\index.ts">
         <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="11" type="stmt"/>
-      </file>
-    </package>
-    <package name="app.hooks.question">
-      <metrics statements="34" coveredstatements="10" conditionals="12" coveredconditionals="0" methods="8" coveredmethods="0"/>
-      <file name="useDeleteRateQuestion.ts" path="C:\Web\voprosSIBFU\vopros-sfu-frontend\src\app\hooks\question\useDeleteRateQuestion.ts">
-        <metrics statements="12" coveredstatements="3" conditionals="5" coveredconditionals="0" methods="3" coveredmethods="0"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="5" count="1" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="13" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="14" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="15" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
-      </file>
-      <file name="useRateQuestion.ts" path="C:\Web\voprosSIBFU\vopros-sfu-frontend\src\app\hooks\question\useRateQuestion.ts">
-        <metrics statements="12" coveredstatements="3" conditionals="5" coveredconditionals="0" methods="3" coveredmethods="0"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="5" count="1" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="13" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="14" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="15" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
-      </file>
-      <file name="useToggleFavoriteQuestion.ts" path="C:\Web\voprosSIBFU\vopros-sfu-frontend\src\app\hooks\question\useToggleFavoriteQuestion.ts">
-        <metrics statements="10" coveredstatements="4" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="5" count="1" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="11" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-      </file>
-    </package>
-    <package name="data">
-      <metrics statements="8" coveredstatements="4" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
-      <file name="apiClient.ts" path="C:\Web\voprosSIBFU\vopros-sfu-frontend\src\data\apiClient.ts">
-        <metrics statements="8" coveredstatements="4" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="3" type="stmt"/>
-        <line num="2" count="3" type="stmt"/>
-        <line num="4" count="3" type="stmt"/>
-        <line num="11" count="3" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="13" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-      </file>
-    </package>
-    <package name="data.question">
-      <metrics statements="24" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="0"/>
-      <file name="index.ts" path="C:\Web\voprosSIBFU\vopros-sfu-frontend\src\data\question\index.ts">
-        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="1" count="3" type="stmt"/>
-      </file>
-      <file name="questionService.ts" path="C:\Web\voprosSIBFU\vopros-sfu-frontend\src\data\question\questionService.ts">
-        <metrics statements="23" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="0"/>
-        <line num="2" count="3" type="stmt"/>
-        <line num="4" count="3" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="9" count="3" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
-        <line num="14" count="3" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="19" count="3" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="21" count="0" type="stmt"/>
-        <line num="24" count="3" type="stmt"/>
-        <line num="25" count="0" type="stmt"/>
-        <line num="28" count="3" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
-        <line num="32" count="3" type="stmt"/>
-        <line num="33" count="0" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="37" count="3" type="stmt"/>
-        <line num="38" count="0" type="stmt"/>
-        <line num="41" count="0" type="stmt"/>
       </file>
     </package>
     <package name="shared.components.BlockInfo">
@@ -315,65 +222,6 @@
         <line num="11" count="8" type="stmt"/>
       </file>
     </package>
-    <package name="shared.components.QuestionActions">
-      <metrics statements="53" coveredstatements="50" conditionals="20" coveredconditionals="16" methods="15" coveredmethods="13"/>
-      <file name="component.tsx" path="C:\Web\voprosSIBFU\vopros-sfu-frontend\src\shared\components\QuestionActions\component.tsx">
-        <metrics statements="53" coveredstatements="50" conditionals="20" coveredconditionals="16" methods="15" coveredmethods="13"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="5" count="1" type="stmt"/>
-        <line num="6" count="1" type="stmt"/>
-        <line num="7" count="1" type="stmt"/>
-        <line num="8" count="1" type="stmt"/>
-        <line num="10" count="1" type="stmt"/>
-        <line num="18" count="20" type="stmt"/>
-        <line num="19" count="20" type="stmt"/>
-        <line num="20" count="20" type="stmt"/>
-        <line num="22" count="20" type="stmt"/>
-        <line num="24" count="20" type="stmt"/>
-        <line num="25" count="1" type="stmt"/>
-        <line num="28" count="0" type="stmt"/>
-        <line num="33" count="20" type="stmt"/>
-        <line num="34" count="20" type="stmt"/>
-        <line num="36" count="20" type="stmt"/>
-        <line num="37" count="28" type="cond" truecount="1" falsecount="1"/>
-        <line num="39" count="20" type="stmt"/>
-        <line num="40" count="8" type="stmt"/>
-        <line num="41" count="8" type="stmt"/>
-        <line num="44" count="20" type="stmt"/>
-        <line num="45" count="8" type="cond" truecount="1" falsecount="1"/>
-        <line num="46" count="0" type="stmt"/>
-        <line num="47" count="8" type="cond" truecount="1" falsecount="1"/>
-        <line num="48" count="0" type="stmt"/>
-        <line num="50" count="8" type="stmt"/>
-        <line num="54" count="20" type="stmt"/>
-        <line num="55" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="56" count="1" type="stmt"/>
-        <line num="57" count="1" type="stmt"/>
-        <line num="58" count="1" type="stmt"/>
-        <line num="59" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="60" count="1" type="stmt"/>
-        <line num="61" count="1" type="stmt"/>
-        <line num="62" count="1" type="stmt"/>
-        <line num="64" count="1" type="stmt"/>
-        <line num="65" count="1" type="stmt"/>
-        <line num="66" count="1" type="stmt"/>
-        <line num="70" count="20" type="stmt"/>
-        <line num="71" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="72" count="1" type="stmt"/>
-        <line num="73" count="1" type="stmt"/>
-        <line num="74" count="1" type="stmt"/>
-        <line num="75" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="76" count="1" type="stmt"/>
-        <line num="77" count="1" type="stmt"/>
-        <line num="78" count="1" type="stmt"/>
-        <line num="80" count="1" type="stmt"/>
-        <line num="81" count="1" type="stmt"/>
-        <line num="82" count="1" type="stmt"/>
-        <line num="86" count="20" type="stmt"/>
-      </file>
-    </package>
     <package name="shared.components.Search">
       <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
       <file name="component.tsx" path="C:\Web\voprosSIBFU\vopros-sfu-frontend\src\shared\components\Search\component.tsx">
@@ -502,31 +350,6 @@
         <line num="2" count="10" type="stmt"/>
         <line num="4" count="10" type="stmt"/>
         <line num="34" count="126" type="stmt"/>
-      </file>
-    </package>
-    <package name="store">
-      <metrics statements="9" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
-      <file name="ratingsSlice.ts" path="C:\Web\voprosSIBFU\vopros-sfu-frontend\src\store\ratingsSlice.ts">
-        <metrics statements="9" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="9" count="1" type="stmt"/>
-        <line num="11" count="1" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="21" count="0" type="stmt"/>
-        <line num="26" count="1" type="stmt"/>
-        <line num="27" count="1" type="stmt"/>
-      </file>
-    </package>
-    <package name="utils">
-      <metrics statements="4" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-      <file name="notify.ts" path="C:\Web\voprosSIBFU\vopros-sfu-frontend\src\utils\notify.ts">
-        <metrics statements="4" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="19" count="1" type="stmt"/>
       </file>
     </package>
   </project>

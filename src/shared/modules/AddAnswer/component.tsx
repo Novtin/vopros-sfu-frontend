@@ -5,17 +5,21 @@ import { useAddNewAnswer } from '@/app/hooks/answer/useAddNewAnswer';
 import { ClipLoader } from 'react-spinners';
 import notify from '@/utils/notify';
 import { FormValues } from './component.props';
+import { useQueryClient } from '@tanstack/react-query';
 
-export const AddAnswer = ({ idQuestion }: { idQuestion: number }) => {
+export const AddAnswer = ({ idQuestion, onFetch }: { idQuestion: number; onFetch: () => void }) => {
   const { control, handleSubmit, reset } = useForm<FormValues>({
     defaultValues: { content: '' },
   });
 
+  const queryClient = useQueryClient();
+
   const { mutate: publishAnswer, isPending } = useAddNewAnswer({
     onSuccess: () => {
       reset();
+      queryClient.invalidateQueries({ queryKey: ['question', Number(idQuestion)] });
       notify('Ваш ответ создан!', 'Ваш ответ успешно опубликован!', 'success');
-      // можно вызвать queryClient.invalidateQueries(['question', idQuestion])
+      onFetch();
     },
     onError: err => {
       console.error('Ошибка при отправке ответа:', err.message);

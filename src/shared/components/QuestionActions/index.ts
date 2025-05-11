@@ -1,1 +1,0 @@
-export { QuestionActions } from './component';

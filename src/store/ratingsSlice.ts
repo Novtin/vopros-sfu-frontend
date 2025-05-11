@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface RatingsState {
-  [questionId: number]: {
+  [id: number]: {
     currentRating: 'none' | 'up' | 'down';
   };
 }
@@ -12,13 +12,13 @@ const ratingsSlice = createSlice({
   name: 'ratings',
   initialState,
   reducers: {
-    setRating: (state, action: PayloadAction<{ questionId: number; rating: 'none' | 'up' | 'down' }>) => {
-      const { questionId, rating } = action.payload;
-      state[questionId] = { currentRating: rating };
+    setRating: (state, action: PayloadAction<{ id: number; rating: 'none' | 'up' | 'down' }>) => {
+      const { id, rating } = action.payload;
+      state[id] = { currentRating: rating };
     },
     resetRating: (state, action: PayloadAction<number>) => {
-      const questionId = action.payload;
-      state[questionId] = { currentRating: 'none' };
+      const id = action.payload;
+      state[id] = { currentRating: 'none' };
     },
   },
 });

@@ -5,6 +5,7 @@ import { ClipLoader } from 'react-spinners';
 import { forwardRef, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ROUTER_PATHS } from '@/app/consts';
+import { cn } from '@/shared/lib/cn';
 
 const QuestionsRow = forwardRef<HTMLDivElement, QuestionRowProps>(({ question }, ref) => {
   const { fileUrl, isLoading } = useFileUrl(question?.author?.avatar?.id, true);
@@ -18,7 +19,15 @@ const QuestionsRow = forwardRef<HTMLDivElement, QuestionRowProps>(({ question },
     >
       <div className="grid grid-rows-1 text-center gap-0.5">
         <div className="text-sm font-medium text-black/50 dark:text-white/50">{question.rating} голос</div>
-        <div className="text-base-grey-09">{question.answers.length} ответ</div>
+        <div
+          className={cn(
+            `${
+              question.isResolved ? 'border-2 border-base-green-02 rounded-md' : ''
+            } w-fit mx-auto px-2 text-base-grey-09`,
+          )}
+        >
+          {question.answers.length} ответ
+        </div>
         <div className="text-sm font-medium text-black/50 dark:text-white/50">{question.views} просмотров</div>
       </div>
       <div className="grid grid-rows-1 overflow-hidden gap-2" style={{ gridTemplateRows: 'auto 1fr' }}>
