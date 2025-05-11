@@ -7,10 +7,11 @@ import { QuestionsTable } from '../Questions/QuestionTable/component';
 import { useFetchUserData } from '@/app/hooks/user/useFetchUserData';
 import { PAGE_SIZE } from '../Questions/constants';
 import { Loader } from '@/shared/components/Loader';
-import { TagSelectionModal } from '@/shared/modules/TagSelectionModal/component';
 import { useSetFavoriteTags } from '@/app/hooks/tags/useSetFavoriteTags';
 import { Question } from '@/shared/types/question';
 import { Tag } from '@/shared/types';
+import { TagSelectionModal } from '@/shared/modules/TagSelectionModal';
+import notify from '@/utils/notify';
 
 export const HomePage = () => {
   const { isAuth } = useAuth();
@@ -78,6 +79,7 @@ export const HomePage = () => {
       { tagsIds },
       {
         onSuccess: () => {
+          notify('Подписка создана!', 'Вы успешно создали подписку вопросы по тегам!', 'success');
           setModalOpen(false);
         },
         onError: error => {
@@ -94,7 +96,7 @@ export const HomePage = () => {
   return (
     <div className="subscription-page my-4 mx-6 pr-1">
       <div className="header flex justify-between items-center mb-4">
-        <h1 className="text-3xl font-semibold">Подписка на теги</h1>
+        <h1 className="text-3xl font-semibold text-base-grey-09">Подписка на теги</h1>
         <Button variant="secondary" className="px-3 py-0.5" onClick={openEditModal}>
           Изменить теги
         </Button>

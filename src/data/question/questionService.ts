@@ -11,6 +11,11 @@ export const addNewQuestion = async (title: string, description: string, tagName
   return response.data;
 };
 
+export const deleteQuestion = async (id: number): Promise<void> => {
+  const response = await apiClient.delete(`/question/${id}`);
+  return response.data;
+};
+
 export const updateQuestion = async (
   id: number,
   title: string,

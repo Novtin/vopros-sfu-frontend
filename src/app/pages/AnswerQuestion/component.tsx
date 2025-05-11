@@ -1,7 +1,7 @@
 import { useGetQuestionById } from '@/app/hooks/question/useGetQuestionById';
 import { Loader } from '@/shared/components/Loader';
 import { UserCard } from '@/shared/components/UserCard/component';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { getTimeAgo } from '../Questions/QuestionTable/constants';
 import { StatisticActions } from '@/shared/components/StatisticActions';
 import { useFetchUserData } from '@/app/hooks/user/useFetchUserData';
@@ -13,13 +13,41 @@ import { Button } from '@/shared/components/Button';
 import { useState } from 'react';
 import { EditQuestionForm } from '@/shared/modules/EditQuestionForm';
 import { AnswerCard } from '@/shared/components/AnswerCard';
+import { useDeleteQuestion } from '@/app/hooks/question/useDeleteQuestion';
+import { Modal } from '@/shared/modules/Modal';
+import notify from '@/utils/notify';
 
 export const AnswerQuestion = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const { data: dataQuestion, isLoading, refetch, error } = useGetQuestionById(id);
   const { data: currentUser, isLoading: isLoadingUser } = useFetchUserData();
+  const { mutate: deleteQuestion } = useDeleteQuestion({
+    onSuccess: () => {
+      notify('Вопрос удален!', 'Ваш вопрос успешно удален!', 'success');
+      navigate(ROUTER_PATHS.QUESTIONS);
+    },
+  });
 
   const [isEditing, setIsEditing] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [questionToDelete, setQuestionToDelete] = useState<number | null>(null);
+
+  const handleDeleteClick = () => {
+    setIsDeleteModalOpen(true);
+    setQuestionToDelete(dataQuestion.id);
+  };
+
+  const handleConfirmDelete = () => {
+    if (questionToDelete !== null) {
+      deleteQuestion({ id: questionToDelete });
+      setIsDeleteModalOpen(false);
+    }
+  };
+
+  const handleCancelDelete = () => {
+    setIsDeleteModalOpen(false);
+  };
 
   const isLiked = dataQuestion?.likeUserIds.includes(Number(currentUser?.id));
   const isDisliked = dataQuestion?.dislikeUserIds.includes(Number(currentUser?.id));
@@ -85,9 +113,14 @@ export const AnswerQuestion = () => {
                   <p className="text-sm text-base-blue-01">Спросил</p>
                   <UserCard key={dataQuestion?.author?.id} userData={dataQuestion?.author} variant="answerQuestion" />
                   {currentUser?.id === dataQuestion.author.id && (
-                    <Button variant="secondary" className="text-base px-3 py-0.5" onClick={() => setIsEditing(true)}>
-                      ✎ Редактировать
-                    </Button>
+                    <>
+                      <Button variant="secondary" className="text-base px-3 py-0.5" onClick={() => setIsEditing(true)}>
+                        ✎ Редактировать
+                      </Button>
+                      <Button variant="primary" className="text-base px-3 py-0.5" onClick={handleDeleteClick}>
+                        Удалить
+                      </Button>
+                    </>
                   )}
                 </div>
               </div>
@@ -124,6 +157,28 @@ export const AnswerQuestion = () => {
             <AddAnswer key={id} idQuestion={Number(id)} onFetch={() => refetch()} />
           </div>
         </div>
+      )}
+      {/* Модальное окно с подтверждением удаления */}
+      {isDeleteModalOpen && (
+        <Modal>
+          <div className="p-6">
+            <h2 className="text-lg font-semibold text-center text-base-grey-09">
+              Вы уверены, что хотите удалить этот вопрос?
+            </h2>
+            <div className="mt-4 text-center">
+              <Button
+                variant="secondary"
+                className="bg-base-red-01 px-3 py-0.5 hover:bg-red-600"
+                onClick={handleConfirmDelete}
+              >
+                Удалить
+              </Button>
+              <Button variant="secondary" className="ml-2 px-3 py-0.5" onClick={handleCancelDelete}>
+                Отменить
+              </Button>
+            </div>
+          </div>
+        </Modal>
       )}
     </>
   );

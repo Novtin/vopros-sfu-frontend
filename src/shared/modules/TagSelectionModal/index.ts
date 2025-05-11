@@ -1,0 +1,1 @@
+export { TagSelectionModal } from './component';
