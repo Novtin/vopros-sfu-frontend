@@ -6,11 +6,15 @@ export const getTags = async (params?: GetTagsParams): Promise<TagsResponse> => 
   return response.data;
 };
 
-export const getAllTags = async (): Promise<TagsResponse> => {
+export const setFavoriteTags = async (tagsIds: number[]): Promise<void> => {
+  await apiClient.post('/tag/favorites', { tagsIds });
+};
+
+export const getAllTags = async (pageSize: number): Promise<TagsResponse> => {
   const response = await apiClient.get<TagsResponse>('/tag', {
     params: {
       page: 1,
-      pageSize: 10000,
+      pageSize,
       sort: 'name',
     },
   });

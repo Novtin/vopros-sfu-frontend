@@ -21,6 +21,7 @@ export type UserData = {
   countQuestions: number;
   countAnswers: number;
   favoriteQuestionIds: number[];
+  favoriteTagIds: number[];
   rating: number;
 };
 

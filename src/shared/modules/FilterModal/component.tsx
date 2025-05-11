@@ -8,7 +8,7 @@ import { TagInput } from '@/shared/components/TagInput';
 
 export const FilterModal = ({ currentFilters, onApplyFilters, initialSelectedTags }: FilterModalProps) => {
   const [open, setOpen] = useState(false);
-  const { data: allTagsData } = useAllTags();
+  const { data: allTagsData } = useAllTags({ pageSize: 1000 });
   const allTags = allTagsData?.items ?? [];
 
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);

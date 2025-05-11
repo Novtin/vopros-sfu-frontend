@@ -1,6 +1,6 @@
 import { Button } from '@/shared/components/Button';
 import { FiltersBar } from '@/shared/components/FilterBar/component';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { AddQuestionForm } from '@/shared/modules/AddQuestionForm';
 import { RootState } from '@/store/store';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,6 +15,7 @@ import { FilterModal } from '@/shared/modules/FilterModal';
 import { useQuestionCount } from '@/app/hooks/question/useGetCountQuestions';
 import { useTagById } from '@/app/hooks/tags/useTagById';
 import { Tag } from '@/shared/types';
+import { Question } from '@/shared/types/question';
 
 export const QuestionPage = () => {
   const dispatch = useDispatch();
@@ -54,7 +55,7 @@ export const QuestionPage = () => {
     fetchNextPage,
     hasNextPage,
   } = useGetQuestions({
-    pageSize: PAGE_SIZE,
+    pageSize: PAGE_SIZE || 10,
     sort: sortQuery,
     isResolved: filters.isResolved,
     isWithoutAnswer: filters.isWithoutAnswer,
@@ -77,7 +78,28 @@ export const QuestionPage = () => {
     setFilters(newFilters);
   };
 
-  const questions = questionsData?.pages.flatMap(page => page.items) || [];
+  const questions = useMemo(() => {
+    const all = questionsData?.pages.flatMap(p => p.items) || [];
+    const map = new Map<number, Question>();
+    all.forEach(q => {
+      const existing = map.get(q.id);
+
+      if (!existing) {
+        map.set(q.id, q);
+      } else {
+        const mergedTagsMap = new Map<number, Tag>();
+        [...existing.tags, ...q.tags].forEach(tag => {
+          mergedTagsMap.set(tag.id, tag);
+        });
+        map.set(q.id, {
+          ...existing,
+          tags: Array.from(mergedTagsMap.values()),
+        });
+      }
+    });
+
+    return Array.from(map.values());
+  }, [questionsData]);
 
   useEffect(() => {
     setSortQuery(getFilterQueryValue(activeSort));
