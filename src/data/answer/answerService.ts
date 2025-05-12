@@ -6,6 +6,16 @@ export const addNewAnswer = async (questionId: number, text: string): Promise<An
   return response.data;
 };
 
+export const updateAnswer = async (id: number, text: string): Promise<Answer> => {
+  const response = await apiClient.put(`/answer/${id}`, { text });
+  return response.data;
+};
+
+export const deleteAnswer = async (id: number): Promise<void> => {
+  const response = await apiClient.delete(`/answer/${id}`);
+  return response.data;
+};
+
 export const getAnswerById = async (id: number): Promise<Answer> => {
   const response = await apiClient.get<Answer>(`/answer/${id}`);
   return response.data;
